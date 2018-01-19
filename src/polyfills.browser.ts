@@ -17,7 +17,7 @@
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
-
+import 'hammerjs';
 // Internet Explorer 9 support
 // import 'ie-shim';
 

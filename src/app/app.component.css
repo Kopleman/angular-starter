@@ -1,8 +1,46 @@
-html, body{
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif
+app {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 56px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
-a.active {
-  background-color: gray;
+app-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+app > app-component-sidenav {
+  flex: 1;
+}
+
+app > app-homepage,
+app > app-guides,
+app > guide-viewer {
+  overflow-y: auto;
+}
+
+@media (max-width: 720px) {
+  app {
+    top: 92px;
+  }
+
+  app > app-homepage,
+  app > app-guides,
+  app > guide-viewer {
+    overflow-y: visible;
+  }
+}
+
+main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
 }

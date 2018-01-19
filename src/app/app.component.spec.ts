@@ -59,7 +59,7 @@ describe(`App`, () => {
     spyOn(console, 'log');
     expect(console.log).not.toHaveBeenCalled();
 
-    comp.ngOnInit();
+    // comp.ngOnInit();
     expect(console.log).toHaveBeenCalled();
   });
 
