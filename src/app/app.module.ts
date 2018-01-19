@@ -5,19 +5,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { environment } from 'environments/environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { NavBarModule } from './shared/navbar/navbar.module';
 import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
-import { DevModuleModule } from './+dev-module';
 import { Api } from './services/api';
 import { ErrorInterceptor } from './interceptors/error';
 import { UserData } from './providers/user-data';
@@ -50,7 +48,6 @@ const APP_PROVIDERS = [
     LoginPageComponent,
     TemplatesPageComponent,
     NoContentComponent,
-    XLargeDirective
   ],
   /**
    * Import Angular's modules.
@@ -61,6 +58,7 @@ const APP_PROVIDERS = [
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    FlexLayoutModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,
@@ -72,7 +70,7 @@ const APP_PROVIDERS = [
      * When the module is not imported it will get tree shaked.
      * This is a simple example, a big app should probably implement some logic
      */
-    ...environment.showDevModule ? [ DevModuleModule ] : [],
+    // ...environment.showDevModule ? [ DevModuleModule ] : [],
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

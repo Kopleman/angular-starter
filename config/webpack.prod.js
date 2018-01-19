@@ -127,7 +127,7 @@ module.exports = function (env) {
             use: 'css-loader!sass-loader'
           }),
           include: [helpers.root('src', 'styles')]
-        },
+        }
 
       ]
 
@@ -193,4 +193,4 @@ module.exports = function (env) {
     }
 
   });
-}
+};
