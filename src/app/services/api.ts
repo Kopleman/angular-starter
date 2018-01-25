@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Events, LoadingController } from 'ionic-angular';
 import {
-	HttpClient,
-	HttpErrorResponse,
-	HttpHeaders
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders, HttpParams
 } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs';
@@ -28,6 +27,7 @@ export class Api {
 	public get<T, U>(
 		endPoint: string,
 		search?: U,
+    withCredentials?: boolean,
 		showLoader: boolean = true,
 		headers: Object = null
 	): Observable<T> {
@@ -36,8 +36,9 @@ export class Api {
 		});
 
 		let options = {
-			search: this.createSearchParams(search),
-			headers: this.headers
+      HttpParams: this.createSearchParams(search),
+			headers: this.headers,
+      withCredentials
 		};
 
 		return this.http
@@ -53,16 +54,19 @@ export class Api {
 	public post<T, U>(
 		endPoint: string,
 		body?: U,
+    withCredentials?: boolean,
 		showLoader: boolean = true,
-		headers: Object = null
+		headers: Object = null,
 	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 
 		let options = {
-			headers: this.headers
+			headers: this.headers,
+      withCredentials: true
 		};
+
 
 		return (
 			this.http
@@ -88,7 +92,8 @@ export class Api {
 		});
 
 		let options = {
-			headers: this.headers
+			headers: this.headers,
+      withCredentials: true
 		};
 
 		return this.http
@@ -112,7 +117,8 @@ export class Api {
 		});
 
 		let options = {
-			headers: this.headers
+			headers: this.headers,
+      withCredentials: true
 		};
 
 		return this.http
@@ -134,26 +140,26 @@ export class Api {
 		this.headers.delete(name);
 	}
 
-	protected createSearchParams(query: Object): URLSearchParams {
-		let params = new URLSearchParams();
+  /**
+   * Обработчик не удавшихся результатов с оборачиванием в нулевой резльутат.
+   * @param result - опицонльаный параметр, значение которео следует вернутьпри нулевом результате
+   */
+  public emptyResult<T>(result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+	protected createSearchParams(query: Object): HttpParams {
+		let params = new HttpParams();
 		_.forEach(query, (val, key) => {
 			params.set(key, val.toString());
 		});
 
 		return params;
-	}
-
-	/**
-	 * Обработчик не удавшихся результатов с оборачиванием в нулевой резльутат.
-	 * @param result - опицонльаный параметр, значение которео следует вернутьпри нулевом результате
-	 */
-	private emptyResult<T>(result?: T) {
-		return (error: any): Observable<T> => {
-			// TODO: send the error to remote logging infrastructure
-			console.error(error); // log to console instead
-			// Let the app keep running by returning an empty result.
-			return of(result as T);
-		};
 	}
 
 	/**

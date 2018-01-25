@@ -15,7 +15,7 @@ import { AppModule } from './app';
  */
 export function main(): Promise<any> {
   return platformBrowserDynamic()
-    .bootstrapModule(AppModule)
+    .bootstrapModule(AppModule, { preserveWhitespaces: false })
     .then(environment.decorateModuleRef)
     .catch((err) => console.error(err));
 }

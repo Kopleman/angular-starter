@@ -99,6 +99,7 @@
     "http-server": "^0.10.0",
     "ie-shim": "^0.1.0",
     "lodash": "^4.17.4",
+    "moment": "^2.20.1",
     "ng-http-interceptor": "^4.0.0",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.2",

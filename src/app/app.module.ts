@@ -23,6 +23,8 @@ import { AuthGuard } from './guards/auth';
 import { NoAuthGuard } from './guards/no-auth';
 import { LoginPageComponent } from './pages/login/login.component';
 import { TemplatesPageComponent } from './pages/templates/templates.component';
+import { TemplatesData } from './providers/templates-data';
+import { TemplatesModule } from './pages/templates/templates.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -33,6 +35,7 @@ const APP_PROVIDERS = [
     multi: true
   },
   UserData,
+  TemplatesData,
   AuthGuard,
   NoAuthGuard
 ];
@@ -46,7 +49,6 @@ const APP_PROVIDERS = [
   declarations: [
     AppComponent,
     LoginPageComponent,
-    TemplatesPageComponent,
     NoContentComponent,
   ],
   /**
@@ -65,6 +67,7 @@ const APP_PROVIDERS = [
       preloadingStrategy: PreloadAllModules
     }),
     NavBarModule,
+    TemplatesModule
     /**
      * This section will import the `DevModuleModule` only in certain build types.
      * When the module is not imported it will get tree shaked.
