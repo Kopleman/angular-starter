@@ -1,1 +1,28 @@
-<templates-list [templates]="templates"></templates-list>
+<div fxFlex fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <mat-spinner *ngIf="!templates"></mat-spinner>
+
+  <div class="search-bar" *ngIf="templates">
+    <mat-form-field class="example-form-field">
+      <input matInput type="text" placeholder="Поиск" name="searchStr" [formControl]="searchControl"/>
+      <button mat-button  *ngIf="searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <mat-paginator *ngIf="templates" fxFlex [length]="length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="paginate($event)">
+  </mat-paginator>
+
+  <templates-list fxFlex [templates]="templates" *ngIf="templates"></templates-list>
+
+  <mat-paginator fxFlex *ngIf="templates" [length]="length"
+                 [pageIndex]="pageIndex"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions"
+                 (page)="paginate($event)">
+  </mat-paginator>
+</div>
+

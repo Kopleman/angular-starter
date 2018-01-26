@@ -35,7 +35,7 @@ export class Api {
 			this.setHeader(key, val.toString());
 		});
 		let options = {
-      HttpParams: this.createSearchParams(search),
+      params: this.createSearchParams(search),
 			headers: this.headers,
       withCredentials
 		};
@@ -154,9 +154,13 @@ export class Api {
 	protected createSearchParams(query: Object): HttpParams {
 		let params = new HttpParams();
 		_.forEach(query, (val, key) => {
-			params.set(key, val.toString());
+		  console.log(val);
+		  console.log(key)
+		  if(val !== null && key) {
+        params = params.set(key, val.toString());
+      }
 		});
-
+    console.log(params);
 		return params;
 	}
 

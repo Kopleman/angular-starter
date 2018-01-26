@@ -33,14 +33,19 @@ export interface ITemplate {
   colorThemes: IColorThemes;
 }
 
+export interface ITemplateResponse {
+  count: number;
+  templates: ITemplate[];
+}
+
 @Injectable()
 export class TemplatesData {
 	constructor(private api: Api, private router: Router) {}
 
-	public getAllTemplates() {
+	public getAllTemplates(skip: number, limit: number, searchQuery: string = null) {
 
 		return this.api
-			.get<ITemplate[], {}>('admin/templates/rest/all', {}, true);
+			.get<ITemplateResponse, {}>('admin/templates/rest/all', {skip, limit, searchQuery}, true);
 			// .pipe(catchError(this.api.emptyResult([])));
 	}
 }
