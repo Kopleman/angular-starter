@@ -8,11 +8,11 @@ import {
 	HttpResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, Injector } from '@angular/core';
+import { UserData } from '../providers/user-data';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router) {}
+  constructor(private injector: Injector) {}
 	public intercept(
 		req: HttpRequest<any>,
 		next: HttpHandler
@@ -25,8 +25,9 @@ export class ErrorInterceptor implements HttpInterceptor {
 			},
 			(err: any) => {
 				if (err instanceof HttpErrorResponse) {
-					if (err.status === 403) {
-					  this.router.navigate(['/login']);
+					if (err.status === 403 || err.status === 401) {
+            const userData = this.injector.get(UserData);
+					  userData.logout();
 					}
 				}
 			}

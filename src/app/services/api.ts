@@ -17,13 +17,11 @@ import 'rxjs/add/operator/share';
 @Injectable()
 export class Api {
 	private apiHost: string = 'https://ulight15.uid.me/';
-	private headers: HttpHeaders = new HttpHeaders();
+	private headers: HttpHeaders = new HttpHeaders({'isSPA': 'true'});
 	constructor(
 		private http: HttpClient
 	)
 	{
-	  this.headers.append('X-Requested-With', 'XMLHttpRequest');
-    console.log(this.headers.has('X-Requested-With'));
 	}
 
 	public get<T, U>(
@@ -72,7 +70,6 @@ export class Api {
 		return (
 			this.http
 				.post<T>(this.apiHost + endPoint, body, options)
-				// .pipe(catchError(this.handleError<T>('PUT')))
 				.catch(this.logError)
 				.finally(() => {
 					_.forEach(headers, (val, key) => {
@@ -134,11 +131,11 @@ export class Api {
 	}
 
 	public setHeader(name: string, value: string): void {
-		this.headers.set(name, value);
+		this.headers = this.headers.set(name, value);
 	}
 
 	public deleteHeader(name: string): void {
-		this.headers.delete(name);
+    this.headers = this.headers.delete(name);
 	}
 
   /**
