@@ -7,13 +7,5 @@ import { ITemplate } from '../../../providers/templates-data';
   templateUrl: './list.component.html'
 })
 export class TemplatesListComponent {
-  @Input() public templates: ITemplate;
-
-  public getTemplateType(template: ITemplate) {
-    return 'prototype';
-  }
-
-  public getTempalteLangs(template: ITemplate) {
-    return Object.keys(template.i18nTitles);
-  }
+  @Input() public templates: ITemplate[];
 }

@@ -22,6 +22,8 @@ export class Api {
 		private http: HttpClient
 	)
 	{
+	  this.headers.append('X-Requested-With', 'XMLHttpRequest');
+    console.log(this.headers.has('X-Requested-With'));
 	}
 
 	public get<T, U>(
@@ -34,7 +36,6 @@ export class Api {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
-
 		let options = {
       HttpParams: this.createSearchParams(search),
 			headers: this.headers,
