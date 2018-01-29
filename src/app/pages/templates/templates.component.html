@@ -10,7 +10,7 @@
     </mat-form-field>
   </div>
 
-  <mat-paginator *ngIf="templates" fxFlex [length]="length"
+  <mat-paginator *ngIf="templates" fxFlex [length]="total"
                  [pageSize]="pageSize"
                  [pageSizeOptions]="pageSizeOptions"
                  (page)="paginate($event)">
@@ -18,7 +18,7 @@
 
   <templates-list fxFlex [templates]="templates" *ngIf="templates"></templates-list>
 
-  <mat-paginator fxFlex *ngIf="templates" [length]="length"
+  <mat-paginator fxFlex *ngIf="templates" [length]="total"
                  [pageIndex]="pageIndex"
                  [pageSize]="pageSize"
                  [pageSizeOptions]="pageSizeOptions"

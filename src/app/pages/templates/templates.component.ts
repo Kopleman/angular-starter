@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ITemplate, TemplatesData } from '../../providers/templates-data';
 import { PageEvent } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { FormControl } from '@angular/forms';
@@ -12,7 +11,7 @@ import { FormControl } from '@angular/forms';
 })
 export class TemplatesPageComponent implements OnInit {
 	public templates: ITemplate[];
-	public length: number;
+	public total: number;
 	public pageIndex: number = 0;
 	public pageSize: number = 10;
 	public pageSizeOptions: number[] = [5, 10, 25];
@@ -21,15 +20,20 @@ export class TemplatesPageComponent implements OnInit {
 	public searchStr: string = '';
 	constructor(private templatesData: TemplatesData) {}
 
+  /**
+   * При инициализации компонента фетчим первую страницу списка,
+   * и подписываемся на изменения контрола инпута поиска
+   */
 	public ngOnInit() {
-		this.getTemplates(0, 10);
+		this.getTemplates(0, this.pageSize);
     this.searchControl.valueChanges.debounceTime(500)
       .distinctUntilChanged().subscribe((searchValue) => {
       this.searchStr = searchValue;
       this.pageIndex = 0;
-      this.getTemplates(this.pageIndex, this.pageSize);
+      this.getTemplates(0, this.pageSize);
     });
 	}
+
 
 	public paginate($event: PageEvent) {
 		let skip = $event.pageIndex * $event.pageSize;
@@ -40,13 +44,19 @@ export class TemplatesPageComponent implements OnInit {
     this.searchControl.setValue('');
   }
 
+  /**
+   * Получить шаблоны с бэка с задаными параметрами
+   * @param skip
+   * @param limit
+   * @returns {Subscription}
+   */
 	private getTemplates(skip, limit) {
 		this.inProgress = true;
 		return this.templatesData
-			.getAllTemplates(skip, limit, this.searchStr)
+			.getTemplates(skip, limit, this.searchStr)
 			.subscribe(response => {
 				this.inProgress = false;
-				this.length = response.count;
+				this.total = response.count;
 				this.templates = response.templates;
 			});
 	}
