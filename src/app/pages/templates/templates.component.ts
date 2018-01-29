@@ -26,7 +26,6 @@ export class TemplatesPageComponent implements OnInit {
     this.searchControl.valueChanges.debounceTime(500)
       .distinctUntilChanged().subscribe((searchValue) => {
       this.searchStr = searchValue;
-      console.log(searchValue)
       this.pageIndex = 0;
       this.getTemplates(this.pageIndex, this.pageSize);
     });

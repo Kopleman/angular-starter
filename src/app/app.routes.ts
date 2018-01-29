@@ -1,4 +1,4 @@
-import { Routes, CanActivate } from '@angular/router';
+import { Routes } from '@angular/router';
 import { NoContentComponent } from './no-content';
 import { LoginPageComponent } from './pages/login/login.component';
 import { TemplatesPageComponent } from './pages/templates/templates.component';

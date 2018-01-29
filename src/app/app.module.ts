@@ -12,7 +12,7 @@ import '../styles/headings.css';
  * Platform and Environment providers/directives/pipes
  */
 import { ROUTES } from './app.routes';
-// App is our top level component
+
 import { AppComponent } from './app.component';
 import { NavBarModule } from './shared/navbar/navbar.module';
 import { NoContentComponent } from './no-content';
@@ -22,7 +22,6 @@ import { UserData } from './providers/user-data';
 import { AuthGuard } from './guards/auth';
 import { NoAuthGuard } from './guards/no-auth';
 import { LoginPageComponent } from './pages/login/login.component';
-import { TemplatesPageComponent } from './pages/templates/templates.component';
 import { TemplatesData } from './providers/templates-data';
 import { TemplatesModule } from './pages/templates/templates.module';
 
@@ -68,12 +67,6 @@ const APP_PROVIDERS = [
     }),
     NavBarModule,
     TemplatesModule
-    /**
-     * This section will import the `DevModuleModule` only in certain build types.
-     * When the module is not imported it will get tree shaked.
-     * This is a simple example, a big app should probably implement some logic
-     */
-    // ...environment.showDevModule ? [ DevModuleModule ] : [],
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.

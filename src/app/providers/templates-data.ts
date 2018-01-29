@@ -43,9 +43,8 @@ export class TemplatesData {
 	constructor(private api: Api, private router: Router) {}
 
 	public getAllTemplates(skip: number, limit: number, searchQuery: string = null) {
-
 		return this.api
-			.get<ITemplateResponse, {}>('admin/templates/rest/all', {skip, limit, searchQuery}, true);
+			.get<ITemplateResponse, {}>('admin/templates/rest/all', {skip, limit, searchQuery});
 			// .pipe(catchError(this.api.emptyResult([])));
 	}
 }
