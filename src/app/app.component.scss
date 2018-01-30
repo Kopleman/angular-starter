@@ -18,22 +18,16 @@ app > app-component-sidenav {
   flex: 1;
 }
 
-app > app-homepage,
-app > app-guides,
-app > guide-viewer {
-  overflow-y: auto;
-}
-
 @media (max-width: 720px) {
-  app {
-    top: 92px;
-  }
-
-  app > app-homepage,
-  app > app-guides,
-  app > guide-viewer {
-    overflow-y: visible;
-  }
+  //app {
+  //  top: 92px;
+  //}
+  //
+  //app > app-homepage,
+  //app > app-guides,
+  //app > guide-viewer {
+  //  overflow-y: visible;
+  //}
 }
 
 main {
@@ -41,4 +35,5 @@ main {
   display: flex;
   flex-direction: column;
   padding: 16px;
+  min-height: 100%;
 }

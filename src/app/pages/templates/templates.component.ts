@@ -34,7 +34,6 @@ export class TemplatesPageComponent implements OnInit {
     });
 	}
 
-
 	public paginate($event: PageEvent) {
 		let skip = $event.pageIndex * $event.pageSize;
 		this.getTemplates(skip, $event.pageSize);
