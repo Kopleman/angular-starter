@@ -1,5 +1,20 @@
 templates-list {
+  position: relative;
   margin: 16px 0;
+  z-index: 2;
 }
 
+top-bar {
+  position: fixed;
+  top: 53px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  width: 100%;
+  background-color: #dbe2e8;
+}
+
+.list-wrapper {
+  margin-top: 65px;
+}
 

@@ -4,10 +4,14 @@ import 'rxjs/add/operator/do';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 
-export interface ITemplateQuerryParams {
+export interface ITemplateFilters {
+  searchQuery?: string;
+  catergory?: string;
+}
+
+export interface ITemplateQuerryParams extends ITemplateFilters{
 	skip: number;
 	limit: number;
-	searchQuery?: string;
 }
 export interface IEditHistory {
 	user: string;
@@ -51,17 +55,17 @@ export class TemplatesData {
    * Получить шаблоны с бэкенда
    * @param {number} skip — количество элементов дл пропуска
    * @param {number} limit — лимит выдаваемых
-   * @param {string} searchQuery — строка по которое like'ются результаты
+   * @param {string} filters — различные фильтры для коллекции
    * @returns {Observable<ITemplateResponse>}
    */
 	public getTemplates(
 		skip: number,
 		limit: number,
-		searchQuery: string = null
+		filters?: ITemplateFilters
 	) {
 		return this.api.get<ITemplateResponse, ITemplateQuerryParams>(
 			'admin/templates/rest/all',
-			{ skip, limit, searchQuery }
+			{ skip, limit, ...filters }
 		);
 		// .pipe(catchError(this.api.emptyResult([])));
 	}

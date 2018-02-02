@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ITemplate, TemplatesData } from '../../providers/templates-data';
+import {
+  ITemplate, ITemplateFilters, ITemplateQuerryParams,
+  TemplatesData
+} from '../../providers/templates-data';
 import { PageEvent } from '@angular/material';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -16,8 +19,7 @@ export class TemplatesPageComponent implements OnInit {
 	public pageSize: number = 10;
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
-	public searchControl = new FormControl();
-	public searchStr: string = '';
+	public filters: ITemplateFilters;
 	constructor(private templatesData: TemplatesData) {}
 
   /**
@@ -26,12 +28,6 @@ export class TemplatesPageComponent implements OnInit {
    */
 	public ngOnInit() {
 		this.getTemplates(0, this.pageSize);
-    this.searchControl.valueChanges.debounceTime(500)
-      .distinctUntilChanged().subscribe((searchValue) => {
-      this.searchStr = searchValue;
-      this.pageIndex = 0;
-      this.getTemplates(0, this.pageSize);
-    });
 	}
 
 	public paginate($event: PageEvent) {
@@ -39,8 +35,9 @@ export class TemplatesPageComponent implements OnInit {
 		this.getTemplates(skip, $event.pageSize);
 	}
 
-  public clearSearch() {
-    this.searchControl.setValue('');
+  public filterCollection( filters: ITemplateFilters) {
+	  this.filters = filters;
+	  return this.getTemplates(0, this.pageSize);
   }
 
   /**
@@ -52,7 +49,7 @@ export class TemplatesPageComponent implements OnInit {
 	private getTemplates(skip, limit) {
 		this.inProgress = true;
 		return this.templatesData
-			.getTemplates(skip, limit, this.searchStr)
+			.getTemplates(skip, limit, this.filters)
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

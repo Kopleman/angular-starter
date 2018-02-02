@@ -1,0 +1,18 @@
+<div class="top-bar mat-elevation-z6" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+  <div class="categories">
+    <mat-form-field>
+      <mat-select name="selectedCategory" [formControl]="categoryControl">
+        <mat-option [value]="'all'">Все</mat-option>
+        <mat-option [value]="'food'">Еда</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="search-bar">
+    <mat-form-field>
+      <input matInput type="text" placeholder="Поиск" name="searchStr" [formControl]="searchControl"/>
+      <button mat-button  *ngIf="searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</div>
