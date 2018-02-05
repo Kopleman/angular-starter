@@ -18,11 +18,10 @@ import { NavBarModule } from './shared/navbar/navbar.module';
 import { NoContentComponent } from './no-content';
 import { Api } from './services/api';
 import { ErrorInterceptor } from './interceptors/error';
-import { UserData } from './providers/user-data';
+import { UserData } from './providers/user-data'
 import { AuthGuard } from './guards/auth';
 import { NoAuthGuard } from './guards/no-auth';
 import { LoginPageComponent } from './pages/login/login.component';
-import { TemplatesData } from './providers/templates-data';
 import { TemplatesModule } from './pages/templates/templates.module';
 
 // Application wide providers
@@ -34,7 +33,6 @@ const APP_PROVIDERS = [
     multi: true
   },
   UserData,
-  TemplatesData,
   AuthGuard,
   NoAuthGuard
 ];

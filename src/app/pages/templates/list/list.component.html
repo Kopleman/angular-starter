@@ -1,3 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlexFill>
-  <templates-list-item fxFlex *ngFor="let template of templates" [template]="template"></templates-list-item>
+<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px" >
+  <templates-list-item fxFlex *ngFor="let template of templates" [template]="template" [subjects]="subjects"></templates-list-item>
+  <div *ngIf="templates && !templates.length"> Шаблонов удовлетворяющим критерям поиска нет </div>
 </div>

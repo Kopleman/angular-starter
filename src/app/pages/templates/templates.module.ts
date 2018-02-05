@@ -6,6 +6,8 @@ import {
   MatMenuModule, MatPaginatorModule, MatProgressSpinnerModule,
   MatSelectModule
 } from '@angular/material';
+import { TemplatesData } from '../../providers/templates-data';
+import { SubjectsData } from '../../providers/subjects-data';
 import { TemplatesPageComponent } from './templates.component';
 import { TemplatesListComponent } from './list/list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -13,7 +15,6 @@ import { MomentDate } from '../../pipes/moment-date';
 import { TemplateListItemComponent } from './list-item/list-item.component';
 import { ColorThemesComponent } from './color-themes/color-themes.component';
 import { TopBarComponent } from './top-bar/top-bar.component';
-
 
 @NgModule({
   declarations: [
@@ -46,6 +47,10 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     TemplateListItemComponent,
     TopBarComponent,
     ColorThemesComponent
+  ],
+  providers: [
+    TemplatesData,
+    SubjectsData
   ]
 })
 export class TemplatesModule {}

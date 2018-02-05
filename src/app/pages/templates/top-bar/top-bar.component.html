@@ -1,16 +1,18 @@
 <div class="top-bar mat-elevation-z6" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
   <div class="categories">
+    <label for="category-select">Категория:</label>
     <mat-form-field>
-      <mat-select name="selectedCategory" [formControl]="categoryControl">
-        <mat-option [value]="'all'">Все</mat-option>
-        <mat-option [value]="'food'">Еда</mat-option>
+      <mat-select id="category-select" name="selectedCategory" [(ngModel)]="filters.selectedCategory" [formControl]="categoryControl">
+        <mat-option [value]="''">Все</mat-option>
+        <mat-option *ngFor="let subject of subjects" [value]="subject._id">{{subject.title}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="search-bar">
+    <label for="search-query">Поиск:</label>
     <mat-form-field>
-      <input matInput type="text" placeholder="Поиск" name="searchStr" [formControl]="searchControl"/>
-      <button mat-button  *ngIf="searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+      <input id="search-query" matInput type="text"  name="searchStr" [formControl]="searchControl"/>
+      <button mat-button  *ngIf="filters.searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

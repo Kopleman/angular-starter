@@ -1,5 +1,8 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import { ISubject } from '../../../providers/subjects-data';
 
 @Component({
 	selector: 'top-bar',
@@ -7,6 +10,9 @@ import { FormControl } from '@angular/forms';
 	templateUrl: './top-bar.component.html'
 })
 export class TopBarComponent implements OnInit {
+  @Input()
+  public subjects: ISubject[];
+
 	@Output()
 	public onFilterChange: EventEmitter<{
 		searchStr: string;
@@ -19,8 +25,9 @@ export class TopBarComponent implements OnInit {
 		selectedCategory: string;
 	} = {
 		searchStr: '',
-		selectedCategory: 'all'
+		selectedCategory: ''
 	};
+
 	public ngOnInit() {
 		this.bindControls();
 	}

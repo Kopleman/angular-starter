@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ITemplate } from '../../../providers/templates-data';
+import { ISubject } from '../../../providers/subjects-data';
 
 @Component({
   selector: 'templates-list',
@@ -8,4 +9,5 @@ import { ITemplate } from '../../../providers/templates-data';
 })
 export class TemplatesListComponent {
   @Input() public templates: ITemplate[];
+  @Input() public subjects: ISubject[];
 }

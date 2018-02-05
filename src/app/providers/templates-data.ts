@@ -64,7 +64,7 @@ export class TemplatesData {
 		filters?: ITemplateFilters
 	) {
 		return this.api.get<ITemplateResponse, ITemplateQuerryParams>(
-			'admin/templates/rest/all',
+			'admin/rest/templates',
 			{ skip, limit, ...filters }
 		);
 		// .pipe(catchError(this.api.emptyResult([])));

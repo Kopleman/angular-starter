@@ -7,12 +7,12 @@
       <div fxFlex="60%">
         <div class="subjects">
              <span *ngFor="let subject of template.subjectIds; let isLast=last">
-              {{subject}}{{isLast ? '' : ', '}}
+              {{translateSubject(subject)}}{{isLast ? '' : ', '}}
              </span>
         </div>
         <color-themes [colorThemes]="template.colorThemes"></color-themes>
       </div>
-      <div fxFlex="340px" class="controls">
+      <div fxFlex="345px" class="controls">
         <button mat-raised-button color="primary">
           Конструктор
         </button>
