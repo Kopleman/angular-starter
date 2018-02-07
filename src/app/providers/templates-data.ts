@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Api } from '../services/api';
 import 'rxjs/add/operator/do';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
+import { catchError, mergeMap } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
 
 export interface ITemplateFilters {
   searchQuery?: string;
@@ -40,11 +41,18 @@ export interface ITemplate {
 	i18nTitles: { [key: string]: string };
 	sourceTemplate: string;
 	colorThemes: IColorThemes;
+	status: string;
+	cloneNames: string[];
+  gulpStatus: 'stopped' | 'online';
 }
 
 export interface ITemplateResponse {
 	count: number;
 	templates: ITemplate[];
+}
+
+export interface ITemplateGulpStatusResponse {
+  status: string;
 }
 
 @Injectable()
@@ -69,4 +77,25 @@ export class TemplatesData {
 		);
 		// .pipe(catchError(this.api.emptyResult([])));
 	}
+
+	public getGulpStatus(templateId: string) {
+    return this.api.get<ITemplateGulpStatusResponse, null>(
+      `admin/rest/templates/${templateId}/getPm2GulpStatus`
+    );
+  }
+
+  public changeGulpStatus(templateId: string, action: string) {
+    return this.api.post<ITemplateGulpStatusResponse, {action: string}>(
+      `admin/rest/templates/${templateId}/changePm2GulpStatus`, {action}
+    );
+  }
+
+// .pipe(
+//     mergeMap(status => {
+//   if((status === 'online' && action === 'restart') ||
+// ((status === 'stopped' && action === 'stop'))) {
+//   return Observable.of(status);
+// }
+// })
+// );
 }

@@ -1,65 +1,85 @@
 <div class="template-card">
-  <div class="main" fxLayout="row">
-    <div class="line" fxFlex fxFlexFill fxLayoutGap="8px">
-      <div fxFlex="40%">
-        <a href="#" class="name">{{ template._id }}</a>
-      </div>
-      <div fxFlex="60%">
-        <div class="subjects">
+  <div class="top" fxLayout="row">
+    <div class="main-part" fxFlex fxFlexFill fxLayoutWrap>
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
+        <div fxFlex="40%">
+          <a href="#" class="name">{{ template._id }}</a>
+        </div>
+        <div fxFlex="60%">
+          <div class="subjects">
              <span *ngFor="let subject of template.subjectIds; let isLast=last">
               {{translateSubject(subject)}}{{isLast ? '' : ', '}}
              </span>
+          </div>
+          <color-themes [colorThemes]="template.colorThemes"></color-themes>
         </div>
-        <color-themes [colorThemes]="template.colorThemes"></color-themes>
+        <div fxFlex="355px" class="controls">
+          <button mat-raised-button color="primary">
+            Конструктор
+          </button>
+          <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">
+            Demo
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <span>На 14</span>
+            </button>
+            <button mat-menu-item>
+              <span>На 23</span>
+            </button>
+          </mat-menu>
+          <mat-slide-toggle [checked]="template.gulpStatus === 'online'" (change)="changeGulpStatus($event)">Gulp</mat-slide-toggle>
+          <button mat-icon-button>
+            <mat-icon >settings</mat-icon>
+          </button>
+
+        </div>
       </div>
-      <div fxFlex="345px" class="controls">
-        <button mat-raised-button color="primary">
-          Конструктор
-        </button>
-        <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">
-          Demo
-        </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <span>На 14</span>
-          </button>
-          <button mat-menu-item>
-            <span>На 23</span>
-          </button>
-        </mat-menu>
-
-        <mat-checkbox>Gulp</mat-checkbox>
-
-        <button mat-icon-button>
-          <mat-icon >settings</mat-icon>
-        </button>
-
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
+        <div class="info-col" fxFlex *ngIf="template.sourceTemplate !== 'none'">
+          <div class="header">Оригинал</div>
+          <div >
+            <span>{{template.sourceTemplate}}</span>
+          </div>
+        </div>
+        <div class="status" fxFlex *ngIf="template.status === 'complete'">
+          <mat-icon aria-hidden="true">done</mat-icon>
+          <span>Опубликован</span>
+        </div>
+        <div class="info-col" fxFlex *ngIf="template.cloneNames.length">
+          <div class="header">Клоны</div>
+          <div class="clones" fxLayout="row wrap">
+            <a href="#" *ngFor="let cloneName of template.cloneNames">{{ cloneName }}</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="type" [ngClass]="getTemplateType()" fxFlex="12px"></div>
   </div>
-  <div class="extra" fxLayout="row">
-    <div class="line" fxFlex fxFlexFill fxLayoutGap="8px">
+  <div class="bottom" fxLayout="row">
+    <div class="main-part" fxFlex fxFlexFill fxLayoutWrap>
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px">
 
-      <div fxFlex fxFlexFill>
-        <div class="header">Создан</div>
-        <div>{{ template.dateCreate | myMomentDate}}</div>
-        <div>{{ template.author.email }}</div>
-      </div>
-      <div fxFlex fxFlexFill>
-        <div class="header">Изменен в конструкторе</div>
-        <div>{{ template.editHistory[0].time | myMomentDate }}</div>
-        <div>{{ template.editHistory[0].user }}</div>
-      </div>
-      <div fxFlex fxFlexFill>
-        <div class="header">Изменен в gulp</div>
-        <div>{{ template.editHistory[0].time | myMomentDate }}</div>
-        <div>{{ template.editHistory[0].user }}</div>
-      </div>
-      <div fxFlex fxFlexFill >
-        <div class="header">Локали</div>
-        <div fxLayoutAlign="start start" class="langs" fxLayout="row wrap">
-          <a href="#" *ngFor="let lang of getTempalteLangs()">{{ lang }}</a>
+        <div class="info-col" fxFlex fxFlexFill>
+          <div class="header">Создан</div>
+          <div>{{ template.dateCreate | myMomentDate}}</div>
+          <div>{{ template.author.email }}</div>
+        </div>
+        <div class="info-col" fxFlex fxFlexFill>
+          <div class="header">Изменен в конструкторе</div>
+          <div>{{ template.editHistory[0].time | myMomentDate }}</div>
+          <div>{{ template.editHistory[0].user }}</div>
+        </div>
+        <div class="info-col" fxFlex fxFlexFill>
+          <div class="header">Изменен в gulp</div>
+          <div>{{ template.editHistory[0].time | myMomentDate }}</div>
+          <div>{{ template.editHistory[0].user }}</div>
+        </div>
+        <div class="info-col" fxFlex fxFlexFill >
+          <div class="header">Локали</div>
+          <div fxLayoutAlign="start start" class="langs" fxLayout="row wrap">
+            <a href="#" *ngFor="let lang of getTempalteLangs()">{{ lang }}</a>
+          </div>
         </div>
       </div>
     </div>
