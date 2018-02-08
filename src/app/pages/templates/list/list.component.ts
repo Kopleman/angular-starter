@@ -19,8 +19,12 @@ export class TemplatesListComponent {
     let ret = [];
     subjects.forEach((subjectId) => {
       let subject = _.find(this.subjects, s => s._id === subjectId);
-      ret.push(subject ? subject.title : subjectId)
+      ret.push(subject ? subject : {_id: subjectId, title: subjectId})
     });
     return ret;
+  }
+
+  public filterTemplates($event){
+    this.onFilterChange.emit($event);
   }
 }

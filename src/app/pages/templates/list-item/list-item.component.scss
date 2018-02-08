@@ -1,7 +1,6 @@
 .template-card {
   width: 960px;
-  a {
-    user-select: all;
+  a, .inline-button {
     color: #338fff;
     text-decoration: none;
     cursor: pointer;

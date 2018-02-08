@@ -25,9 +25,13 @@ export class TemplateListItemComponent {
 	}
 
 	public filterByName(name) {
-	  console.log(name);
     this.onFilterChange.emit({searchStr: name, selectedCategory: ''});
   }
+
+  public filterByCategory(category) {
+    this.onFilterChange.emit({searchStr: '', selectedCategory: category});
+  }
+
   /**
    * Обработчик тригера слайдера гулп-статуса
    * @param {MatSlideToggleChange} $event

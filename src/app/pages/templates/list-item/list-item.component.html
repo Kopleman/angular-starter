@@ -7,8 +7,8 @@
         </div>
         <div fxFlex="60%">
           <div class="subjects">
-             <span *ngFor="let subject of subjects; let isLast=last">
-              {{subject}}{{isLast ? '' : ', '}}
+             <span *ngFor="let subject of subjects; let isLast=last" (click)="filterByCategory(subject._id)">
+              {{subject.title}}{{isLast ? '' : ', '}}
              </span>
           </div>
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
@@ -48,7 +48,7 @@
         <div class="info-col" fxFlex *ngIf="template.cloneNames.length">
           <div class="header">Клоны</div>
           <div class="clones" fxLayout="row wrap">
-            <a href="#" *ngFor="let cloneName of template.cloneNames" (click)="filterByName(cloneName)">{{ cloneName }}</a>
+            <a *ngFor="let cloneName of template.cloneNames" (click)="filterByName(cloneName)">{{ cloneName }}</a>
           </div>
         </div>
       </div>
