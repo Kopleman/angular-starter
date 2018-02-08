@@ -7,8 +7,8 @@
         </div>
         <div fxFlex="60%">
           <div class="subjects">
-             <span *ngFor="let subject of template.subjectIds; let isLast=last">
-              {{translateSubject(subject)}}{{isLast ? '' : ', '}}
+             <span *ngFor="let subject of subjects; let isLast=last">
+              {{subject}}{{isLast ? '' : ', '}}
              </span>
           </div>
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
@@ -32,14 +32,13 @@
           <button mat-icon-button>
             <mat-icon >settings</mat-icon>
           </button>
-
         </div>
       </div>
       <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
         <div class="info-col" fxFlex *ngIf="template.sourceTemplate !== 'none'">
           <div class="header">Оригинал</div>
-          <div >
-            <span>{{template.sourceTemplate}}</span>
+          <div>
+            <span class="inline-button" (click)="filterByName(template.sourceTemplate)">{{template.sourceTemplate}}</span>
           </div>
         </div>
         <div class="status" fxFlex *ngIf="template.status === 'complete'">
@@ -49,7 +48,7 @@
         <div class="info-col" fxFlex *ngIf="template.cloneNames.length">
           <div class="header">Клоны</div>
           <div class="clones" fxLayout="row wrap">
-            <a href="#" *ngFor="let cloneName of template.cloneNames">{{ cloneName }}</a>
+            <a href="#" *ngFor="let cloneName of template.cloneNames" (click)="filterByName(cloneName)">{{ cloneName }}</a>
           </div>
         </div>
       </div>

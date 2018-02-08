@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { ITemplate } from '../../../providers/templates-data';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ITemplate, ITemplateFilters } from '../../../providers/templates-data';
 import { ISubject } from '../../../providers/subjects-data';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'templates-list',
@@ -10,4 +11,16 @@ import { ISubject } from '../../../providers/subjects-data';
 export class TemplatesListComponent {
   @Input() public templates: ITemplate[];
   @Input() public subjects: ISubject[];
+  @Output()
+  public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
+
+
+  public translateSubjects(subjects: string[]) {
+    let ret = [];
+    subjects.forEach((subjectId) => {
+      let subject = _.find(this.subjects, s => s._id === subjectId);
+      ret.push(subject ? subject.title : subjectId)
+    });
+    return ret;
+  }
 }

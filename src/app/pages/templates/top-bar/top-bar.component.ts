@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { ISubject } from '../../../providers/subjects-data';
+import { ITemplateFilters } from '../../../providers/templates-data';
 
 @Component({
 	selector: 'top-bar',
@@ -12,21 +13,14 @@ import { ISubject } from '../../../providers/subjects-data';
 export class TopBarComponent implements OnInit {
   @Input()
   public subjects: ISubject[];
+  @Input()
+  public filters: ITemplateFilters;
 
 	@Output()
-	public onFilterChange: EventEmitter<{
-		searchStr: string;
-		selectedCategory: string;
-	}> = new EventEmitter();
+	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
+
 	public searchControl = new FormControl();
-	public categoryControl = new FormControl()
-	public filters: {
-		searchStr: string;
-		selectedCategory: string;
-	} = {
-		searchStr: '',
-		selectedCategory: ''
-	};
+	public categoryControl = new FormControl();
 
 	public ngOnInit() {
 		this.bindControls();

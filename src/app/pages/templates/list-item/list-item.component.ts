@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { ITemplate, TemplatesData } from '../../../providers/templates-data';
+import { ITemplate, ITemplateFilters, TemplatesData } from '../../../providers/templates-data';
 import { ISubject } from '../../../providers/subjects-data';
 import { MatSlideToggleChange } from '@angular/material';
 
@@ -12,7 +12,8 @@ import { MatSlideToggleChange } from '@angular/material';
 export class TemplateListItemComponent {
 	@Input() public subjects: ISubject[];
 	@Input() public template: ITemplate;
-
+  @Output()
+  public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
 	constructor(private templatesData: TemplatesData) {}
 
 	public getTemplateType() {
@@ -23,17 +24,10 @@ export class TemplateListItemComponent {
 		return Object.keys(this.template.i18nTitles);
 	}
 
-	/**
-	 * Переводить название сабжекта
-	 * TODO: Возможно тут лучше не пробрасывать сабжекты от родителя, а сделать через @Output
-	 * @param {string} subjectId
-	 * @returns {string}
-	 */
-	public translateSubject(subjectId: string) {
-		let subject = _.find(this.subjects, s => s._id === subjectId);
-		return subject ? subject.title : subjectId;
-	}
-
+	public filterByName(name) {
+	  console.log(name);
+    this.onFilterChange.emit({searchStr: name, selectedCategory: ''});
+  }
   /**
    * Обработчик тригера слайдера гулп-статуса
    * @param {MatSlideToggleChange} $event

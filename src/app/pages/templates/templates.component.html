@@ -1,9 +1,10 @@
-<top-bar *ngIf="templates" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px" [subjects]="subjects" (onFilterChange)="filterCollection($event)"></top-bar>
+<top-bar *ngIf="templates" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
+         [subjects]="subjects$ | async" [filters]="filters" (onFilterChange)="filterCollection($event)"></top-bar>
 
 <div class="list-wrapper" fxFlex fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
   <mat-spinner *ngIf="!templates"></mat-spinner>
 
-  <templates-list fxFlex="0 0 auto" [templates]="templates"  [subjects]="subjects" *ngIf="templates"></templates-list>
+  <templates-list fxFlex="0 0 auto" [templates]="templates" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" *ngIf="templates"></templates-list>
 
   <mat-paginator fxFlex="0 0 auto" *ngIf="templates" [length]="total"
                  [pageIndex]="pageIndex"

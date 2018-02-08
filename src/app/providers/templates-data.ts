@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../services/api';
 import 'rxjs/add/operator/do';
-import { Router } from '@angular/router';
-import { catchError, mergeMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 
 export interface ITemplateFilters {
-  searchQuery?: string;
-  catergory?: string;
+  searchStr?: string;
+  selectedCategory?: string;
 }
 
-export interface ITemplateQuerryParams extends ITemplateFilters{
+export interface ITemplateQueryParams extends ITemplateFilters{
 	skip: number;
 	limit: number;
 }
@@ -57,7 +55,7 @@ export interface ITemplateGulpStatusResponse {
 
 @Injectable()
 export class TemplatesData {
-	constructor(private api: Api, private router: Router) {}
+	constructor(private api: Api) {}
 
   /**
    * Получить шаблоны с бэкенда
@@ -71,31 +69,16 @@ export class TemplatesData {
 		limit: number,
 		filters?: ITemplateFilters
 	) {
-		return this.api.get<ITemplateResponse, ITemplateQuerryParams>(
+		return this.api.get<ITemplateResponse, ITemplateQueryParams>(
 			'admin/rest/templates',
 			{ skip, limit, ...filters }
 		);
 		// .pipe(catchError(this.api.emptyResult([])));
 	}
 
-	public getGulpStatus(templateId: string) {
-    return this.api.get<ITemplateGulpStatusResponse, null>(
-      `admin/rest/templates/${templateId}/getPm2GulpStatus`
-    );
-  }
-
   public changeGulpStatus(templateId: string, action: string) {
     return this.api.post<ITemplateGulpStatusResponse, {action: string}>(
       `admin/rest/templates/${templateId}/changePm2GulpStatus`, {action}
     );
   }
-
-// .pipe(
-//     mergeMap(status => {
-//   if((status === 'online' && action === 'restart') ||
-// ((status === 'stopped' && action === 'stop'))) {
-//   return Observable.of(status);
-// }
-// })
-// );
 }

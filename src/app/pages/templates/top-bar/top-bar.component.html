@@ -12,7 +12,7 @@
     <label for="search-query">Поиск:</label>
     <mat-form-field>
       <input id="search-query" matInput type="text"  name="searchStr" [formControl]="searchControl"/>
-      <button mat-button  *ngIf="filters.searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
+      <button mat-button *ngIf="filters.searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

@@ -6,6 +6,9 @@ import {
 } from '../../providers/templates-data';
 import { PageEvent } from '@angular/material';
 import { ISubject, SubjectsData } from '../../providers/subjects-data';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/first';
+
 @Component({
 	selector: 'templates-page',
 	styleUrls: ['./templates.component.scss'],
@@ -13,13 +16,16 @@ import { ISubject, SubjectsData } from '../../providers/subjects-data';
 })
 export class TemplatesPageComponent implements OnInit {
 	public templates: ITemplate[];
-	public subjects: ISubject[] = [];
+	public subjects$: Observable<ISubject[]>;
 	public total: number;
 	public pageIndex: number = 0;
 	public pageSize: number = 10;
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
-	public filters: ITemplateFilters;
+	public filters: ITemplateFilters = {
+    searchStr: '',
+    selectedCategory: ''
+  };
 	constructor(
 		private templatesData: TemplatesData,
 		private subjectsData: SubjectsData
@@ -31,7 +37,8 @@ export class TemplatesPageComponent implements OnInit {
 	 */
 	public ngOnInit() {
 		this.getTemplates(0, this.pageSize);
-		this.getSubjects();
+		this.subjects$ = this.subjectsData.getSubjects();
+		console.log(this.filters)
 	}
 
 	public paginate($event: PageEvent) {
@@ -48,22 +55,16 @@ export class TemplatesPageComponent implements OnInit {
 	 * Получить шаблоны с бэка с задаными параметрами
 	 * @param skip
 	 * @param limit
-	 * @returns {Subscription}
 	 */
 	private getTemplates(skip, limit) {
 		this.inProgress = true;
-		return this.templatesData
+		this.templatesData
 			.getTemplates(skip, limit, this.filters)
+      .first()
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;
 				this.templates = response.templates;
 			});
-	}
-
-	private getSubjects() {
-		this.subjectsData.getSubjects().subscribe(subjects => {
-			this.subjects = subjects;
-		});
 	}
 }
