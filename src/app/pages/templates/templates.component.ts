@@ -7,7 +7,7 @@ import {
 import { PageEvent } from '@angular/material';
 import { ISubject, SubjectsData } from '../../providers/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/shareReplay';
 
 @Component({
 	selector: 'templates-page',
@@ -33,23 +33,29 @@ export class TemplatesPageComponent implements OnInit {
 
 	/**
 	 * При инициализации компонента фетчим первую страницу списка,
-	 * и подписываемся на изменения контрола инпута поиска
+	 * и словарь сабжкетов
 	 */
 	public ngOnInit() {
 		this.getTemplates(0, this.pageSize);
-		this.subjects$ = this.subjectsData.getSubjects();
-		console.log(this.filters)
+		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 	}
 
 	public paginate($event: PageEvent) {
-		let skip = $event.pageIndex * $event.pageSize;
-		this.getTemplates(skip, $event.pageSize);
+	  this.pageIndex = $event.pageIndex;
+	  this.pageSize = $event.pageSize;
+		let skip = this.pageIndex * this.pageSize;
+		this.getTemplates(skip, this.pageSize);
 	}
 
 	public filterCollection(filters: ITemplateFilters) {
 		this.filters = filters;
 		return this.getTemplates(0, this.pageSize);
 	}
+
+	public refresh() {
+    let skip = this.pageIndex * this.pageSize;
+    this.getTemplates(skip, this.pageSize);
+  }
 
 	/**
 	 * Получить шаблоны с бэка с задаными параметрами

@@ -13,7 +13,7 @@
           </div>
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
         </div>
-        <div fxFlex="355px" class="controls">
+        <div fxFlex="365px" class="controls">
           <button mat-raised-button color="primary">
             Конструктор
           </button>
@@ -29,9 +29,15 @@
             </button>
           </mat-menu>
           <mat-slide-toggle [checked]="template.gulpStatus === 'online'" (change)="changeGulpStatus($event)">Gulp</mat-slide-toggle>
-          <button mat-icon-button>
+          <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
             <mat-icon >settings</mat-icon>
           </button>
+          <mat-menu #settingsMenu="matMenu">
+            <button mat-menu-item (click)="deleteTemplate()">
+              <mat-icon>delete</mat-icon>
+              <span>Удалить</span>
+            </button>
+          </mat-menu>
         </div>
       </div>
       <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
@@ -77,7 +83,7 @@
         <div class="info-col" fxFlex fxFlexFill >
           <div class="header">Локали</div>
           <div fxLayoutAlign="start start" class="langs" fxLayout="row wrap">
-            <a href="#" *ngFor="let lang of getTempalteLangs()">{{ lang }}</a>
+            <a href="#" *ngFor="let lang of getTempalateLangs()">{{ lang }}</a>
           </div>
         </div>
       </div>

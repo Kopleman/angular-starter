@@ -13,7 +13,8 @@ export class TemplatesListComponent {
   @Input() public subjects: ISubject[];
   @Output()
   public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
-
+  @Output()
+  public onDelete: EventEmitter<{templateId: string}> = new EventEmitter();
 
   public translateSubjects(subjects: string[]) {
     let ret = [];
@@ -26,5 +27,9 @@ export class TemplatesListComponent {
 
   public filterTemplates($event){
     this.onFilterChange.emit($event);
+  }
+
+  public refresh($event) {
+    this.onDelete.emit($event)
   }
 }

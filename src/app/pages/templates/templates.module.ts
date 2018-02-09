@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule, MatCardModule, MatCheckboxModule, MatIconModule, MatInputModule, MatListModule,
   MatMenuModule, MatPaginatorModule, MatProgressSpinnerModule,
-  MatSelectModule, MatSlideToggleModule
+  MatSelectModule, MatSlideToggleModule, MatSnackBarModule
 } from '@angular/material';
 import { TemplatesData } from '../../providers/templates-data';
 import { SubjectsData } from '../../providers/subjects-data';
@@ -31,16 +31,14 @@ import { TopBarComponent } from './top-bar/top-bar.component';
     FormsModule,
     ReactiveFormsModule,
     MatMenuModule,
-    MatListModule,
-    MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatCheckboxModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatInputModule,
     MatSelectModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatSnackBarModule
   ],
   exports: [
     TemplatesPageComponent,

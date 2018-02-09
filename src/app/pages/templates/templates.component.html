@@ -4,7 +4,7 @@
 <div class="list-wrapper" fxFlex fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
   <mat-spinner *ngIf="!templates"></mat-spinner>
 
-  <templates-list fxFlex="0 0 auto" [templates]="templates" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" *ngIf="templates"></templates-list>
+  <templates-list fxFlex="0 0 auto" [templates]="templates" (onDelete)="refresh()" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" *ngIf="templates"></templates-list>
 
   <mat-paginator fxFlex="0 0 auto" *ngIf="templates" [length]="total"
                  [pageIndex]="pageIndex"

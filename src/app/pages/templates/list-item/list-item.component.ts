@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import * as _ from 'lodash';
 import { ITemplate, ITemplateFilters, TemplatesData } from '../../../providers/templates-data';
 import { ISubject } from '../../../providers/subjects-data';
-import { MatSlideToggleChange } from '@angular/material';
+import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
+import { MatSnackBarRef } from '@angular/material/snack-bar/typings/snack-bar-ref';
+import { SimpleSnackBar } from '@angular/material/snack-bar/typings/simple-snack-bar';
 
 @Component({
 	selector: 'templates-list-item',
@@ -14,13 +15,16 @@ export class TemplateListItemComponent {
 	@Input() public template: ITemplate;
   @Output()
   public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
-	constructor(private templatesData: TemplatesData) {}
+  @Output()
+  public onDelete: EventEmitter<{templateId: string}> = new EventEmitter();
+
+	constructor(private templatesData: TemplatesData, public snackBar: MatSnackBar) {}
 
 	public getTemplateType() {
 		return this.template.sourceTemplate === 'none' ? 'parent' : 'clone';
 	}
 
-	public getTempalteLangs() {
+	public getTempalateLangs() {
 		return Object.keys(this.template.i18nTitles);
 	}
 
@@ -41,8 +45,21 @@ export class TemplateListItemComponent {
 			.changeGulpStatus(this.template._id, $event.checked ? 'restart' : 'stop')
 			.subscribe(resp => {
 				$event.source.checked = resp.status === 'online';
-			}, (err) => {
+			}, () => {
         $event.source.checked = false;
       });
 	}
+
+	public deleteTemplate() {
+	  this.snackBar.open(`Удаляем шаблон ${this.template._id}`, 'Закрыть');
+	  this.templatesData.delete(this.template._id).subscribe(
+	    () => {
+        this.snackBar.open(`Шаблон ${this.template._id}`, '', {duration: 2000});
+	      this.onDelete.emit({ templateId: this.template._id });
+      },
+      (error) => {
+        this.snackBar.open(`Не удалось удалить шаблон ${this.template._id}`, 'Закрыть');
+      }
+      )
+}
 }

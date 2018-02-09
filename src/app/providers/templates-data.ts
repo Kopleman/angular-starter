@@ -81,4 +81,10 @@ export class TemplatesData {
       `admin/rest/templates/${templateId}/changePm2GulpStatus`, {action}
     );
   }
+
+  public delete(templateId: string) {
+    return this.api.delete(
+      `admin/rest/templates/${templateId}`
+    );
+  }
 }
