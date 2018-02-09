@@ -1,27 +1,50 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ITemplate, ITemplateFilters, TemplatesData } from '../../../providers/templates-data';
-import { ISubject } from '../../../providers/subjects-data';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
-import { MatSnackBarRef } from '@angular/material/snack-bar/typings/snack-bar-ref';
-import { SimpleSnackBar } from '@angular/material/snack-bar/typings/simple-snack-bar';
+import {
+	ITemplate,
+	ITemplateFilters,
+	TemplatesData
+} from '../../../providers/templates-data';
+import { ISubject } from '../../../providers/subjects-data';
+import { UserData } from '../../../providers/user-data';
 
 @Component({
 	selector: 'templates-list-item',
 	styleUrls: ['./list-item.component.scss'],
 	templateUrl: './list-item.component.html'
 })
-export class TemplateListItemComponent {
+export class TemplateListItemComponent implements OnInit {
 	@Input() public subjects: ISubject[];
 	@Input() public template: ITemplate;
-  @Output()
-  public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
-  @Output()
-  public onDelete: EventEmitter<{templateId: string}> = new EventEmitter();
+	@Output()
+	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
+	@Output()
+	public onDelete: EventEmitter<{ templateId: string }> = new EventEmitter();
+	public userRole: string;
+	constructor(
+		private userData: UserData,
+		private templatesData: TemplatesData,
+		public snackBar: MatSnackBar
+	) {}
 
-	constructor(private templatesData: TemplatesData, public snackBar: MatSnackBar) {}
+	public ngOnInit() {
+		this.userRole = this.userData.getProfile().getValue().role;
+	}
+
+	public isPermited() {
+		return (
+			this.userRole === 'templateMaster' ||
+			this.userRole === 'admin' ||
+			this.userRole === 'templateManager'
+		);
+	}
+
+	public isParent() {
+	  return this.template.sourceTemplate === 'none';
+  }
 
 	public getTemplateType() {
-		return this.template.sourceTemplate === 'none' ? 'parent' : 'clone';
+		return this.isParent() ? 'parent' : 'clone';
 	}
 
 	public getTempalateLangs() {
@@ -29,37 +52,77 @@ export class TemplateListItemComponent {
 	}
 
 	public filterByName(name) {
-    this.onFilterChange.emit({searchStr: name, selectedCategory: ''});
-  }
+		this.onFilterChange.emit({ searchStr: name, selectedCategory: '' });
+	}
 
-  public filterByCategory(category) {
-    this.onFilterChange.emit({searchStr: '', selectedCategory: category});
-  }
+	public filterByCategory(category) {
+		this.onFilterChange.emit({ searchStr: '', selectedCategory: category });
+	}
 
-  /**
-   * Обработчик тригера слайдера гулп-статуса
-   * @param {MatSlideToggleChange} $event
-   */
+	/**
+	 * Обработчик тригера слайдера гулп-статуса
+	 * @param {MatSlideToggleChange} $event
+	 */
 	public changeGulpStatus($event: MatSlideToggleChange) {
 		this.templatesData
 			.changeGulpStatus(this.template._id, $event.checked ? 'restart' : 'stop')
-			.subscribe(resp => {
-				$event.source.checked = resp.status === 'online';
-			}, () => {
-        $event.source.checked = false;
-      });
+			.subscribe(
+				resp => {
+					$event.source.checked = resp.status === 'online';
+				},
+				() => {
+					$event.source.checked = false;
+				}
+			);
 	}
 
 	public deleteTemplate() {
-	  this.snackBar.open(`Удаляем шаблон ${this.template._id}`, 'Закрыть');
-	  this.templatesData.delete(this.template._id).subscribe(
+		this.snackBar.open(`Удаляем шаблон ${this.template._id}`, 'Закрыть');
+		this.templatesData.delete(this.template._id).subscribe(
+			() => {
+				this.snackBar.open(`Шаблон ${this.template._id}`, 'Закрыть', {
+					duration: 2000
+				});
+				this.onDelete.emit({ templateId: this.template._id });
+			},
+      () => {
+				this.snackBar.open(
+					`Не удалось удалить шаблон ${this.template._id}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
+	public refreshSettings() {
+    this.snackBar.open(`Обновляем settings.json у  ${this.template._id}`, 'Закрыть');
+	  this.templatesData.refreshSettings(this.template._id).subscribe(
 	    () => {
-        this.snackBar.open(`Шаблон ${this.template._id}`, '', {duration: 2000});
-	      this.onDelete.emit({ templateId: this.template._id });
+        this.snackBar.open(`Settings.json у ${this.template._id} обновлен`, 'Закрыть', {
+          duration: 2000
+        });
       },
-      (error) => {
-        this.snackBar.open(`Не удалось удалить шаблон ${this.template._id}`, 'Закрыть');
-      }
-      )
-}
+      () => {
+        this.snackBar.open(
+          `Не удалось обновить settings.json у ${this.template._id}`,
+          'Закрыть'
+        );
+      });
+  }
+
+  public refreshCloneSettings() {
+    this.snackBar.open(`Обновляем cloneSettings.json у  ${this.template._id}`, 'Закрыть');
+    this.templatesData.refreshSettings(this.template._id).subscribe(
+      () => {
+        this.snackBar.open(`CloneSettings.json у ${this.template._id} обновлен`, 'Закрыть', {
+          duration: 2000
+        });
+      },
+      () => {
+        this.snackBar.open(
+          `Не удалось обновить cloneSettings.json у ${this.template._id}`,
+          'Закрыть'
+        );
+      });
+  }
 }

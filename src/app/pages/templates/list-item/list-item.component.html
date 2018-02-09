@@ -33,6 +33,14 @@
             <mat-icon >settings</mat-icon>
           </button>
           <mat-menu #settingsMenu="matMenu">
+            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="refreshCloneSettings()">
+              <mat-icon>autorenew</mat-icon>
+              <span>SettingsClone.json</span>
+            </button>
+            <button mat-menu-item *ngIf="(isPermited())" (click)="refreshSettings()">
+              <mat-icon>autorenew</mat-icon>
+              <span>Settings.json</span>
+            </button>
             <button mat-menu-item (click)="deleteTemplate()">
               <mat-icon>delete</mat-icon>
               <span>Удалить</span>

@@ -11,6 +11,7 @@ interface ILoginModel {
 
 export interface IProfile {
 	email: string;
+	role: string;
 }
 
 interface ILoginResponse {

@@ -87,4 +87,12 @@ export class TemplatesData {
       `admin/rest/templates/${templateId}`
     );
   }
+
+  public refreshSettings(templateId: string) {
+	  return this.api.get(`admin/rest/templates/${templateId}/settings/reload`);
+  }
+
+  public refreshCloneSettings(templateId: string) {
+    return this.api.get(`admin/rest/templates/${templateId}/settingsClones/reload`);
+  }
 }
