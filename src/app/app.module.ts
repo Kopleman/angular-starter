@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
-import { MaterialModule } from './material.module';
+import { MaterialModule } from './material/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -13,16 +13,18 @@ import '../styles/headings.css';
  */
 import { ROUTES } from './app.routes';
 
-import { AppComponent } from './app.component';
-import { NavBarModule } from './shared/navbar/navbar.module';
+import { AppComponent } from './core/containers/app.component';
+import { NavBarModule } from './core/components/navbar/navbar.module';
 import { NoContentComponent } from './no-content';
-import { Api } from './services/api';
-import { ErrorInterceptor } from './interceptors/error';
-import { UserData } from './providers/user-data'
-import { AuthGuard } from './guards/auth';
-import { NoAuthGuard } from './guards/no-auth';
-import { LoginPageComponent } from './pages/login/login.component';
-import { TemplatesModule } from './pages/templates/templates.module';
+import { Api } from './core/services/api';
+import { ErrorInterceptor } from './core/interceptors/error';
+import { AuthService } from './auth/services/auth.service'
+import { AuthGuard } from './auth/guards/auth';
+import { NoAuthGuard } from './auth/guards/no-auth';
+import { LoginPageComponent } from './auth/containers/login.component';
+import { TemplatesModule } from './templates/templates.module';
+import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -32,7 +34,7 @@ const APP_PROVIDERS = [
     useClass: ErrorInterceptor,
     multi: true
   },
-  UserData,
+  AuthService,
   AuthGuard,
   NoAuthGuard
 ];
@@ -43,27 +45,19 @@ const APP_PROVIDERS = [
  */
 @NgModule({
   bootstrap: [ AppComponent ],
-  declarations: [
-    AppComponent,
-    LoginPageComponent,
-    NoContentComponent,
-  ],
   /**
    * Import Angular's modules.
    */
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    FlexLayoutModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES, {
       useHash: Boolean(history.pushState) === false,
       preloadingStrategy: PreloadAllModules
     }),
-    NavBarModule,
+    CoreModule,
+    AuthModule,
     TemplatesModule
   ],
   /**

@@ -1,0 +1,19 @@
+<!-- TODO: figure out if the <nav> should go inside of a <header> element. -->
+<nav class="menu-navbar-header">
+  <a mat-button class="menu-button" routerLink="/" aria-label="Ukit Templates">
+    <img class="logo"
+         src="../../../../assets/img/ukit-logo.svg"
+         alt="ukit">
+    <span></span>
+  </a>
+  <div *ngIf="profile">
+    <a mat-button class="menu-navbar-hide-small menu-button"
+       *ngFor="let key of sectionKeys"
+       [routerLink]="key">{{sections[key]}}</a>
+  </div>
+  <button *ngIf="profile" mat-button class="menu-button menu-navbar-hide-small logout" (click)="logout()"
+     aria-label="Логаут">
+    <mat-icon>exit_to_app</mat-icon>
+    {{profile.email}}
+  </button>
+</nav>
