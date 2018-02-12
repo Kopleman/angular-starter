@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IColorThemes } from '../../../providers/templates-data';
+import { IColorThemes } from '../../../../providers/templates-data';
 
 
 @Component({

@@ -8,6 +8,9 @@ import {
 import { ISubject } from '../../../providers/subjects-data';
 import { UserData } from '../../../providers/user-data';
 
+/**
+ * Копонента карточки шаблона
+ */
 @Component({
 	selector: 'templates-list-item',
 	styleUrls: ['./list-item.component.scss'],
@@ -112,7 +115,7 @@ export class TemplateListItemComponent implements OnInit {
 
   public refreshCloneSettings() {
     this.snackBar.open(`Обновляем cloneSettings.json у  ${this.template._id}`, 'Закрыть');
-    this.templatesData.refreshSettings(this.template._id).subscribe(
+    this.templatesData.refreshCloneSettings(this.template._id).subscribe(
       () => {
         this.snackBar.open(`CloneSettings.json у ${this.template._id} обновлен`, 'Закрыть', {
           duration: 2000
@@ -121,6 +124,22 @@ export class TemplateListItemComponent implements OnInit {
       () => {
         this.snackBar.open(
           `Не удалось обновить cloneSettings.json у ${this.template._id}`,
+          'Закрыть'
+        );
+      });
+  }
+
+  public compileAllClones() {
+    this.snackBar.open(`Child шаблоны в процессе компиляции`, 'Закрыть');
+    this.templatesData.compileClones(this.template._id).subscribe(
+      () => {
+        this.snackBar.open(`Компиляция завершена`, 'Закрыть', {
+          duration: 2000
+        });
+      },
+      (errorResp) => {
+        this.snackBar.open(
+          `Ошибки компиляции в следующих шаблонах: ${errorResp.errors.join(',')}`,
           'Закрыть'
         );
       });

@@ -33,6 +33,10 @@
             <mat-icon >settings</mat-icon>
           </button>
           <mat-menu #settingsMenu="matMenu">
+            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="compileAllClones()">
+              <mat-icon>library_books</mat-icon>
+              <span>Compile clones</span>
+            </button>
             <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="refreshCloneSettings()">
               <mat-icon>autorenew</mat-icon>
               <span>SettingsClone.json</span>

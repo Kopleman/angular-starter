@@ -95,4 +95,8 @@ export class TemplatesData {
   public refreshCloneSettings(templateId: string) {
     return this.api.get(`admin/rest/templates/${templateId}/settingsClones/reload`);
   }
+
+  public compileClones(templateId: string) {
+    return this.api.get(`admin/rest/templates/${templateId}/compileClones`);
+  }
 }
