@@ -15,6 +15,8 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 
 import { MomentDate } from '../shared/pipes/moment-date';
 import { AuthGuard } from '../auth/guards/auth';
+import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
+import { UsersData } from './services/users-data';
 
 export const TEMPLATE_COMPONENTS = [
   TemplatesPageComponent,
@@ -22,6 +24,7 @@ export const TEMPLATE_COMPONENTS = [
   TemplateListItemComponent,
   TopBarComponent,
   ColorThemesComponent,
+  CloneDialogComponent
 ];
 
 @NgModule({
@@ -39,12 +42,14 @@ export const TEMPLATE_COMPONENTS = [
       { path: 'templates', component: TemplatesPageComponent, canActivate: [ AuthGuard ] }
     ])
   ],
+  entryComponents: [CloneDialogComponent],
   exports: [
     TEMPLATE_COMPONENTS
   ],
   providers: [
     TemplatesData,
-    SubjectsData
+    SubjectsData,
+    UsersData
   ],
 })
 export class TemplatesModule {}

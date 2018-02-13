@@ -2,7 +2,9 @@
   <mat-toolbar-row>
     <span>{{ getHeaderName() }}</span>
     <span class="spacer"></span>
-    <mat-icon class="example-icon" (click)="onCloseClick()">close</mat-icon>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
 <div mat-dialog-content>

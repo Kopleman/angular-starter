@@ -149,6 +149,8 @@ export class TemplateListItemComponent implements OnInit {
   public createClone(pageLess: boolean = false) {
     let dialogRef = this.dialog.open(CloneDialogComponent, {
       width: '580px',
+      closeOnNavigation: true,
+      panelClass: 'clone-dialog-component',
       data: { cloneName: '', author: '',  type: pageLess ? 'pageLess' : 'normal'}
     });
 
