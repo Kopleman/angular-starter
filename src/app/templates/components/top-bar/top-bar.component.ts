@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
-import { ISubject } from '../../services/subjects-data';
-import { ITemplateFilters } from '../../services/templates-data';
+import { ISubject } from '../../models/subject';
+import { ITemplateFilters } from '../../models/template';
 
 @Component({
 	selector: 'top-bar',

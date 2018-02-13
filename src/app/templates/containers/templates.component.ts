@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
-	ITemplate,
-	ITemplateFilters,
 	TemplatesData
 } from '../services/templates-data';
 import { PageEvent } from '@angular/material';
-import { ISubject, SubjectsData } from '../services/subjects-data';
+import { SubjectsData } from '../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay';
+import { ITemplate, ITemplateFilters } from '../models/template';
+import { ISubject } from '../models/subject';
 
 @Component({
 	selector: 'templates-page',

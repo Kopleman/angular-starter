@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ITemplate, ITemplateFilters } from '../../services/templates-data';
-import { ISubject } from '../../services/subjects-data';
+import { ITemplate} from '../../models/template';
+import { ISubject } from '../../models/subject';
 import * as _ from 'lodash';
+import { ITemplateFilters } from '../../models/template';
 
 @Component({
   selector: 'templates-list',

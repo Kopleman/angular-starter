@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>{{ getHeaderName() }}</span>
+    <span class="spacer"></span>
+    <mat-icon class="example-icon" (click)="onCloseClick()">close</mat-icon>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <p>Имя шаблона</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.cloneName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <!--<button mat-button (click)="onNoClick()">No Thanks</button>-->
+  <!--<button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+</div>

@@ -1,5 +1,6 @@
 import { Component, NgModule, OnInit } from '@angular/core';
-import { IProfile, AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { IProfile } from '../../../auth/models/user';
 
 @Component({
   selector: 'app-navbar',

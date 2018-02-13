@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatSlideToggleChange, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import {
-	ITemplate,
-	ITemplateFilters,
 	TemplatesData
 } from '../../services/templates-data';
-import { ISubject } from '../../services/subjects-data';
+import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth.service';
+import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
+import { ITemplate, ITemplateFilters } from '../../models/template';
 
 /**
  * Копонента карточки шаблона
@@ -27,7 +27,8 @@ export class TemplateListItemComponent implements OnInit {
 	constructor(
 		private userData: AuthService,
 		private templatesData: TemplatesData,
-		public snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+    public dialog: MatDialog
 	) {}
 
 	public ngOnInit() {
@@ -143,5 +144,16 @@ export class TemplateListItemComponent implements OnInit {
           'Закрыть'
         );
       });
+  }
+
+  public createClone(pageLess: boolean = false) {
+    let dialogRef = this.dialog.open(CloneDialogComponent, {
+      width: '580px',
+      data: { cloneName: '', author: '',  type: pageLess ? 'pageLess' : 'normal'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

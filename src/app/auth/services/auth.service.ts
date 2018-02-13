@@ -1,22 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Api } from '../../core/services/api';
-import 'rxjs/add/operator/do';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Api } from '../../core/services/api';
+import 'rxjs/add/operator/do';
 
-interface ILoginModel {
-	email: string;
-	password: string;
-}
-
-export interface IProfile {
-	email: string;
-	role: string;
-}
-
-interface ILoginResponse {
-	user: IProfile;
-}
+import { ILoginModel, ILoginResponse, IProfile } from '../models/user';
 
 @Injectable()
 export class AuthService {
