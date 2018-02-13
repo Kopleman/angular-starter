@@ -1,12 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatSlideToggleChange, MatSnackBar } from '@angular/material';
 import {
-	TemplatesData
-} from '../../services/templates-data';
+	MatDialog,
+	MatSlideToggleChange,
+	MatSnackBar
+} from '@angular/material';
+import 'rxjs/add/operator/mergeMap';
+
+import { TemplatesData } from '../../services/templates-data';
 import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth.service';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
+import { ICloneDialogData } from '../../models/dialog';
+
 
 /**
  * Копонента карточки шаблона
@@ -28,7 +34,7 @@ export class TemplateListItemComponent implements OnInit {
 		private userData: AuthService,
 		private templatesData: TemplatesData,
 		private snackBar: MatSnackBar,
-    public dialog: MatDialog
+		public dialog: MatDialog
 	) {}
 
 	public ngOnInit() {
@@ -44,8 +50,8 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public isParent() {
-	  return this.template.sourceTemplate === 'none';
-  }
+		return this.template.sourceTemplate === 'none';
+	}
 
 	public getTemplateType() {
 		return this.isParent() ? 'parent' : 'clone';
@@ -84,12 +90,12 @@ export class TemplateListItemComponent implements OnInit {
 		this.snackBar.open(`Удаляем шаблон ${this.template._id}`, 'Закрыть');
 		this.templatesData.delete(this.template._id).subscribe(
 			() => {
-				this.snackBar.open(`Шаблон ${this.template._id}`, 'Закрыть', {
+				this.snackBar.open(`Шаблон удален `, 'Закрыть', {
 					duration: 2000
 				});
 				this.onDelete.emit({ templateId: this.template._id });
 			},
-      () => {
+			() => {
 				this.snackBar.open(
 					`Не удалось удалить шаблон ${this.template._id}`,
 					'Закрыть'
@@ -99,63 +105,108 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public refreshSettings() {
-    this.snackBar.open(`Обновляем settings.json у  ${this.template._id}`, 'Закрыть');
-	  this.templatesData.refreshSettings(this.template._id).subscribe(
-	    () => {
-        this.snackBar.open(`Settings.json у ${this.template._id} обновлен`, 'Закрыть', {
+		this.snackBar.open(
+			`Обновляем settings.json у  ${this.template._id}`,
+			'Закрыть'
+		);
+		this.templatesData.refreshSettings(this.template._id).subscribe(
+			() => {
+				this.snackBar.open(
+					`Settings.json у ${this.template._id} обновлен`,
+					'Закрыть',
+					{
+						duration: 2000
+					}
+				);
+			},
+			() => {
+				this.snackBar.open(
+					`Не удалось обновить settings.json у ${this.template._id}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
+	public refreshCloneSettings() {
+		this.snackBar.open(
+			`Обновляем cloneSettings.json у  ${this.template._id}`,
+			'Закрыть'
+		);
+		this.templatesData.refreshCloneSettings(this.template._id).subscribe(
+			() => {
+				this.snackBar.open(
+					`CloneSettings.json у ${this.template._id} обновлен`,
+					'Закрыть',
+					{
+						duration: 2000
+					}
+				);
+			},
+			() => {
+				this.snackBar.open(
+					`Не удалось обновить cloneSettings.json у ${this.template._id}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
+	public compileAllClones() {
+		this.snackBar.open(`Child шаблоны в процессе компиляции`, 'Закрыть');
+		this.templatesData.compileClones(this.template._id).subscribe(
+			() => {
+				this.snackBar.open(`Компиляция завершена`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(
+					`Ошибки компиляции в следующих шаблонах: ${errorResp.errors.join(
+						','
+					)}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
+	public createClone(pageLess: boolean = false) {
+	  let dialogResult:ICloneDialogData;
+		let dialogRef = this.dialog.open(CloneDialogComponent, {
+			width: '580px',
+			closeOnNavigation: true,
+			panelClass: 'clone-dialog-component',
+			data: {
+				cloneName: '',
+				author: '',
+				type: pageLess ? 'pageLess' : 'normal'
+			}
+		});
+
+		dialogRef
+			.afterClosed()
+			.flatMap(result =>{
+        this.snackBar.open(`Шаблон в процессе клонирования`, 'Закрыть');
+        dialogResult = result;
+				return this.templatesData.createClone(
+					this.template._id,
+					result.cloneName,
+					result.author,
+					pageLess
+				);
+			}
+			)
+			.subscribe(() => {
+        this.snackBar.open(`Шаблон склонирован`, 'Закрыть', {
           duration: 2000
         });
-      },
-      () => {
+        this.filterByName(dialogResult.cloneName);
+			},errorResp => {
         this.snackBar.open(
-          `Не удалось обновить settings.json у ${this.template._id}`,
+          `Ошибки при клонировании: ${errorResp.error.message}`,
           'Закрыть'
         );
       });
-  }
-
-  public refreshCloneSettings() {
-    this.snackBar.open(`Обновляем cloneSettings.json у  ${this.template._id}`, 'Закрыть');
-    this.templatesData.refreshCloneSettings(this.template._id).subscribe(
-      () => {
-        this.snackBar.open(`CloneSettings.json у ${this.template._id} обновлен`, 'Закрыть', {
-          duration: 2000
-        });
-      },
-      () => {
-        this.snackBar.open(
-          `Не удалось обновить cloneSettings.json у ${this.template._id}`,
-          'Закрыть'
-        );
-      });
-  }
-
-  public compileAllClones() {
-    this.snackBar.open(`Child шаблоны в процессе компиляции`, 'Закрыть');
-    this.templatesData.compileClones(this.template._id).subscribe(
-      () => {
-        this.snackBar.open(`Компиляция завершена`, 'Закрыть', {
-          duration: 2000
-        });
-      },
-      (errorResp) => {
-        this.snackBar.open(
-          `Ошибки компиляции в следующих шаблонах: ${errorResp.errors.join(',')}`,
-          'Закрыть'
-        );
-      });
-  }
-
-  public createClone(pageLess: boolean = false) {
-    let dialogRef = this.dialog.open(CloneDialogComponent, {
-      width: '580px',
-      closeOnNavigation: true,
-      panelClass: 'clone-dialog-component',
-      data: { cloneName: '', author: '',  type: pageLess ? 'pageLess' : 'normal'}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
+	}
 }

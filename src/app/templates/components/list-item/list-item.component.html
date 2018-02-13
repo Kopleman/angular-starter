@@ -37,6 +37,10 @@
               <mat-icon>library_books</mat-icon>
               <span>Create a clone</span>
             </button>
+            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="createClone(true)">
+              <mat-icon>library_books</mat-icon>
+              <span>Create a pageless clone</span>
+            </button>
             <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="compileAllClones()">
               <mat-icon>library_books</mat-icon>
               <span>Compile clones</span>
