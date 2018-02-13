@@ -66,7 +66,7 @@ export class TemplatesPageComponent implements OnInit {
 		this.inProgress = true;
 		this.templatesData
 			.getTemplates(skip, limit, this.filters)
-      .first()
+      .shareReplay()
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;
