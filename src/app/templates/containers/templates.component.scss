@@ -1,7 +1,7 @@
 templates-list {
   position: relative;
-  margin: 16px 0;
   z-index: 2;
+  margin-bottom: 16px;
 }
 
 top-bar {
@@ -16,5 +16,10 @@ top-bar {
 
 .list-wrapper {
   margin-top: 65px;
+}
+
+.controls {
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
 

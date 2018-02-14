@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {
-	TemplatesData
-} from '../services/templates-data';
-import { PageEvent } from '@angular/material';
+import { TemplatesData } from '../services/templates-data';
+import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/shareReplay';
 import { ITemplate, ITemplateFilters } from '../models/template';
 import { ISubject } from '../models/subject';
+import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
+import { ICreateDialogData } from '../models/dialog';
 
 @Component({
 	selector: 'templates-page',
@@ -23,12 +23,14 @@ export class TemplatesPageComponent implements OnInit {
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
 	public filters: ITemplateFilters = {
-    searchStr: '',
-    selectedCategory: ''
-  };
+		searchStr: '',
+		selectedCategory: ''
+	};
 	constructor(
 		private templatesData: TemplatesData,
-		private subjectsData: SubjectsData
+		private subjectsData: SubjectsData,
+		private snackBar: MatSnackBar,
+		public dialog: MatDialog
 	) {}
 
 	/**
@@ -41,8 +43,8 @@ export class TemplatesPageComponent implements OnInit {
 	}
 
 	public paginate($event: PageEvent) {
-	  this.pageIndex = $event.pageIndex;
-	  this.pageSize = $event.pageSize;
+		this.pageIndex = $event.pageIndex;
+		this.pageSize = $event.pageSize;
 		let skip = this.pageIndex * this.pageSize;
 		this.getTemplates(skip, this.pageSize);
 	}
@@ -53,9 +55,40 @@ export class TemplatesPageComponent implements OnInit {
 	}
 
 	public refresh() {
-    let skip = this.pageIndex * this.pageSize;
-    this.getTemplates(skip, this.pageSize);
-  }
+		let skip = this.pageIndex * this.pageSize;
+		this.getTemplates(skip, this.pageSize);
+	}
+
+	public createNewTemplate() {
+		let dialogRef = this.dialog.open<CreateDialogComponent, ICreateDialogData>(
+			CreateDialogComponent,
+			{
+				width: '580px',
+				closeOnNavigation: true,
+				panelClass: 'create-dialog-component',
+				data: {
+					templateId: '',
+					title: '',
+					about: '',
+					subjects: this.subjects$,
+          selectedSubject: ''
+				}
+			}
+		);
+
+    dialogRef
+      .afterClosed()
+      .subscribe(() => {
+        this.snackBar.open(`Шаблон создан`, 'Закрыть', {
+          duration: 2000
+        });
+      },errorResp => {
+        this.snackBar.open(
+          `Ошибки при создании: ${errorResp.error.message}`,
+          'Закрыть'
+        );
+      });
+	}
 
 	/**
 	 * Получить шаблоны с бэка с задаными параметрами
@@ -66,7 +99,7 @@ export class TemplatesPageComponent implements OnInit {
 		this.inProgress = true;
 		this.templatesData
 			.getTemplates(skip, limit, this.filters)
-      .shareReplay()
+			.shareReplay()
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

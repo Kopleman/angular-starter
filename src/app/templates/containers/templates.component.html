@@ -1,16 +1,27 @@
-<top-bar *ngIf="templates" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
-         [subjects]="subjects$ | async" [filters]="filters" (onFilterChange)="filterCollection($event)"></top-bar>
-
-<div class="list-wrapper" fxFlex fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px">
+<div class="list-wrapper" fxFlex fxLayoutAlign="center center" >
   <mat-spinner *ngIf="!templates"></mat-spinner>
 
-  <templates-list fxFlex="0 0 auto" [templates]="templates" (onDelete)="refresh()" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" *ngIf="templates"></templates-list>
+  <div fxFlex="0 0 auto" fxLayout="column" *ngIf="templates" >
+    <top-bar *ngIf="templates" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
+             [subjects]="subjects$ | async" [filters]="filters" (onFilterChange)="filterCollection($event)"></top-bar>
+    <div class="controls" fxLayoutGap="8px">
+      <button mat-button color="primary">
+        <mat-icon>add</mat-icon>
+        Добавить шаблон
+      </button>
+      <button mat-button color="warn">
+        <mat-icon>autorenew</mat-icon>
+        Compile all
+      </button>
+    </div>
+    <templates-list fxFlex [templates]="templates" (onDelete)="refresh()" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" ></templates-list>
 
-  <mat-paginator fxFlex="0 0 auto" *ngIf="templates" [length]="total"
-                 [pageIndex]="pageIndex"
-                 [pageSize]="pageSize"
-                 [pageSizeOptions]="pageSizeOptions"
-                 (page)="paginate($event)">
-  </mat-paginator>
+    <mat-paginator fxFlex [length]="total"
+                   [pageIndex]="pageIndex"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="paginate($event)">
+    </mat-paginator>
+  </div>
 </div>
 
