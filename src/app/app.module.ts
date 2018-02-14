@@ -27,17 +27,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 
 // Application wide providers
-const APP_PROVIDERS = [
-  Api,
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: ErrorInterceptor,
-    multi: true
-  },
-  AuthService,
-  AuthGuard,
-  NoAuthGuard
-];
+const APP_PROVIDERS = [];
 
 
 /**
