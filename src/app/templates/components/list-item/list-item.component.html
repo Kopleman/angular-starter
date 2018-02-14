@@ -21,10 +21,10 @@
             Demo
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
+            <button mat-menu-item (click)="makeDemo('normal')">
               <span>На 14</span>
             </button>
-            <button mat-menu-item>
+            <button mat-menu-item (click)="makeDemo('compile')">
               <span>На 23</span>
             </button>
           </mat-menu>

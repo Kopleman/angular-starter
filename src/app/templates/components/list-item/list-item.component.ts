@@ -209,4 +209,20 @@ export class TemplateListItemComponent implements OnInit {
         );
       });
 	}
+
+	public makeDemo(mode: 'normal' | 'compile' = 'normal') {
+    this.snackBar.open(`Публикуем шаблон на demo-сервер`, 'Закрыть');
+    this.templatesData.publishDemo(this.template._id, mode).subscribe(
+      () => {
+        this.snackBar.open(`Публикация завершена`, 'Закрыть', {
+          duration: 2000
+        });
+      },
+      errorResp => {
+        this.snackBar.open(
+          `Произошла ошибка при demo-публикации: ${errorResp.error.message}`,
+          'Закрыть'
+        );
+      })
+  }
 }

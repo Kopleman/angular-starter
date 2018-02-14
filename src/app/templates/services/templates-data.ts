@@ -67,4 +67,8 @@ export class TemplatesData {
 			pageLess
 		});
 	}
+
+	public publishDemo(templateId: string, mode: string) {
+    return this.api.get(`admin/rest/templates/${templateId}/demo/`, {mode});
+  }
 }
