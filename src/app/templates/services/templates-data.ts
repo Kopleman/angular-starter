@@ -69,6 +69,6 @@ export class TemplatesData {
 	}
 
 	public publishDemo(templateId: string, mode: string) {
-    return this.api.get(`admin/rest/templates/${templateId}/demo/`, {mode});
+    return this.api.get(`admin/rest/templates/${templateId}/demo`, {mode});
   }
 }
