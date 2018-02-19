@@ -1,0 +1,42 @@
+@mixin templates-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  templates-page {
+    background-color: mat-color($primary, 50);
+    top-bar {
+      background-color: mat-color($primary, 50);
+    }
+
+
+
+    templates-list-item {
+
+      a, .inline-button {
+        color: mat-color($primary, A200);
+        text-decoration: none;
+        cursor: pointer;
+        &:hover {
+          color: mat-color($primary, 900);
+        }
+      }
+
+      .type {
+        &.prototype {
+          background: mat-color($warn);
+        }
+
+        &.parent {
+          background: mat-color($primary);
+        }
+
+        &.clone {
+          background: mat-color($accent);
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,6 @@
 .template-card {
   width: 960px;
-  a, .inline-button {
-    color: #338fff;
-    text-decoration: none;
-    cursor: pointer;
-    &:hover {
-      color: #4b93b7;
-    }
-  }
+
 
   .info-col {
     font-size: 13px;
@@ -63,19 +56,6 @@
       }
     }
 
-    .type {
-      &.prototype {
-        background: #c2445c;
-      }
-
-      &.parent {
-        background: #338fff;
-      }
-
-      &.clone {
-        background: #e8cc0c;
-      }
-    }
   }
 
   .bottom {
