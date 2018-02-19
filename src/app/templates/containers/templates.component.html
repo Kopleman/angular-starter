@@ -1,4 +1,4 @@
-<div class="list-wrapper" fxFlex fxLayoutAlign="center center" >
+<div class="list-wrapper" fxFlex fxLayoutAlign="center start" >
   <mat-spinner *ngIf="!templates"></mat-spinner>
 
   <div fxFlex="0 0 auto" fxLayout="column" *ngIf="templates" >
@@ -9,14 +9,14 @@
         <mat-icon>add</mat-icon>
         Добавить шаблон
       </button>
-      <button mat-button color="warn">
+      <button mat-button color="warn" (click)="compileAll()">
         <mat-icon>autorenew</mat-icon>
         Compile all
       </button>
     </div>
     <templates-list fxFlex [templates]="templates" (onDelete)="refresh()" (onFilterChange)="filterCollection($event)" [subjects]="subjects$ | async" ></templates-list>
 
-    <mat-paginator fxFlex [length]="total"
+    <mat-paginator *ngIf="templates.length" fxFlex [length]="total"
                    [pageIndex]="pageIndex"
                    [pageSize]="pageSize"
                    [pageSizeOptions]="pageSizeOptions"

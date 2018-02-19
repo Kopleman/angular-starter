@@ -55,6 +55,10 @@ export class TemplatesData {
 		return this.api.get(`admin/rest/templates/${templateId}/compileClones`);
 	}
 
+	public compileAll() {
+    return this.api.get(`admin/rest/templates/compileAllTemplates`);
+  }
+
 	public createClone(
 		templateId: string,
 		cloneName: string,

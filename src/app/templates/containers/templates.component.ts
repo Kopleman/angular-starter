@@ -116,6 +116,23 @@ export class TemplatesPageComponent implements OnInit {
 			);
 	}
 
+	public compileAll() {
+		this.snackBar.open(`Компилируем все шаблоны`, 'Закрыть');
+		this.templatesData.compileAll().subscribe(
+			() => {
+				this.snackBar.open(`Шаблоны скомпилированы`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(
+					`Ошибки при компиляции: ${errorResp.error.message}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
 	/**
 	 * Получить шаблоны с бэка с задаными параметрами
 	 * @param skip
