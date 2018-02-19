@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Добавить шаблон</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="templateCreateForm" class="create-form">
+    <mat-form-field>
+      <input matInput placeholder="Имя шаблона*" formControlName="title" [(ngModel)]="data.title">
+      <mat-error *ngIf="templateCreateForm.get('title').hasError('required')">
+        <strong>Введите имя шаблона</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="ID шаблона*" formControlName="templateId" [(ngModel)]="data.templateId">
+      <mat-error *ngIf="templateCreateForm.get('templateId').hasError('required')">
+        <strong>Введите ID шаблона</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Категория*" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >
+        <mat-option *ngFor="let subject of data.subjects$ | async" [value]="subject._id">{{subject.title}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="templateCreateForm.get('selectedSubject').hasError('required')">
+        <strong>Выбирите категорию</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput placeholder="Комментарий" matTextareaAutosize matAutosizeMinRows="2" formControlName="about" [(ngModel)]="data.about"
+        matAutosizeMaxRows="5"></textarea>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!templateCreateForm.valid">Создать</button>
+  <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>

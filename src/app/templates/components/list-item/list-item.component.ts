@@ -12,7 +12,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
 import { ICloneDialogData } from '../../models/dialog';
-
+import { of } from 'rxjs/observable/of';
 
 /**
  * Копонента карточки шаблона
@@ -172,7 +172,7 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public createClone(pageLess: boolean = false) {
-	  let dialogResult:ICloneDialogData;
+		let dialogResult: ICloneDialogData;
 		let dialogRef = this.dialog.open(CloneDialogComponent, {
 			width: '580px',
 			closeOnNavigation: true,
@@ -186,43 +186,51 @@ export class TemplateListItemComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result =>{
-        this.snackBar.open(`Шаблон в процессе клонирования`, 'Закрыть');
-        dialogResult = result;
+			.flatMap(result => {
+        if(!result) {
+          return of(null);
+        }
+				this.snackBar.open(`Шаблон в процессе клонирования`, 'Закрыть');
+				dialogResult = result;
 				return this.templatesData.createClone(
 					this.template._id,
 					result.cloneName,
 					result.author,
 					pageLess
 				);
-			}
-			)
-			.subscribe(() => {
-        this.snackBar.open(`Шаблон склонирован`, 'Закрыть', {
-          duration: 2000
-        });
-        this.filterByName(dialogResult.cloneName);
-			},errorResp => {
-        this.snackBar.open(
-          `Ошибки при клонировании: ${errorResp.error.message}`,
-          'Закрыть'
-        );
-      });
+			})
+			.subscribe(
+				(result) => {
+          if(result) {
+            this.snackBar.open(`Шаблон склонирован`, 'Закрыть', {
+              duration: 2000
+            });
+            this.filterByName(dialogResult.cloneName);
+          }
+				},
+				errorResp => {
+					this.snackBar.open(
+						`Ошибки при клонировании: ${errorResp.error.message}`,
+						'Закрыть'
+					);
+				}
+			);
 	}
 
 	public makeDemo(mode: 'normal' | 'compile' = 'normal') {
-    this.snackBar.open(`Публикуем шаблон на demo-сервер`, 'Закрыть');
-    this.templatesData.publishDemo(this.template._id, mode).subscribe(
-      () => {
-        this.snackBar.open(`Публикация завершена`, 'Закрыть', {
-          duration: 2000
-        });
-      },
-      errorResp => {
-        this.snackBar.open(
-          `Произошла ошибка при demo-публикации: ${errorResp.error.message}`,
-          'Закрыть'
-        );
-      })
-  }
+		this.snackBar.open(`Публикуем шаблон на demo-сервер`, 'Закрыть');
+		this.templatesData.publishDemo(this.template._id, mode).subscribe(
+			() => {
+				this.snackBar.open(`Публикация завершена`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(
+					`Произошла ошибка при demo-публикации: ${errorResp.error.message}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
 }

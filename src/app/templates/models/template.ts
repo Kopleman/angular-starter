@@ -51,3 +51,10 @@ export interface ITemplateResponse {
 export interface ITemplateGulpStatusResponse {
   status: string;
 }
+
+export interface ITemplateCreateReq {
+  templateId: string;
+  title: string;
+  subjectIds: string[];
+  about: string;
+}

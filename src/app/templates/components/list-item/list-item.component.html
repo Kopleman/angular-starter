@@ -92,13 +92,13 @@
         </div>
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Изменен в конструкторе</div>
-          <div>{{ template.editHistory[0].time | myMomentDate }}</div>
-          <div>{{ template.editHistory[0].user }}</div>
+          <div>{{ template.editHistory.length ? template.editHistory[0].time : '' | myMomentDate }}</div>
+          <div>{{ template.editHistory.length ? template.editHistory[0].user : ''}}</div>
         </div>
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Изменен в gulp</div>
-          <div>{{ template.editHistory[0].time | myMomentDate }}</div>
-          <div>{{ template.editHistory[0].user }}</div>
+          <div>{{ template.editHistory.length ? template.editHistory[0].time : '' | myMomentDate }}</div>
+          <div>{{ template.editHistory.length ? template.editHistory[0].user : ''}}</div>
         </div>
         <div class="info-col" fxFlex fxFlexFill >
           <div class="header">Локали</div>

@@ -17,6 +17,7 @@ import { MomentDate } from '../shared/pipes/moment-date';
 import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
+import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
 
 export const TEMPLATE_COMPONENTS = [
   TemplatesPageComponent,
@@ -24,7 +25,8 @@ export const TEMPLATE_COMPONENTS = [
   TemplateListItemComponent,
   TopBarComponent,
   ColorThemesComponent,
-  CloneDialogComponent
+  CloneDialogComponent,
+  CreateDialogComponent
 ];
 
 @NgModule({
@@ -42,7 +44,7 @@ export const TEMPLATE_COMPONENTS = [
       { path: 'templates', component: TemplatesPageComponent, canActivate: [ AuthGuard ] }
     ])
   ],
-  entryComponents: [CloneDialogComponent],
+  entryComponents: [CloneDialogComponent, CreateDialogComponent],
   exports: [
     TEMPLATE_COMPONENTS
   ],

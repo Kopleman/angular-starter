@@ -8,6 +8,7 @@ import { ITemplate, ITemplateFilters } from '../models/template';
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
+import { of } from 'rxjs/observable/of';
 
 @Component({
 	selector: 'templates-page',
@@ -60,6 +61,7 @@ export class TemplatesPageComponent implements OnInit {
 	}
 
 	public createNewTemplate() {
+		let dialogResult: ICreateDialogData;
 		let dialogRef = this.dialog.open<CreateDialogComponent, ICreateDialogData>(
 			CreateDialogComponent,
 			{
@@ -70,24 +72,48 @@ export class TemplatesPageComponent implements OnInit {
 					templateId: '',
 					title: '',
 					about: '',
-					subjects: this.subjects$,
-          selectedSubject: ''
+					subjects$: this.subjects$,
+					selectedSubject: ''
 				}
 			}
 		);
 
-    dialogRef
-      .afterClosed()
-      .subscribe(() => {
-        this.snackBar.open(`Шаблон создан`, 'Закрыть', {
-          duration: 2000
-        });
-      },errorResp => {
-        this.snackBar.open(
-          `Ошибки при создании: ${errorResp.error.message}`,
-          'Закрыть'
-        );
-      });
+		dialogRef
+			.afterClosed()
+			.flatMap(result => {
+				if (!result) {
+					return of(null);
+				}
+				dialogResult = result;
+				this.snackBar.open(`Создаем новый шаблон`, 'Закрыть');
+				let body = {
+					templateId: result.templateId,
+					title: result.title,
+					subjectIds: [result.selectedSubject],
+					about: result.about
+				};
+
+				return this.templatesData.createTemplate(body);
+			})
+			.subscribe(
+				result => {
+					if (result) {
+						this.snackBar.open(`Шаблон создан`, 'Закрыть', {
+							duration: 2000
+						});
+						this.filterCollection({
+							selectedCategory: dialogResult.selectedSubject,
+							searchStr: dialogResult.templateId
+						});
+					}
+				},
+				errorResp => {
+					this.snackBar.open(
+						`Ошибки при создании: ${errorResp.error.message}`,
+						'Закрыть'
+					);
+				}
+			);
 	}
 
 	/**

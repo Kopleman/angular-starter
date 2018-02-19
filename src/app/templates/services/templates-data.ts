@@ -4,10 +4,11 @@ import 'rxjs/add/operator/do';
 
 import { Api } from '../../core/services/api';
 import {
-	ITemplateFilters,
-	ITemplateGulpStatusResponse,
-	ITemplateQueryParams,
-	ITemplateResponse
+  ITemplateCreateReq,
+  ITemplateFilters,
+  ITemplateGulpStatusResponse,
+  ITemplateQueryParams,
+  ITemplateResponse
 } from '../models/template';
 
 @Injectable()
@@ -70,5 +71,9 @@ export class TemplatesData {
 
 	public publishDemo(templateId: string, mode: string) {
     return this.api.get(`admin/rest/templates/${templateId}/demo`, {mode});
+  }
+
+  public createTemplate(data: ITemplateCreateReq) {
+	  return this.api.post('admin/rest/templates', data);
   }
 }

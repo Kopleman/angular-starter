@@ -16,10 +16,11 @@ export class CreateDialogComponent implements OnInit{
     private formBuilder: FormBuilder) { }
 
   public ngOnInit() {
+
     this.templateCreateForm = this.formBuilder.group({
       templateId: [null, [Validators.required]],
       title: [null, [Validators.required]],
-      subjectId: [null, Validators.required],
+      selectedSubject: [null, Validators.required],
       about: [null, null]
     });
   }
@@ -27,4 +28,5 @@ export class CreateDialogComponent implements OnInit{
   public onCloseClick() {
     this.dialogRef.close();
   }
+
 }
