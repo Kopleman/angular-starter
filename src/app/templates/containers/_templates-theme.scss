@@ -6,12 +6,9 @@
   $foreground: map-get($theme, foreground);
 
   templates-page {
-    background-color: mat-color($primary, 50);
     top-bar {
       background-color: mat-color($primary, 50);
     }
-
-
 
     templates-list-item {
 

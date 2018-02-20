@@ -33,23 +33,23 @@
             <mat-icon >settings</mat-icon>
           </button>
           <mat-menu #settingsMenu="matMenu">
-            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="createClone()">
+            <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="createClone()">
               <mat-icon>library_books</mat-icon>
               <span>Create a clone</span>
             </button>
-            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="createClone(true)">
+            <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="createClone(true)">
               <mat-icon>library_books</mat-icon>
               <span>Create a pageless clone</span>
             </button>
-            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="compileAllClones()">
+            <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="compileAllClones()">
               <mat-icon>library_books</mat-icon>
               <span>Compile clones</span>
             </button>
-            <button mat-menu-item *ngIf="(isParent() && isPermited())" (click)="refreshCloneSettings()">
+            <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="refreshCloneSettings()">
               <mat-icon>autorenew</mat-icon>
               <span>SettingsClone.json</span>
             </button>
-            <button mat-menu-item *ngIf="(isPermited())" (click)="refreshSettings()">
+            <button mat-menu-item *ngIf="(isPermitted())" (click)="refreshSettings()">
               <mat-icon>autorenew</mat-icon>
               <span>Settings.json</span>
             </button>

@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Редактирование {{template._id}}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form  fxFlex fxLayout="column" fxFlexFill class="properties-form">
+    <mat-button-toggle-group #group="langGroup">
+      <mat-button-toggle *ngFor="let lang of getTempalateLangs()" value="lang">
+        {{ lang }}
+      </mat-button-toggle>
+    <!--<mat-form-field>-->
+      <!--<input matInput placeholder="Имя шаблона-клона" formControlName="cloneName" [(ngModel)]="data.cloneName">-->
+      <!--<mat-error *ngIf="propertiesForm.get('cloneName').hasError('required')">-->
+        <!--<strong>Введите имя шаблона</strong>-->
+      <!--</mat-error>-->
+    <!--</mat-form-field>-->
+    <!--<mat-form-field>-->
+      <!--<mat-select placeholder="Исполнитель" formControlName="author" [(ngModel)]="data.author" >-->
+        <!--<mat-option *ngFor="let user of users" [value]="user.email">{{user.username}}</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error *ngIf="propertiesForm.get('author').hasError('required')">-->
+        <!--<strong>Выбирите исполнителя</strong>-->
+      <!--</mat-error>-->
+    <!--</mat-form-field>-->
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!propertiesForm.valid">Создать</button>
+  <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>

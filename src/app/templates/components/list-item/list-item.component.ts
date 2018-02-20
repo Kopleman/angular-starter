@@ -13,6 +13,7 @@ import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
 import { ICloneDialogData } from '../../models/dialog';
 import { of } from 'rxjs/observable/of';
+import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 
 /**
  * Копонента карточки шаблона
@@ -41,7 +42,7 @@ export class TemplateListItemComponent implements OnInit {
 		this.userRole = this.userData.getProfile().getValue().role;
 	}
 
-	public isPermited() {
+	public isPermitted() {
 		return (
 			this.userRole === 'templateMaster' ||
 			this.userRole === 'admin' ||
@@ -233,4 +234,20 @@ export class TemplateListItemComponent implements OnInit {
 			}
 		);
 	}
+
+	public changeProps() {
+    let dialogResult: ICloneDialogData;
+    let dialogRef = this.dialog.open(PropertiesDialogComponent, {
+      width: '580px',
+      closeOnNavigation: true,
+      panelClass: 'properties-dialog-component',
+      data: this.template
+    });
+
+    dialogRef
+      .afterClosed()
+      .subscribe((result) => {
+        console.log(result);
+      })
+  }
 }
