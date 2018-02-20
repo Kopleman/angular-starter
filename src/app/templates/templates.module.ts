@@ -18,6 +18,13 @@ import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
+import { PropertiesDialogComponent } from './components/properties-dialog/properties-dialog.component';
+
+const DIALOG_COMPONENTS = [
+  CloneDialogComponent,
+  CreateDialogComponent,
+  PropertiesDialogComponent
+];
 
 export const TEMPLATE_COMPONENTS = [
   TemplatesPageComponent,
@@ -25,8 +32,8 @@ export const TEMPLATE_COMPONENTS = [
   TemplateListItemComponent,
   TopBarComponent,
   ColorThemesComponent,
-  CloneDialogComponent,
-  CreateDialogComponent
+  ...
+  DIALOG_COMPONENTS
 ];
 
 @NgModule({
@@ -44,7 +51,7 @@ export const TEMPLATE_COMPONENTS = [
       { path: 'templates', component: TemplatesPageComponent, canActivate: [ AuthGuard ] }
     ])
   ],
-  entryComponents: [CloneDialogComponent, CreateDialogComponent],
+  entryComponents: DIALOG_COMPONENTS,
   exports: [
     TEMPLATE_COMPONENTS
   ],

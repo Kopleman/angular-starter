@@ -3,12 +3,12 @@ import { TemplatesData } from '../services/templates-data';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/shareReplay';
 import { ITemplate, ITemplateFilters } from '../models/template';
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
+import 'rxjs/add/operator/shareReplay';
 
 @Component({
 	selector: 'templates-page',

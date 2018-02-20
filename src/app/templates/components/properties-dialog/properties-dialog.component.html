@@ -8,11 +8,20 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <div mat-dialog-content>
-  <form  fxFlex fxLayout="column" fxFlexFill class="properties-form">
-    <mat-button-toggle-group #group="langGroup">
+  <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="propertiesForm"  class="properties-form">
+    <mat-button-toggle-group #group="matButtonToggleGroup">
       <mat-button-toggle *ngFor="let lang of getTempalateLangs()" value="lang">
         {{ lang }}
       </mat-button-toggle>
+    </mat-button-toggle-group>
+    <!--<mat-form-field>-->
+      <!--<mat-select placeholder="Категория*" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >-->
+        <!--<mat-option *ngFor="let subject of data.subjects" [value]="subject._id">{{subject.title}}</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error *ngIf="propertiesForm.get('selectedSubject').hasError('required')">-->
+        <!--<strong>Выбирите категорию</strong>-->
+      <!--</mat-error>-->
+    <!--</mat-form-field>-->
     <!--<mat-form-field>-->
       <!--<input matInput placeholder="Имя шаблона-клона" formControlName="cloneName" [(ngModel)]="data.cloneName">-->
       <!--<mat-error *ngIf="propertiesForm.get('cloneName').hasError('required')">-->
@@ -30,6 +39,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!propertiesForm.valid">Создать</button>
+  <button mat-button [mat-dialog-close]="template" color="primary" [disabled]="!propertiesForm.valid">Создать</button>
   <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
 </div>

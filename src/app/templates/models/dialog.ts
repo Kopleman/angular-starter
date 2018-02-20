@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { ISubject } from './subject';
+import { ITemplate } from './template';
 
 export interface ICloneDialogData {
   cloneName: string;
@@ -12,5 +13,11 @@ export interface ICreateDialogData {
   title: string;
   about: string;
   subjects$: Observable<ISubject[]>;
-  selectedSubject: string
+  selectedSubject: string;
+}
+
+export interface IChangePropsDialogData {
+  template: ITemplate;
+  subjects: ISubject[];
+  selectedSubject: string;
 }

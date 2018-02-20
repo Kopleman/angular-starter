@@ -7,7 +7,7 @@
         </div>
         <div fxFlex="60%">
           <div class="subjects">
-             <span *ngFor="let subject of subjects; let isLast=last" (click)="filterByCategory(subject._id)">
+             <span *ngFor="let subject of translateSubjects(template.subjectIds); let isLast=last" (click)="filterByCategory(subject._id)">
               {{subject.title}}{{isLast ? '' : ', '}}
              </span>
           </div>
@@ -30,9 +30,13 @@
           </mat-menu>
           <mat-slide-toggle [checked]="template.gulpStatus === 'online'" (change)="changeGulpStatus($event)">Gulp</mat-slide-toggle>
           <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
-            <mat-icon >settings</mat-icon>
+            <mat-icon >menu</mat-icon>
           </button>
           <mat-menu #settingsMenu="matMenu">
+            <button mat-menu-item  (click)="changeProps()">
+              <mat-icon>settings</mat-icon>
+              <span>Change props</span>
+            </button>
             <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="createClone()">
               <mat-icon>library_books</mat-icon>
               <span>Create a clone</span>

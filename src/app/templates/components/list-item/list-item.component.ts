@@ -11,9 +11,10 @@ import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth.service';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
-import { ICloneDialogData } from '../../models/dialog';
+import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { of } from 'rxjs/observable/of';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
+import * as _ from 'lodash';
 
 /**
  * Копонента карточки шаблона
@@ -24,7 +25,7 @@ import { PropertiesDialogComponent } from '../properties-dialog/properties-dialo
 	templateUrl: './list-item.component.html'
 })
 export class TemplateListItemComponent implements OnInit {
-	@Input() public subjects: ISubject[];
+  @Input() public subjects: ISubject[];
 	@Input() public template: ITemplate;
 	@Output()
 	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
@@ -69,6 +70,15 @@ export class TemplateListItemComponent implements OnInit {
 	public filterByCategory(category) {
 		this.onFilterChange.emit({ searchStr: '', selectedCategory: category });
 	}
+
+  public translateSubjects(subjects: string[]) {
+    let ret = [];
+    subjects.forEach((subjectId) => {
+      let subject = _.find(this.subjects, s => s._id === subjectId);
+      ret.push(subject ? subject : {_id: subjectId, title: subjectId})
+    });
+    return ret;
+  }
 
 	/**
 	 * Обработчик тригера слайдера гулп-статуса
@@ -188,9 +198,9 @@ export class TemplateListItemComponent implements OnInit {
 		dialogRef
 			.afterClosed()
 			.flatMap(result => {
-        if(!result) {
-          return of(null);
-        }
+				if (!result) {
+					return of(null);
+				}
 				this.snackBar.open(`Шаблон в процессе клонирования`, 'Закрыть');
 				dialogResult = result;
 				return this.templatesData.createClone(
@@ -201,13 +211,13 @@ export class TemplateListItemComponent implements OnInit {
 				);
 			})
 			.subscribe(
-				(result) => {
-          if(result) {
-            this.snackBar.open(`Шаблон склонирован`, 'Закрыть', {
-              duration: 2000
-            });
-            this.filterByName(dialogResult.cloneName);
-          }
+				result => {
+					if (result) {
+						this.snackBar.open(`Шаблон склонирован`, 'Закрыть', {
+							duration: 2000
+						});
+						this.filterByName(dialogResult.cloneName);
+					}
 				},
 				errorResp => {
 					this.snackBar.open(
@@ -236,18 +246,23 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public changeProps() {
-    let dialogResult: ICloneDialogData;
-    let dialogRef = this.dialog.open(PropertiesDialogComponent, {
-      width: '580px',
-      closeOnNavigation: true,
-      panelClass: 'properties-dialog-component',
-      data: this.template
-    });
+		let dialogResult: IChangePropsDialogData;
+		let dialogRef = this.dialog.open<
+			PropertiesDialogComponent,
+			IChangePropsDialogData
+		>(PropertiesDialogComponent, {
+			width: '580px',
+			closeOnNavigation: true,
+			panelClass: 'properties-dialog-component',
+			data: {
+				template: this.template,
+				subjects: this.subjects,
+				selectedSubject: this.template.subjectIds[0]
+			}
+		});
 
-    dialogRef
-      .afterClosed()
-      .subscribe((result) => {
-        console.log(result);
-      })
-  }
+		dialogRef.afterClosed().subscribe(result => {
+			console.log(result);
+		});
+	}
 }

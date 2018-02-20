@@ -17,15 +17,6 @@ export class TemplatesListComponent {
   @Output()
   public onDelete: EventEmitter<{templateId: string}> = new EventEmitter();
 
-  public translateSubjects(subjects: string[]) {
-    let ret = [];
-    subjects.forEach((subjectId) => {
-      let subject = _.find(this.subjects, s => s._id === subjectId);
-      ret.push(subject ? subject : {_id: subjectId, title: subjectId})
-    });
-    return ret;
-  }
-
   public filterTemplates($event){
     this.onFilterChange.emit($event);
   }
