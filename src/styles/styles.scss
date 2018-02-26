@@ -23,4 +23,11 @@ body {
   background-color: mat-color($primary, 50);
 }
 
+.sep-line {
+  border: 1px solid mat-color($accent);
+  margin: 16px 0;
+}
+
+
+
 

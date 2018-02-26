@@ -20,4 +20,5 @@ export interface IChangePropsDialogData {
   template: ITemplate;
   subjects: ISubject[];
   selectedSubject: string;
+  selectedWhiteLabel: string;
 }

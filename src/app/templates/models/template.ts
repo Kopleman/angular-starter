@@ -1,3 +1,5 @@
+import { IWhiteLabel } from './whitelabel';
+
 export interface ITemplateFilters {
   searchStr?: string;
   selectedCategory?: string;
@@ -36,11 +38,13 @@ export interface ITemplate {
   };
   editHistory: IEditHistory[];
   i18nTitles: { [key: string]: string };
+  i18nTags: { [key: string]: string[] };
   sourceTemplate: string;
   colorThemes: IColorThemes;
   status: string;
   cloneNames: string[];
   gulpStatus: 'stopped' | 'online';
+  whitelabelsIds: string[];
 }
 
 export interface ITemplateResponse {

@@ -4,6 +4,7 @@ import 'rxjs/add/operator/do';
 
 import { Api } from '../../core/services/api';
 import {
+  ITemplate,
   ITemplateCreateReq,
   ITemplateFilters,
   ITemplateGulpStatusResponse,
@@ -79,5 +80,9 @@ export class TemplatesData {
 
   public createTemplate(data: ITemplateCreateReq) {
 	  return this.api.post('admin/rest/templates', data);
+  }
+
+  public updateSettings(template: ITemplate) {
+
   }
 }

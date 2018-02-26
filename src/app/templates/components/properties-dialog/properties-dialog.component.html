@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Редактирование {{template._id}}</span>
+    <span>Редактирование {{data.template._id}}</span>
     <span class="spacer"></span>
     <button mat-icon-button>
       <mat-icon (click)="onCloseClick()">close</mat-icon>
@@ -9,36 +9,43 @@
 </mat-toolbar>
 <div mat-dialog-content>
   <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="propertiesForm"  class="properties-form">
-    <mat-button-toggle-group #group="matButtonToggleGroup">
-      <mat-button-toggle *ngFor="let lang of getTempalateLangs()" value="lang">
+    <mat-button-toggle-group #group="matButtonToggleGroup" value="ru">
+      <mat-button-toggle *ngFor="let lang of langs" [value]="lang">
         {{ lang }}
       </mat-button-toggle>
     </mat-button-toggle-group>
-    <!--<mat-form-field>-->
-      <!--<mat-select placeholder="Категория*" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >-->
-        <!--<mat-option *ngFor="let subject of data.subjects" [value]="subject._id">{{subject.title}}</mat-option>-->
-      <!--</mat-select>-->
-      <!--<mat-error *ngIf="propertiesForm.get('selectedSubject').hasError('required')">-->
-        <!--<strong>Выбирите категорию</strong>-->
-      <!--</mat-error>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field>-->
-      <!--<input matInput placeholder="Имя шаблона-клона" formControlName="cloneName" [(ngModel)]="data.cloneName">-->
-      <!--<mat-error *ngIf="propertiesForm.get('cloneName').hasError('required')">-->
-        <!--<strong>Введите имя шаблона</strong>-->
-      <!--</mat-error>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field>-->
-      <!--<mat-select placeholder="Исполнитель" formControlName="author" [(ngModel)]="data.author" >-->
-        <!--<mat-option *ngFor="let user of users" [value]="user.email">{{user.username}}</mat-option>-->
-      <!--</mat-select>-->
-      <!--<mat-error *ngIf="propertiesForm.get('author').hasError('required')">-->
-        <!--<strong>Выбирите исполнителя</strong>-->
-      <!--</mat-error>-->
-    <!--</mat-form-field>-->
+    <div fxLayout="column" class="field-wrapper" *ngFor="let lang of langs">
+      <mat-form-field fxFlex [ngClass]="group.value === lang ? 'visible': 'not-visible'">
+        <input matInput placeholder="Имя шаблона {{lang}}"  [(ngModel)]="data.template.i18nTitles[lang]" [formControlName]="'title-' + lang">
+        <mat-error *ngIf="propertiesForm.get('title-' + lang).hasError('required')">
+          <strong>Введите имя шаблона для {{lang}}-локали</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex [ngClass]="group.value === lang ? 'visible': 'not-visible'">
+        <input matInput placeholder="Тэг шаблона {{lang}}"  [(ngModel)]="currentTags[lang]" (ngModelChange)='onTagsChange(lang)' [formControlName]="'tag-' + lang">
+      </mat-form-field>
+    </div>
+    <div class="sep-line"></div>
+    <mat-form-field>
+      <mat-select placeholder="Категория" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >
+        <mat-option *ngFor="let subject of data.subjects" [value]="subject._id">{{subject.title}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="propertiesForm.get('selectedSubject').hasError('required')">
+        <strong>Выбирите категорию</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="White Label" formControlName="selectedWhiteLabel" [(ngModel)]="data.selectedWhiteLabel" >
+        <mat-option [value]="''">Доступен для всех</mat-option>
+        <mat-option *ngFor="let wl of whiteLables" [value]="wl._id">{{wl.id}}({{wl.ip}})</mat-option>
+      </mat-select>
+      <mat-error *ngIf="propertiesForm.get('selectedWhiteLabel').hasError('required')">
+        <strong>Выбирите категорию</strong>
+      </mat-error>
+    </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="template" color="primary" [disabled]="!propertiesForm.valid">Создать</button>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!propertiesForm.valid">Создать</button>
   <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
 </div>

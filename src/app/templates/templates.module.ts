@@ -19,6 +19,7 @@ import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.com
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
 import { PropertiesDialogComponent } from './components/properties-dialog/properties-dialog.component';
+import { WhiteLabelsData } from './services/whitelabels-data';
 
 const DIALOG_COMPONENTS = [
   CloneDialogComponent,
@@ -58,7 +59,8 @@ export const TEMPLATE_COMPONENTS = [
   providers: [
     TemplatesData,
     SubjectsData,
-    UsersData
+    UsersData,
+    WhiteLabelsData
   ],
 })
 export class TemplatesModule {}

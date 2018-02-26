@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../core/services/api';
 import { ISubject } from '../models/subject';
-import 'rxjs/add/operator/shareReplay';
 
 @Injectable()
 export class SubjectsData {

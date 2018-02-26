@@ -25,7 +25,7 @@ import * as _ from 'lodash';
 	templateUrl: './list-item.component.html'
 })
 export class TemplateListItemComponent implements OnInit {
-  @Input() public subjects: ISubject[];
+	@Input() public subjects: ISubject[];
 	@Input() public template: ITemplate;
 	@Output()
 	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
@@ -71,14 +71,14 @@ export class TemplateListItemComponent implements OnInit {
 		this.onFilterChange.emit({ searchStr: '', selectedCategory: category });
 	}
 
-  public translateSubjects(subjects: string[]) {
-    let ret = [];
-    subjects.forEach((subjectId) => {
-      let subject = _.find(this.subjects, s => s._id === subjectId);
-      ret.push(subject ? subject : {_id: subjectId, title: subjectId})
-    });
-    return ret;
-  }
+	public translateSubjects(subjects: string[]) {
+		let ret = [];
+		subjects.forEach(subjectId => {
+			let subject = _.find(this.subjects, s => s._id === subjectId);
+			ret.push(subject ? subject : { _id: subjectId, title: subjectId });
+		});
+		return ret;
+	}
 
 	/**
 	 * Обработчик тригера слайдера гулп-статуса
@@ -257,12 +257,29 @@ export class TemplateListItemComponent implements OnInit {
 			data: {
 				template: this.template,
 				subjects: this.subjects,
-				selectedSubject: this.template.subjectIds[0]
+				selectedSubject: this.template.subjectIds[0],
+				selectedWhiteLabel: this.template.whitelabelsIds.length
+					? this.template.whitelabelsIds[0]
+					: ''
 			}
 		});
 
-		dialogRef.afterClosed().subscribe(result => {
-			console.log(result);
+		dialogRef.afterClosed().flatMap(result => {
+      if (!result) {
+        return of(null);
+      }
+      result.template.subjectIds = [ result.selectedCategory ];
+      dialogResult = result;
+      this.snackBar.open(`Меняем пропсы шаблона`, 'Закрыть');
+
+      return this.templatesData.createTemplate(result.template);
+    }).subscribe(result => {
+      if (result) {
+        this.snackBar.open(`Пропсы изменены`, 'Закрыть', {
+          duration: 2000
+        });
+        this.template = dialogResult.template;
+      }
 		});
 	}
 }
