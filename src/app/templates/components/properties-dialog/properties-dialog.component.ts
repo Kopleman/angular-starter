@@ -34,7 +34,7 @@ export class PropertiesDialogComponent implements OnInit{
       controls[`title-${key}`] = [null, Validators.required];
       controls[`tag-${key}`] = [null, null];
       let tags = this.data.template.i18nTags[key];
-      this.currentTags[key] = tags ? tags.join(',') : '';
+      this.data.newTags[key] = tags ? tags.join(',') : '';
     });
     this.propertiesForm = this.formBuilder.group(controls);
     this.whiteLabelsData.getWhiteLabels().subscribe((wls) => {

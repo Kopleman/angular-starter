@@ -83,6 +83,11 @@ export class TemplatesData {
   }
 
   public updateSettings(template: ITemplate) {
-
+    return this.api.put(`admin/rest/templates/${template._id}/saveProps`, {
+      subjectIds: template.subjectIds,
+      whitelabelsIds: template.whitelabelsIds,
+      i18nTitles: template.i18nTitles,
+      i18nTags: template.i18nTags
+    });
   }
 }

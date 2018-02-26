@@ -21,4 +21,5 @@ export interface IChangePropsDialogData {
   subjects: ISubject[];
   selectedSubject: string;
   selectedWhiteLabel: string;
+  newTags: { [key: string]: string };
 }

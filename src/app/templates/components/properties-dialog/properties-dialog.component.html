@@ -22,7 +22,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field fxFlex [ngClass]="group.value === lang ? 'visible': 'not-visible'">
-        <input matInput placeholder="Тэг шаблона {{lang}}"  [(ngModel)]="currentTags[lang]" (ngModelChange)='onTagsChange(lang)' [formControlName]="'tag-' + lang">
+        <input matInput placeholder="Тэг шаблона {{lang}}"  [(ngModel)]="data.newTags[lang]" [formControlName]="'tag-' + lang">
       </mat-form-field>
     </div>
     <div class="sep-line"></div>

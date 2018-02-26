@@ -260,7 +260,8 @@ export class TemplateListItemComponent implements OnInit {
 				selectedSubject: this.template.subjectIds[0],
 				selectedWhiteLabel: this.template.whitelabelsIds.length
 					? this.template.whitelabelsIds[0]
-					: ''
+					: '',
+        newTags: {}
 			}
 		});
 
@@ -268,11 +269,14 @@ export class TemplateListItemComponent implements OnInit {
       if (!result) {
         return of(null);
       }
-      result.template.subjectIds = [ result.selectedCategory ];
+      result.template.subjectIds = [ result.selectedSubject ];
+      _.forEach(result.newTags, (tags, lang) => {
+        result.template.i18nTags[lang] = tags.split(',').map((v) => v.trim());
+      });
       dialogResult = result;
       this.snackBar.open(`Меняем пропсы шаблона`, 'Закрыть');
 
-      return this.templatesData.createTemplate(result.template);
+      return this.templatesData.updateSettings(result.template);
     }).subscribe(result => {
       if (result) {
         this.snackBar.open(`Пропсы изменены`, 'Закрыть', {
@@ -280,6 +284,12 @@ export class TemplateListItemComponent implements OnInit {
         });
         this.template = dialogResult.template;
       }
-		});
+		},
+    errorResp => {
+      this.snackBar.open(
+        `Произошла ошибка при изминение пропсов: ${errorResp.error.message}`,
+        'Закрыть'
+      );
+    });
 	}
 }
