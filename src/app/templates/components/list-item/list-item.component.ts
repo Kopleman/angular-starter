@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Inject,
+	Input,
+	OnInit,
+	Output
+} from '@angular/core';
 import {
 	MatDialog,
 	MatSlideToggleChange,
 	MatSnackBar
 } from '@angular/material';
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/mergeMap';
+import * as _ from 'lodash';
 
 import { TemplatesData } from '../../services/templates-data';
 import { ISubject } from '../../models/subject';
@@ -12,9 +21,8 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
-import { of } from 'rxjs/observable/of';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
-import * as _ from 'lodash';
+import { APP_CONFIG, AppConfig } from '../../../config.module';
 
 /**
  * Копонента карточки шаблона
@@ -36,7 +44,8 @@ export class TemplateListItemComponent implements OnInit {
 		private userData: AuthService,
 		private templatesData: TemplatesData,
 		private snackBar: MatSnackBar,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		@Inject(APP_CONFIG) private config: AppConfig
 	) {}
 
 	public ngOnInit() {
@@ -69,6 +78,12 @@ export class TemplateListItemComponent implements OnInit {
 
 	public filterByCategory(category) {
 		this.onFilterChange.emit({ searchStr: '', selectedCategory: category });
+	}
+
+	public getTemplatePreviewUrl(lang) {
+		return `${this.config.host}preview/template_${this.template._id}${
+			lang !== 'ru' ? `_${lang}` : ``
+		}`;
 	}
 
 	public translateSubjects(subjects: string[]) {
@@ -261,35 +276,42 @@ export class TemplateListItemComponent implements OnInit {
 				selectedWhiteLabel: this.template.whitelabelsIds.length
 					? this.template.whitelabelsIds[0]
 					: '',
-        newTags: {}
+				newTags: {}
 			}
 		});
 
-		dialogRef.afterClosed().flatMap(result => {
-      if (!result) {
-        return of(null);
-      }
-      result.template.subjectIds = [ result.selectedSubject ];
-      _.forEach(result.newTags, (tags, lang) => {
-        result.template.i18nTags[lang] = tags.split(',').map((v) => v.trim());
-      });
-      dialogResult = result;
-      this.snackBar.open(`Меняем пропсы шаблона`, 'Закрыть');
+		dialogRef
+			.afterClosed()
+			.flatMap(result => {
+				if (!result) {
+					return of(null);
+				}
+				result.template.subjectIds = [result.selectedSubject];
+				_.forEach(result.newTags, (tags, lang) => {
+					result.template.i18nTags[lang] = tags.split(',').map(v => v.trim());
+				});
+				dialogResult = result;
+				this.snackBar.open(`Меняем пропсы шаблона`, 'Закрыть');
 
-      return this.templatesData.updateSettings(result.template);
-    }).subscribe(result => {
-      if (result) {
-        this.snackBar.open(`Пропсы изменены`, 'Закрыть', {
-          duration: 2000
-        });
-        this.template = dialogResult.template;
-      }
-		},
-    errorResp => {
-      this.snackBar.open(
-        `Произошла ошибка при изминение пропсов: ${errorResp.error.message}`,
-        'Закрыть'
-      );
-    });
+				return this.templatesData.updateSettings(result.template);
+			})
+			.subscribe(
+				result => {
+					if (result) {
+						this.snackBar.open(`Пропсы изменены`, 'Закрыть', {
+							duration: 2000
+						});
+						this.template = dialogResult.template;
+					}
+				},
+				errorResp => {
+					this.snackBar.open(
+						`Произошла ошибка при изминение пропсов: ${
+							errorResp.error.message
+						}`,
+						'Закрыть'
+					);
+				}
+			);
 	}
 }

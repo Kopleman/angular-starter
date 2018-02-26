@@ -107,7 +107,7 @@
         <div class="info-col" fxFlex fxFlexFill >
           <div class="header">Локали</div>
           <div fxLayoutAlign="start start" class="langs" fxLayout="row wrap">
-            <a href="#" *ngFor="let lang of getTempalateLangs()">{{ lang }}</a>
+            <a [href]="getTemplatePreviewUrl(lang)" *ngFor="let lang of getTempalateLangs()" target="_blank">{{ lang }}</a>
           </div>
         </div>
       </div>
