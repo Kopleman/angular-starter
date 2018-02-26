@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpClient,
   HttpErrorResponse,
@@ -13,6 +13,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/share';
+import { APP_CONFIG, AppConfig } from '../../config.module';
 
 /**
  * Обертка над ангуларовым HttpClient для работы с бэкендом
@@ -23,7 +24,7 @@ export class Api {
    * Хост для запросов, с настроеным на нем CORS(!)
    * @type {string}
    */
-	private apiHost: string = 'https://ulight15.uid.me/';
+	private apiHost: string;
   /**
    * Имутабельный обьект заголовков
    * Добавленый isSPA — костыль для текущего бэкенда(29.01.2018)
@@ -33,9 +34,11 @@ export class Api {
    */
 	private headers: HttpHeaders = new HttpHeaders({'isSPA': 'true'});
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+    @Inject(APP_CONFIG) private config: AppConfig
 	)
 	{
+	    this.apiHost = this.config.host;
 	}
 
   /**
