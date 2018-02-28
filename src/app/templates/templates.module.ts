@@ -18,49 +18,43 @@ import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
-import { PropertiesDialogComponent } from './components/properties-dialog/properties-dialog.component';
+import { PropertiesDialogComponent }
+  from './components/properties-dialog/properties-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
 
 const DIALOG_COMPONENTS = [
-  CloneDialogComponent,
-  CreateDialogComponent,
-  PropertiesDialogComponent
+	CloneDialogComponent,
+	CreateDialogComponent,
+	PropertiesDialogComponent
 ];
 
 export const TEMPLATE_COMPONENTS = [
-  TemplatesPageComponent,
-  TemplatesListComponent,
-  TemplateListItemComponent,
-  TopBarComponent,
-  ColorThemesComponent,
-  ...
-  DIALOG_COMPONENTS
+	TemplatesPageComponent,
+	TemplatesListComponent,
+	TemplateListItemComponent,
+	TopBarComponent,
+	ColorThemesComponent,
+	...DIALOG_COMPONENTS
 ];
 
 @NgModule({
-  declarations: [
-    TEMPLATE_COMPONENTS,
-    MomentDate,
-  ],
-  imports: [
-    CommonModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    RouterModule.forChild([
-      { path: 'templates', component: TemplatesPageComponent, canActivate: [ AuthGuard ] }
-    ])
-  ],
-  entryComponents: DIALOG_COMPONENTS,
-  exports: [
-    TEMPLATE_COMPONENTS
-  ],
-  providers: [
-    TemplatesData,
-    SubjectsData,
-    UsersData,
-    WhiteLabelsData
-  ],
+	declarations: [TEMPLATE_COMPONENTS, MomentDate],
+	imports: [
+		CommonModule,
+		FlexLayoutModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MaterialModule,
+		RouterModule.forChild([
+			{
+				path: 'templates',
+				component: TemplatesPageComponent,
+				canActivate: [AuthGuard]
+			}
+		])
+	],
+	entryComponents: DIALOG_COMPONENTS,
+	exports: [TEMPLATE_COMPONENTS],
+	providers: [TemplatesData, SubjectsData, UsersData, WhiteLabelsData]
 })
 export class TemplatesModule {}
