@@ -94,7 +94,7 @@ export class Api {
 
 		let options = {
 			headers: this.headers,
-      withCredentials: true
+      withCredentials
 		};
 
 		return (
