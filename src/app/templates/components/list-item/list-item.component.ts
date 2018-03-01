@@ -17,7 +17,7 @@ import * as _ from 'lodash';
 
 import { TemplatesData } from '../../services/templates-data';
 import { ISubject } from '../../models/subject';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from '../../../auth/services/auth';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import { ITemplate, ITemplateFilters } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';

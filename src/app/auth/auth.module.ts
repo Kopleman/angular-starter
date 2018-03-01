@@ -4,7 +4,7 @@ import { LoginPageComponent } from './containers/login.component';
 
 import { MaterialModule } from '../material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/auth';
 import { AuthGuard } from './guards/auth';
 import { NoAuthGuard } from './guards/no-auth';
 import { RootAuthModule } from './root-auth.module';

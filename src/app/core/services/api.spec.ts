@@ -1,8 +1,8 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Api } from './api';
-import { APP_CONFIG, APP_DI_CONFIG, AppConfig, AppConfigModule } from '../../config.module';
+import { APP_DI_CONFIG, AppConfigModule } from '../../config.module';
 import { catchError } from 'rxjs/operators';
 
 interface IMockOkResponse {

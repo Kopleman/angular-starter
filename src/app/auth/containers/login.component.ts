@@ -4,7 +4,7 @@ import {
 	FormGroup,
 	Validators
 } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../services/auth';
 import { Router } from '@angular/router';
 @Component({
 	selector: 'login-page',
