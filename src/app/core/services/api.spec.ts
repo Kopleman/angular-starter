@@ -62,7 +62,7 @@ describe('Api service', () => {
 					answer =>
 						expect(answer).toEqual(
 							expectedAnswer,
-							'should return expected heroes'
+							'should return expected answer'
 						),
 					fail
 				);
