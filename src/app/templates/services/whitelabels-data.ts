@@ -11,10 +11,14 @@ export class WhiteLabelsData {
 
   public getWhiteLabels() {
     if(!this.whiteLabels$) {
-      this.whiteLabels$ = this.api.get<IWhiteLabel[], null>(
-        'admin/rest/whitelables'
-      ).shareReplay(1);
+      this.whiteLabels$ = this._getWhiteLabels();
     }
     return this.whiteLabels$;
+  }
+  
+  private _getWhiteLabels() {
+    return this.api.get<IWhiteLabel[], null>(
+      'admin/rest/whitelables'
+    ).shareReplay(1);
   }
 }
