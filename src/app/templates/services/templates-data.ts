@@ -74,7 +74,7 @@ export class TemplatesData {
 		});
 	}
 
-	public publishDemo(templateId: string, mode: string) {
+	public publishDemo(templateId: string, mode: 'normal' | 'compile') {
     return this.api.get(`admin/rest/templates/${templateId}/demo`, {mode});
   }
 
