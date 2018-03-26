@@ -65,20 +65,24 @@
         </div>
       </div>
       <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
-        <div class="info-col" fxFlex *ngIf="template.sourceTemplate !== 'none'">
-          <div class="header">Оригинал</div>
-          <div>
-            <span class="inline-button" (click)="filterByName(template.sourceTemplate)">{{template.sourceTemplate}}</span>
-          </div>
-        </div>
         <div class="status" fxFlex *ngIf="template.status === 'complete'">
           <mat-icon aria-hidden="true">done</mat-icon>
           <span>Опубликован</span>
         </div>
+        <div class="status not-ready" fxFlex *ngIf="template.status !== 'complete'">
+          <mat-icon aria-hidden="true">close</mat-icon>
+          <span>Не опубликован</span>
+        </div>
+        <div class="info-col" fxFlex *ngIf="template.sourceTemplate !== 'none'">
+          <div class="header">Оригинал</div>
+          <div>
+            <span class="inline-button" (click)="filterByName(template.sourceTemplate + '|' + template._id)">{{template.sourceTemplate}}</span>
+          </div>
+        </div>
         <div class="info-col" fxFlex *ngIf="template.cloneNames.length">
           <div class="header">Клоны</div>
           <div class="clones" fxLayout="row wrap">
-            <a *ngFor="let cloneName of template.cloneNames" (click)="filterByName(cloneName)">{{ cloneName }}</a>
+            <a *ngFor="let cloneName of template.cloneNames" (click)="filterByName(template._id + '|' + cloneName)">{{ cloneName }}</a>
           </div>
         </div>
       </div>
@@ -96,13 +100,13 @@
         </div>
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Изменен в конструкторе</div>
-          <div>{{ template.editHistory.length ? template.editHistory[0].time : '' | myMomentDate }}</div>
+          <div>{{ template.editHistory.length ? (template.editHistory[0].time | myMomentDate) : ''}}</div>
           <div>{{ template.editHistory.length ? template.editHistory[0].user : ''}}</div>
         </div>
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Изменен в gulp</div>
-          <div>{{ template.editHistory.length ? template.editHistory[0].time : '' | myMomentDate }}</div>
-          <div>{{ template.editHistory.length ? template.editHistory[0].user : ''}}</div>
+          <div>{{ template.lessEditHistory.length ? (template.lessEditHistory[0].time | myMomentDate) : ''  }}</div>
+          <div>{{ template.lessEditHistory.length ? template.lessEditHistory[0].user : ''}}</div>
         </div>
         <div class="info-col" fxFlex fxFlexFill >
           <div class="header">Локали</div>

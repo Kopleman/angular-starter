@@ -30,7 +30,7 @@ export class AuthService {
 		};
 
 		return this.api
-			.post<ILoginResponse, ILoginModel>('login', data, false)
+			.post<ILoginResponse, ILoginModel>('login', data, true)
 			.do(response => {
 				localStorage.setItem(this.PROFILE, JSON.stringify(response.user));
         localStorage.setItem(this.LOGGEDIN, JSON.stringify(true));

@@ -49,7 +49,7 @@ export class TemplateListItemComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-		this.userRole = this.userData.getProfile().getValue().role;
+		this.userRole = this.userData.getProfile().getValue().role
 	}
 
 	public isPermitted() {

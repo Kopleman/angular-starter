@@ -16,6 +16,11 @@ export interface IEditHistory {
   time: string;
 }
 
+export interface ILessEditHistory {
+  user: string;
+  time: string;
+}
+
 export interface IColorThemeBlock {
   preview: string[];
   previewColorBlock: string[];
@@ -37,6 +42,7 @@ export interface ITemplate {
     email: string;
   };
   editHistory: IEditHistory[];
+  lessEditHistory: ILessEditHistory[];
   i18nTitles: { [key: string]: string };
   i18nTags: { [key: string]: string[] };
   sourceTemplate: string;

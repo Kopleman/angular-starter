@@ -51,10 +51,15 @@
         }
         .status {
           color: #4caf50;
+          &.not-ready {
+            color: #f40018;
+          }
+
           span {
-            font-size: 20px;
-            line-height: 24px;
-            vertical-align: text-bottom;
+            vertical-align: super;
+            //font-size: 20px;
+            //line-height: 24px;
+            //vertical-align: text-bottom;
           }
         }
       }
