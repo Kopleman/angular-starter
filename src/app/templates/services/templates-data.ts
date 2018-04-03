@@ -90,4 +90,8 @@ export class TemplatesData {
       i18nTags: template.i18nTags
     });
   }
+
+  public commitTemplate(templateId: string) {
+    return this.api.get(`admin/rest/templates/${templateId}/commit`);
+  }
 }

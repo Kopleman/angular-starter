@@ -314,4 +314,29 @@ export class TemplateListItemComponent implements OnInit {
 				}
 			);
 	}
+
+	public commit() {
+    this.snackBar.open(
+      `Коммитим шаблон ${this.template._id}`,
+      'Закрыть'
+    );
+    this.templatesData.commitTemplate(this.template._id).subscribe(
+      () => {
+        this.snackBar.open(
+          `Шаблон ${this.template._id} закомичен`,
+          'Закрыть',
+          {
+            duration: 2000
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+        this.snackBar.open(
+          `Не удалось закомитеть ${this.template._id}`,
+          'Закрыть'
+        );
+      }
+    );
+  }
 }

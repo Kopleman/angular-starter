@@ -57,6 +57,10 @@
               <mat-icon>autorenew</mat-icon>
               <span>Settings.json</span>
             </button>
+            <button mat-menu-item *ngIf="(isPermitted())" (click)="commit()">
+              <mat-icon>fast_forward</mat-icon>
+              <span>Commit</span>
+            </button>
             <button mat-menu-item (click)="deleteTemplate()">
               <mat-icon>delete</mat-icon>
               <span>Удалить</span>
