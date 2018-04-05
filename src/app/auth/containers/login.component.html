@@ -15,6 +15,7 @@
         <strong>Введите пароль</strong>
       </mat-error>
     </mat-form-field>
+    <div class="on-server-error g-warn-color" *ngIf="errorMessage">{{ errorMessage }}</div>
     <div class="spacer"></div>
     <button mat-raised-button (click)="onLogin()" [disabled]="!loginForm.valid">Логин</button>
   </form>

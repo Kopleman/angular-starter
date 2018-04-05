@@ -10,6 +10,7 @@ require('zone.js/dist/long-stack-trace-zone');
 export const environment: Environment = {
   production: false,
   host: 'https://ulight15.uid.me/',
+  //host: 'https://ulight12.uid.me/',
   showDevModule: true,
 
   /** Angular debug tools in the dev console

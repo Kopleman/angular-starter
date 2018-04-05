@@ -34,8 +34,7 @@ export class LoginPageComponent implements OnInit {
 					this.router.navigate(['/templates']);
 				},
 				response => {
-					console.log(response);
-					this.errorMessage = response.error;
+					this.errorMessage = response.error.error;
 				}
 			);
 	}
