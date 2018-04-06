@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/shareReplay';
 
 import { Api } from '../../core/services/api';
 import {
   ITemplate,
-  ITemplateCreateReq,
+  ITemplateCreateReq, ITemplateDemoHost,
   ITemplateFilters,
   ITemplateGulpStatusResponse,
   ITemplateQueryParams,
@@ -14,6 +15,7 @@ import {
 
 @Injectable()
 export class TemplatesData {
+  private demoHosts$: Observable<ITemplateDemoHost[]>;
 	constructor(private api: Api) {}
 
 	/**
@@ -74,8 +76,16 @@ export class TemplatesData {
 		});
 	}
 
-	public publishDemo(templateId: string, mode: 'normal' | 'compile') {
-    return this.api.get(`admin/rest/templates/${templateId}/demo`, {mode});
+
+  public getAvailableDemoHosts() {
+    if(!this.demoHosts$) {
+      this.demoHosts$ = this._getAvailableDemoHosts();
+    }
+    return this.demoHosts$;
+  }
+
+	public publishDemo(templateId: string, host: string) {
+    return this.api.get(`admin/rest/templates/demo/${templateId}/${host}`);
   }
 
   public createTemplate(data: ITemplateCreateReq) {
@@ -93,5 +103,10 @@ export class TemplatesData {
 
   public commitTemplate(templateId: string) {
     return this.api.get(`admin/rest/templates/${templateId}/commit`);
+  }
+
+  private _getAvailableDemoHosts() {
+    return this.api.get<ITemplateDemoHost[], null>(`admin/rest/templates/getAvailableDemoHosts`)
+      .shareReplay(1);
   }
 }

@@ -19,10 +19,11 @@ import { TemplatesData } from '../../services/templates-data';
 import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
-import { ITemplate, ITemplateFilters } from '../../models/template';
+import { ITemplate, ITemplateDemoHost, ITemplateFilters } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
+import { Observable } from 'rxjs/Observable';
 
 /**
  * Копонента карточки шаблона
@@ -40,6 +41,7 @@ export class TemplateListItemComponent implements OnInit {
 	@Output()
 	public onDelete: EventEmitter<{ templateId: string }> = new EventEmitter();
 	public userRole: string;
+	public demoHosts$: Observable<ITemplateDemoHost[]>;
 	constructor(
 		private userData: AuthService,
 		private templatesData: TemplatesData,
@@ -49,7 +51,8 @@ export class TemplateListItemComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-		this.userRole = this.userData.getProfile().getValue().role
+		this.userRole = this.userData.getProfile().getValue().role;
+		this.demoHosts$ = this.templatesData.getAvailableDemoHosts();
 	}
 
 	public isPermitted() {

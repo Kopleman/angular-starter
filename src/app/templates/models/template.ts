@@ -1,5 +1,3 @@
-import { IWhiteLabel } from './whitelabel';
-
 export interface ITemplateFilters {
   searchStr?: string;
   selectedCategory?: string;
@@ -67,4 +65,10 @@ export interface ITemplateCreateReq {
   title: string;
   subjectIds: string[];
   about: string;
+}
+
+export interface ITemplateDemoHost {
+  label: string;
+  host: string;
+  withDeploy?: boolean;
 }

@@ -21,11 +21,8 @@
             Demo
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="makeDemo('normal')">
-              <span>На 14</span>
-            </button>
-            <button mat-menu-item (click)="makeDemo('compile')">
-              <span>На 23</span>
+            <button mat-menu-item *ngFor="let demoHost of demoHosts$ | async" (click)="makeDemo(demoHost.host)">
+              <span>{{ demoHost.label }}</span>
             </button>
           </mat-menu>
           <mat-slide-toggle [checked]="template.gulpStatus === 'online'" (change)="changeGulpStatus($event)">Gulp</mat-slide-toggle>
