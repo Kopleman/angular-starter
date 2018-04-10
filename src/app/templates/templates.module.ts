@@ -13,7 +13,6 @@ import { TemplateListItemComponent } from './components/list-item/list-item.comp
 import { ColorThemesComponent } from './components/color-themes/color-themes.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 
-import { MomentDate } from '../shared/pipes/moment-date';
 import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
@@ -21,6 +20,7 @@ import { CreateDialogComponent } from './components/create-dialog/create-dialog.
 import { PropertiesDialogComponent }
   from './components/properties-dialog/properties-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
+import { SharedModule } from '../shared/shared.module';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -38,13 +38,14 @@ export const TEMPLATE_COMPONENTS = [
 ];
 
 @NgModule({
-	declarations: [TEMPLATE_COMPONENTS, MomentDate],
+	declarations: [TEMPLATE_COMPONENTS],
 	imports: [
 		CommonModule,
 		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
+    SharedModule,
 		RouterModule.forChild([
 			{
 				path: 'templates',

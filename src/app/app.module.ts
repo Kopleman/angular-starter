@@ -14,37 +14,36 @@ import { AppComponent } from './core/containers/app.component';
 import { TemplatesModule } from './templates/templates.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
+import { SubjectsModule } from './subjects/subjects.module';
 
 // Application wide providers
 const APP_PROVIDERS = [];
-
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
-  /**
-   * Import Angular's modules.
-   */
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    RouterModule.forRoot(ROUTES, {
-      useHash: Boolean(history.pushState) === false,
-      preloadingStrategy: PreloadAllModules
-    }),
-    AppConfigModule,
-    CoreModule,
-    AuthModule,
-    TemplatesModule
-  ],
-  /**
-   * Expose our Services and Providers into Angular's dependency injection.
-   */
-  providers: [
-    APP_PROVIDERS
-  ]
+	bootstrap: [AppComponent],
+	/**
+	 * Import Angular's modules.
+	 */
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		HttpClientModule,
+		RouterModule.forRoot(ROUTES, {
+			useHash: Boolean(history.pushState) === false,
+			preloadingStrategy: PreloadAllModules
+		}),
+		AppConfigModule,
+		CoreModule,
+		AuthModule,
+		TemplatesModule,
+		SubjectsModule
+	],
+	/**
+	 * Expose our Services and Providers into Angular's dependency injection.
+	 */
+	providers: [APP_PROVIDERS]
 })
 export class AppModule {}
