@@ -17,10 +17,10 @@ export class TopBarComponent implements OnInit {
 	public filters: ITemplateFilters = {
 		searchStr: '',
 		selectedCategory: '',
-		sortBy: 'title'
+		sortBy: '_id'
 	};
   public sortOptions = [
-    {label: 'по имени', value: 'title'},
+    {label: 'по id', value: '_id'},
     {label: 'по дате редактирования', value: 'dateEdit'},
     {label: 'по дате изменения gulp', value: 'lessEditHistory'},
     {label: 'по дате создания', value: 'dateCreate'},

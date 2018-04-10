@@ -26,7 +26,7 @@ export class TemplatesPageComponent implements OnInit {
 	public filters: ITemplateFilters = {
 		searchStr: '',
 		selectedCategory: '',
-    sortBy: 'title'
+    sortBy: '_id'
 	};
 	constructor(
 		private templatesData: TemplatesData,
@@ -53,6 +53,7 @@ export class TemplatesPageComponent implements OnInit {
 
 	public filterCollection(filters: ITemplateFilters) {
 		this.filters = filters;
+		this.filters.sortBy = '_id';
 		this.pageIndex = 0;
 		return this.getTemplates(this.pageIndex, this.pageSize);
 	}
