@@ -1,4 +1,12 @@
 <div class="top-bar mat-elevation-z6" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px">
+  <div class="sorts">
+    <label for="sort-select">Сортировать по:</label>
+    <mat-form-field>
+      <mat-select id="sort-select" name="sortCategory" [(ngModel)]="filters.sortBy" [formControl]="sortControl">
+        <mat-option *ngFor="let option of sortOptions" [value]="option.value">{{option.label}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
   <div class="categories">
     <label for="category-select">Категория:</label>
     <mat-form-field>

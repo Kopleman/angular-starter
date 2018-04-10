@@ -12,42 +12,55 @@ import { ITemplateFilters } from '../../models/template';
 	templateUrl: './top-bar.component.html'
 })
 export class TopBarComponent implements OnInit {
-  @Input()
-  public subjects: ISubject[];
-  @Input()
-  public filters: ITemplateFilters = {
-    searchStr: '',
-    selectedCategory: ''
-  };
-
+	@Input() public subjects: ISubject[];
+	@Input()
+	public filters: ITemplateFilters = {
+		searchStr: '',
+		selectedCategory: '',
+		sortBy: 'title'
+	};
+  public sortOptions = [
+    {label: 'по имени', value: 'title'},
+    {label: 'по дате редактирования', value: 'dateEdit'},
+    {label: 'по дате изменения gulp', value: 'lessEditHistory'},
+    {label: 'по дате создания', value: 'dateCreate'},
+  ];
 	@Output()
 	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
 
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
-
+  public sortControl = new FormControl();
 	public ngOnInit() {
 		this.bindControls();
 	}
 
 	public bindControls() {
-    this.searchControl.valueChanges
-      .debounceTime(500)
-      .skip(1)
-      .distinctUntilChanged()
-      .subscribe(searchValue => {
-        this.filters.searchStr = searchValue;
-        this.onFilterChange.emit(this.filters);
-      });
+		this.searchControl.valueChanges
+			.debounceTime(500)
+			.skip(1)
+			.distinctUntilChanged()
+			.subscribe(searchValue => {
+				this.filters.searchStr = searchValue;
+				this.onFilterChange.emit(this.filters);
+			});
 
-    this.categoryControl.valueChanges
+		this.categoryControl.valueChanges
+			.distinctUntilChanged()
+			.skip(1)
+			.subscribe(categoryValue => {
+				this.filters.selectedCategory = categoryValue;
+				this.onFilterChange.emit(this.filters);
+			});
+
+    this.sortControl.valueChanges
       .distinctUntilChanged()
       .skip(1)
-      .subscribe(categoryValue => {
-        this.filters.selectedCategory = categoryValue;
+      .subscribe(sortValue => {
+        this.filters.sortBy = sortValue;
         this.onFilterChange.emit(this.filters);
       });
-  }
+	}
 
 	public clearSearch() {
 		this.searchControl.setValue('');

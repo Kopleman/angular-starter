@@ -25,7 +25,8 @@ export class TemplatesPageComponent implements OnInit {
 	public inProgress: boolean = false;
 	public filters: ITemplateFilters = {
 		searchStr: '',
-		selectedCategory: ''
+		selectedCategory: '',
+    sortBy: 'title'
 	};
 	constructor(
 		private templatesData: TemplatesData,

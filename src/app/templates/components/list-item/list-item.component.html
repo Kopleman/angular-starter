@@ -105,7 +105,7 @@
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Создан</div>
           <div>{{ template.dateCreate | myMomentDate}}</div>
-          <div>{{ template.author.email }}</div>
+          <div>{{ template.author ? template.author.email : 'Нет автора' }}</div>
         </div>
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Изменен в конструкторе</div>

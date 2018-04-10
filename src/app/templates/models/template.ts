@@ -1,6 +1,7 @@
 export interface ITemplateFilters {
 	searchStr?: string;
 	selectedCategory?: string;
+	sortBy?: string;
 }
 
 export interface ITemplateQueryParams extends ITemplateFilters {
