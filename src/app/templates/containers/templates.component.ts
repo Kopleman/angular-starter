@@ -52,7 +52,8 @@ export class TemplatesPageComponent implements OnInit {
 
 	public filterCollection(filters: ITemplateFilters) {
 		this.filters = filters;
-		return this.getTemplates(0, this.pageSize);
+		this.pageIndex = 0;
+		return this.getTemplates(this.pageIndex, this.pageSize);
 	}
 
 	public refresh() {

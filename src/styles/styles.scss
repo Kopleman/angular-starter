@@ -8,7 +8,7 @@
 @import '../app/templates/components/clone-dialog/clone-dialog-theme';
 
 $primary: mat-palette($mat-indigo);
-$accent:  mat-palette($mat-pink, $default, $lighter, $darker);
+$accent:  mat-palette($mat-amber, $default, $lighter, $darker);
 //$primary: mat-palette($mat-pink);
 //$accent:  mat-palette($mat-indigo, A200, A100, A400);
 

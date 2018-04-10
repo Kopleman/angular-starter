@@ -23,7 +23,7 @@
 
       .type {
         &.prototype {
-          background: mat-color($warn);
+          background: mat-color($accent);
         }
 
         &.parent {
@@ -31,7 +31,7 @@
         }
 
         &.clone {
-          background: mat-color($accent);
+          background: mat-color($warn, A700);
         }
       }
     }

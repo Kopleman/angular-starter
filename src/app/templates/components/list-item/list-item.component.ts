@@ -19,7 +19,11 @@ import { TemplatesData } from '../../services/templates-data';
 import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
-import { ITemplate, ITemplateDemoHost, ITemplateFilters } from '../../models/template';
+import {
+	ITemplate,
+	ITemplateHost,
+	ITemplateFilters
+} from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
@@ -41,7 +45,8 @@ export class TemplateListItemComponent implements OnInit {
 	@Output()
 	public onDelete: EventEmitter<{ templateId: string }> = new EventEmitter();
 	public userRole: string;
-	public demoHosts$: Observable<ITemplateDemoHost[]>;
+	public demoHosts$: Observable<ITemplateHost[]>;
+	public pubHosts$: Observable<ITemplateHost[]>;
 	constructor(
 		private userData: AuthService,
 		private templatesData: TemplatesData,
@@ -53,6 +58,7 @@ export class TemplateListItemComponent implements OnInit {
 	public ngOnInit() {
 		this.userRole = this.userData.getProfile().getValue().role;
 		this.demoHosts$ = this.templatesData.getAvailableDemoHosts();
+		this.pubHosts$ = this.templatesData.getAvailablePubHosts();
 	}
 
 	public isPermitted() {
@@ -246,9 +252,9 @@ export class TemplateListItemComponent implements OnInit {
 			);
 	}
 
-	public makeDemo(mode: 'normal' | 'compile' = 'normal') {
-		this.snackBar.open(`Публикуем шаблон на demo-сервер`, 'Закрыть');
-		this.templatesData.publishDemo(this.template._id, mode).subscribe(
+	public makeDemo(host: string) {
+		this.snackBar.open(`Публикуем шаблон на demo-сервер - ${host}`, 'Закрыть');
+		this.templatesData.publishDemo(this.template._id, host).subscribe(
 			() => {
 				this.snackBar.open(`Публикация завершена`, 'Закрыть', {
 					duration: 2000
@@ -257,6 +263,23 @@ export class TemplateListItemComponent implements OnInit {
 			errorResp => {
 				this.snackBar.open(
 					`Произошла ошибка при demo-публикации: ${errorResp.error.message}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
+
+	public publish(host: string) {
+		this.snackBar.open(`Публикуем шаблон на сервер - ${host}`, 'Закрыть');
+		this.templatesData.publish(this.template._id, host).subscribe(
+			() => {
+				this.snackBar.open(`Публикация завершена`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(
+					`Произошла ошибка при публикации: ${errorResp.error.message}`,
 					'Закрыть'
 				);
 			}
@@ -319,27 +342,20 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public commit() {
-    this.snackBar.open(
-      `Коммитим шаблон ${this.template._id}`,
-      'Закрыть'
-    );
-    this.templatesData.commitTemplate(this.template._id).subscribe(
-      () => {
-        this.snackBar.open(
-          `Шаблон ${this.template._id} закомичен`,
-          'Закрыть',
-          {
-            duration: 2000
-          }
-        );
-      },
-      (error) => {
-        console.log(error);
-        this.snackBar.open(
-          `Не удалось закомитеть ${this.template._id}`,
-          'Закрыть'
-        );
-      }
-    );
-  }
+		this.snackBar.open(`Коммитим шаблон ${this.template._id}`, 'Закрыть');
+		this.templatesData.commitTemplate(this.template._id).subscribe(
+			() => {
+				this.snackBar.open(`Шаблон ${this.template._id} закомичен`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			error => {
+				console.log(error);
+				this.snackBar.open(
+					`Не удалось закомитеть ${this.template._id}`,
+					'Закрыть'
+				);
+			}
+		);
+	}
 }

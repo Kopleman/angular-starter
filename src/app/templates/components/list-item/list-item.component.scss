@@ -1,7 +1,5 @@
 .template-card {
   width: 960px;
-
-
   .info-col {
     font-size: 13px;
     font-weight: 500;
@@ -17,8 +15,6 @@
       }
     }
   }
-
-
 
   .top {
     position: relative;
@@ -40,9 +36,13 @@
         .controls {
           button {
             margin-right: 16px;
-            &:last-child {
+            &.settings-menu {
               margin-right: 0;
             }
+          }
+
+          .item {
+            display: inline-block;
           }
         }
         color-themes {

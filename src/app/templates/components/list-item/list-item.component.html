@@ -13,7 +13,7 @@
           </div>
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
         </div>
-        <div fxFlex="380px" class="controls">
+        <div fxFlex="470px" class="controls">
           <button mat-raised-button color="primary">
             Конструктор
           </button>
@@ -25,8 +25,16 @@
               <span>{{ demoHost.label }}</span>
             </button>
           </mat-menu>
+          <button mat-raised-button color="accent" [matMenuTriggerFor]="publishMenu">
+            Выкатка
+          </button>
+          <mat-menu #publishMenu="matMenu">
+            <button mat-menu-item *ngFor="let pubHost of pubHosts$ | async" (click)="publish(pubHost.host)">
+              <span>{{ pubHost.label }}</span>
+            </button>
+          </mat-menu>
           <mat-slide-toggle [checked]="template.gulpStatus === 'online'" (change)="changeGulpStatus($event)">Gulp</mat-slide-toggle>
-          <button mat-icon-button [matMenuTriggerFor]="settingsMenu">
+          <button mat-icon-button [matMenuTriggerFor]="settingsMenu" class="settings-menu">
             <mat-icon >menu</mat-icon>
           </button>
           <mat-menu #settingsMenu="matMenu">

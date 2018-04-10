@@ -5,17 +5,19 @@ import 'rxjs/add/operator/shareReplay';
 
 import { Api } from '../../core/services/api';
 import {
-  ITemplate,
-  ITemplateCreateReq, ITemplateDemoHost,
-  ITemplateFilters,
-  ITemplateGulpStatusResponse,
-  ITemplateQueryParams,
-  ITemplateResponse
+	ITemplate,
+	ITemplateCreateReq,
+	ITemplateHost,
+	ITemplateFilters,
+	ITemplateGulpStatusResponse,
+	ITemplateQueryParams,
+	ITemplateResponse
 } from '../models/template';
 
 @Injectable()
 export class TemplatesData {
-  private demoHosts$: Observable<ITemplateDemoHost[]>;
+	private demoHosts$: Observable<ITemplateHost[]>;
+	private pubHosts$: Observable<ITemplateHost[]>;
 	constructor(private api: Api) {}
 
 	/**
@@ -59,8 +61,8 @@ export class TemplatesData {
 	}
 
 	public compileAll() {
-    return this.api.get(`admin/rest/templates/compileAllTemplates`);
-  }
+		return this.api.get(`admin/rest/templates/compileAllTemplates`);
+	}
 
 	public createClone(
 		templateId: string,
@@ -76,37 +78,53 @@ export class TemplatesData {
 		});
 	}
 
+	public getAvailablePubHosts() {
+		if (!this.pubHosts$) {
+			this.pubHosts$ = this._getAvailablePubHosts().shareReplay(1);
+		}
+		return this.pubHosts$;
+	}
 
-  public getAvailableDemoHosts() {
-    if(!this.demoHosts$) {
-      this.demoHosts$ = this._getAvailableDemoHosts();
-    }
-    return this.demoHosts$;
-  }
+	public getAvailableDemoHosts() {
+		if (!this.demoHosts$) {
+			this.demoHosts$ = this._getAvailableDemoHosts().shareReplay(1);
+		}
+		return this.demoHosts$;
+	}
 
 	public publishDemo(templateId: string, host: string) {
-    return this.api.get(`admin/rest/templates/demo/${templateId}/${host}`);
-  }
+		return this.api.get(`admin/rest/templates/demo/${templateId}/${host}`);
+	}
+	public publish(templateId: string, host: string) {
+		return this.api.get(`admin/rest/templates/publish/${templateId}/${host}`);
+	}
 
-  public createTemplate(data: ITemplateCreateReq) {
-	  return this.api.post('admin/rest/templates', data);
-  }
+	public createTemplate(data: ITemplateCreateReq) {
+		return this.api.post('admin/rest/templates', data);
+	}
 
-  public updateSettings(template: ITemplate) {
-    return this.api.put(`admin/rest/templates/${template._id}/saveProps`, {
-      subjectIds: template.subjectIds,
-      whitelabelsIds: template.whitelabelsIds,
-      i18nTitles: template.i18nTitles,
-      i18nTags: template.i18nTags
-    });
-  }
+	public updateSettings(template: ITemplate) {
+		return this.api.put(`admin/rest/templates/${template._id}/saveProps`, {
+			subjectIds: template.subjectIds,
+			whitelabelsIds: template.whitelabelsIds,
+			i18nTitles: template.i18nTitles,
+			i18nTags: template.i18nTags
+		});
+	}
 
-  public commitTemplate(templateId: string) {
-    return this.api.get(`admin/rest/templates/${templateId}/commit`);
-  }
+	public commitTemplate(templateId: string) {
+		return this.api.get(`admin/rest/templates/${templateId}/commit`);
+	}
 
-  private _getAvailableDemoHosts() {
-    return this.api.get<ITemplateDemoHost[], null>(`admin/rest/templates/getAvailableDemoHosts`)
-      .shareReplay(1);
-  }
+	private _getAvailableDemoHosts() {
+		return this.api.get<ITemplateHost[], null>(
+			`admin/rest/templates/getAvailableDemoHosts`
+		);
+	}
+
+	private _getAvailablePubHosts() {
+		return this.api.get<ITemplateHost[], null>(
+			`admin/rest/templates/getAvailablePubHosts`
+		);
+	}
 }
