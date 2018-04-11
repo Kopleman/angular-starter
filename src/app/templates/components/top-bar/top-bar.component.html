@@ -12,7 +12,7 @@
     <mat-form-field>
       <mat-select id="category-select" name="selectedCategory" [(ngModel)]="filters.selectedCategory" [formControl]="categoryControl">
         <mat-option [value]="''">Все</mat-option>
-        <mat-option *ngFor="let subject of subjects" [value]="subject._id">{{subject.title}}</mat-option>
+        <mat-option *ngFor="let subject of subjects$ | async" [value]="subject._id">{{subject.title}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

@@ -51,7 +51,7 @@ describe('Subjects data service', () => {
         );
 
       const req = httpTestingController.expectOne(
-        `${host}admin/rest/subjects`
+        `${host}admin/rest/subjects/short`
       );
       expect(req.request.method).toEqual('GET');
 

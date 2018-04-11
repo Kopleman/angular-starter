@@ -1,7 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="16px" >
   <templates-list-item fxFlex *ngFor="let template of templates"
                        [template]="template"
-                       [subjects]="subjects"
                        (onFilterChange)="filterTemplates($event)"
                        (onDelete)="refresh($event)"></templates-list-item>
   <div *ngIf="templates && !templates.length"> Шаблонов удовлетворяющим критерям поиска нет </div>

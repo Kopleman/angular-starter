@@ -7,7 +7,7 @@
         </div>
         <div fxFlex="60%">
           <div class="subjects">
-             <span *ngFor="let subject of translateSubjects(template.subjectIds); let isLast=last" (click)="filterByCategory(subject._id)">
+             <span *ngFor="let subject of translateSubjects() | async; let isLast=last" (click)="filterByCategory(subject._id)">
               {{subject.title}}{{isLast ? '' : ', '}}
              </span>
           </div>

@@ -1,10 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import { ISubject } from '../../models/subject';
 import { ITemplateFilters } from '../../models/template';
+import { APP_CONFIG, AppConfig } from '../../../config.module';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { AuthService } from '../../../auth/services/auth';
+import { TemplatesData } from '../../services/templates-data';
+import { SubjectsData } from '../../services/subjects-data';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
 	selector: 'top-bar',
@@ -12,7 +18,7 @@ import { ITemplateFilters } from '../../models/template';
 	templateUrl: './top-bar.component.html'
 })
 export class TopBarComponent implements OnInit {
-	@Input() public subjects: ISubject[];
+	public subjects$: Observable<ISubject[]>;
 	@Input()
 	public filters: ITemplateFilters = {
 		searchStr: '',
@@ -31,8 +37,14 @@ export class TopBarComponent implements OnInit {
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
   public sortControl = new FormControl();
+
+  constructor(
+    private subjectsData: SubjectsData
+  ) {}
+
 	public ngOnInit() {
 		this.bindControls();
+		this.subjects$ = this.subjectsData.getSubjects();
 	}
 
 	public bindControls() {

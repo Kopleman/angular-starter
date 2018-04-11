@@ -13,6 +13,7 @@ import {
 } from '@angular/material';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/map';
 import * as _ from 'lodash';
 
 import { TemplatesData } from '../../services/templates-data';
@@ -28,6 +29,7 @@ import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { Observable } from 'rxjs/Observable';
+import { SubjectsData } from '../../services/subjects-data';
 
 /**
  * Копонента карточки шаблона
@@ -38,7 +40,7 @@ import { Observable } from 'rxjs/Observable';
 	templateUrl: './list-item.component.html'
 })
 export class TemplateListItemComponent implements OnInit {
-	@Input() public subjects: ISubject[];
+	public subjects$: Observable<ISubject[]>;
 	@Input() public template: ITemplate;
 	@Output()
 	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
@@ -50,6 +52,7 @@ export class TemplateListItemComponent implements OnInit {
 	constructor(
 		private userData: AuthService,
 		private templatesData: TemplatesData,
+		private subjectsData: SubjectsData,
 		private snackBar: MatSnackBar,
 		public dialog: MatDialog,
 		@Inject(APP_CONFIG) private config: AppConfig
@@ -59,6 +62,7 @@ export class TemplateListItemComponent implements OnInit {
 		this.userRole = this.userData.getProfile().getValue().role;
 		this.demoHosts$ = this.templatesData.getAvailableDemoHosts();
 		this.pubHosts$ = this.templatesData.getAvailablePubHosts();
+		this.subjects$ = this.subjectsData.getSubjects();
 	}
 
 	public isPermitted() {
@@ -95,13 +99,15 @@ export class TemplateListItemComponent implements OnInit {
 		}`;
 	}
 
-	public translateSubjects(subjects: string[]) {
-		let ret = [];
-		subjects.forEach(subjectId => {
-			let subject = _.find(this.subjects, s => s._id === subjectId);
-			ret.push(subject ? subject : { _id: subjectId, title: subjectId });
+	public translateSubjects() {
+		return this.subjects$.map(subjects => {
+			let ret: ISubject[] = [];
+			this.template.subjectIds.forEach(subjectId => {
+				let subject = _.find(subjects, s => s._id === subjectId);
+				ret.push(subject ? subject : { _id: subjectId, title: subjectId });
+			});
+			return ret;
 		});
-		return ret;
 	}
 
 	/**
@@ -297,7 +303,7 @@ export class TemplateListItemComponent implements OnInit {
 			panelClass: 'properties-dialog-component',
 			data: {
 				template: this.template,
-				subjects: this.subjects,
+				subjects$: this.subjects$,
 				selectedSubject: this.template.subjectIds[0],
 				selectedWhiteLabel: this.template.whitelabelsIds.length
 					? this.template.whitelabelsIds[0]

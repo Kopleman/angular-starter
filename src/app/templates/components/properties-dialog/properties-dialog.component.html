@@ -28,7 +28,7 @@
     <div class="sep-line"></div>
     <mat-form-field>
       <mat-select placeholder="Категория" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >
-        <mat-option *ngFor="let subject of data.subjects" [value]="subject._id">{{subject.title}}</mat-option>
+        <mat-option *ngFor="let subject of data.subjects$ | async" [value]="subject._id">{{subject.title}}</mat-option>
       </mat-select>
       <mat-error *ngIf="propertiesForm.get('selectedSubject').hasError('required')">
         <strong>Выбирите категорию</strong>
