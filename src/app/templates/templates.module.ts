@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
 
 import { TemplatesData } from './services/templates-data';
 import { SubjectsData } from './services/subjects-data';
@@ -21,6 +22,8 @@ import { PropertiesDialogComponent }
   from './components/properties-dialog/properties-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
+import { FiltersActions } from './stores/filters.actions';
+import { IFiltersState, INITIAL_STATE, rootReducer } from './stores/filters';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -41,6 +44,7 @@ export const TEMPLATE_COMPONENTS = [
 	declarations: [TEMPLATE_COMPONENTS],
 	imports: [
 		CommonModule,
+    NgReduxModule,
 		FlexLayoutModule,
 		FormsModule,
 		ReactiveFormsModule,
@@ -56,6 +60,12 @@ export const TEMPLATE_COMPONENTS = [
 	],
 	entryComponents: DIALOG_COMPONENTS,
 	exports: [TEMPLATE_COMPONENTS],
-	providers: [TemplatesData, SubjectsData, UsersData, WhiteLabelsData]
+	providers: [TemplatesData, SubjectsData, UsersData, WhiteLabelsData, FiltersActions]
 })
-export class TemplatesModule {}
+export class TemplatesModule {
+  constructor(ngRedux: NgRedux<IFiltersState>) {
+    ngRedux.configureStore(
+      rootReducer,
+      INITIAL_STATE);
+  }
+}

@@ -82,6 +82,7 @@
     "webpack": "node --max_old_space_size=4096 node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
+    "@angular-redux/store": "^7.1.1",
     "@angular/animations": "^5.2.4",
     "@angular/cdk": "^5.2.0",
     "@angular/common": "~5.1.0",
@@ -101,6 +102,7 @@
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "ng-http-interceptor": "^4.0.0",
+    "redux": "^3.7.2",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^5.5.2",
     "zone.js": "~0.8.18"
