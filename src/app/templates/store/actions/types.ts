@@ -1,11 +1,14 @@
-import { Change } from './filters-change.action';
-import { Reset } from './filters-reset.action';
+import { ApplyFilters } from './apply-filters.action';
+import { Reset } from './reset.action';
+import { Paginate } from './paginate.action';
 
-export enum FiltersActionTypes {
-  CHANGE = '[Filters] Change',
-  RESET = '[Filters] Reset',
+export enum CollectionActionTypes {
+  APPLY_FILTERS = '[Collection] Apply Filters',
+  PAGINATE = '[Collection] Paginate',
+  RESET = '[Collection] Reset',
 }
 
-export type FiltersActionsUnion =
-  | Change
+export type CollectionActionsUnion =
+  | ApplyFilters
+  | Paginate
   | Reset;

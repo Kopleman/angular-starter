@@ -1,14 +1,10 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import { ISubject } from '../../models/subject';
 import { ITemplateFilters } from '../../models/template';
-import { APP_CONFIG, AppConfig } from '../../../config.module';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { AuthService } from '../../../auth/services/auth';
-import { TemplatesData } from '../../services/templates-data';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
 

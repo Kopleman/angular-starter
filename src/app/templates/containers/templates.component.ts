@@ -3,13 +3,16 @@ import { TemplatesData } from '../services/templates-data';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import { ITemplate, ITemplateFilters } from '../models/template';
+import { ITemplate, ITemplateFilters, ITemplateQueryParams } from '../models/template';
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/distinctUntilChanged';
 import { select, Store } from '@ngrx/store';
+import { Paginate } from '../store/actions/paginate.action';
+import { ApplyFilters } from '../store/actions/apply-filters.action';
 
 @Component({
 	selector: 'templates-page',
@@ -29,7 +32,7 @@ export class TemplatesPageComponent implements OnInit {
 		selectedCategory: '',
     sortBy: '_id'
 	};
-	private filters$: Observable<ITemplateFilters>;
+	private filters$: Observable<ITemplateQueryParams>;
 	constructor(
     private store: Store<ITemplateFilters>,
 		private templatesData: TemplatesData,
@@ -43,28 +46,31 @@ export class TemplatesPageComponent implements OnInit {
 	 * и словарь сабжкетов
 	 */
 	public ngOnInit() {
-		this.getTemplates(0, this.pageSize);
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select('filters'));
+		this.filters$.distinctUntilChanged().subscribe((state) => {
+		  this.getTemplates(state);
+    });
 	}
 
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;
 		this.pageSize = $event.pageSize;
 		let skip = this.pageIndex * this.pageSize;
-		this.getTemplates(skip, this.pageSize);
+    this.store.dispatch(new Paginate(skip, this.pageSize));
 	}
 
 	public filterCollection(filters: ITemplateFilters) {
 		this.filters = filters;
 		this.filters.sortBy = '_id';
 		this.pageIndex = 0;
-		return this.getTemplates(this.pageIndex, this.pageSize);
+    this.store.dispatch(new ApplyFilters(this.filters));
+    this.store.dispatch(new Paginate(this.pageIndex, this.pageSize));
 	}
 
 	public refresh() {
 		let skip = this.pageIndex * this.pageSize;
-		this.getTemplates(skip, this.pageSize);
+		this.store.dispatch(new Paginate(skip, this.pageSize));
 	}
 
 	public createNewTemplate() {
@@ -140,15 +146,19 @@ export class TemplatesPageComponent implements OnInit {
 		);
 	}
 
-	/**
-	 * Получить шаблоны с бэка с задаными параметрами
-	 * @param skip
-	 * @param limit
-	 */
-	private getTemplates(skip, limit) {
+  /**
+   * Получить шаблоны с бэка с задаными параметрами
+   * @param state
+   */
+	private getTemplates(state: ITemplateQueryParams) {
 		this.inProgress = true;
+		let filters: ITemplateFilters = {
+      selectedCategory: state.selectedCategory,
+      searchStr: state.searchStr,
+      sortBy: state.sortBy
+    };
 		this.templatesData
-			.getTemplates(skip, limit, this.filters)
+			.getTemplates(state.skip, state.limit, filters)
 			.shareReplay()
 			.subscribe(response => {
 				this.inProgress = false;
