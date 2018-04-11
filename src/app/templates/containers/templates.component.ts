@@ -9,6 +9,7 @@ import { CreateDialogComponent } from '../components/create-dialog/create-dialog
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/shareReplay';
+import { select, Store } from '@ngrx/store';
 
 @Component({
 	selector: 'templates-page',
@@ -28,7 +29,9 @@ export class TemplatesPageComponent implements OnInit {
 		selectedCategory: '',
     sortBy: '_id'
 	};
+	private filters$: Observable<ITemplateFilters>;
 	constructor(
+    private store: Store<ITemplateFilters>,
 		private templatesData: TemplatesData,
 		private subjectsData: SubjectsData,
 		private snackBar: MatSnackBar,
@@ -42,6 +45,7 @@ export class TemplatesPageComponent implements OnInit {
 	public ngOnInit() {
 		this.getTemplates(0, this.pageSize);
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
+		this.filters$ = this.store.pipe(select('filters'));
 	}
 
 	public paginate($event: PageEvent) {

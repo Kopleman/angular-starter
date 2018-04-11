@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { StoreModule } from '@ngrx/store';
 
 import { TemplatesData } from './services/templates-data';
 import { SubjectsData } from './services/subjects-data';
@@ -21,6 +22,8 @@ import { PropertiesDialogComponent }
   from './components/properties-dialog/properties-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
+import { filtersReducer } from './store/actions/filters-reducer';
+
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -45,6 +48,7 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
+    StoreModule.forRoot({ filters: filtersReducer }),
     SharedModule,
 		RouterModule.forChild([
 			{
