@@ -10,16 +10,4 @@ import { ITemplateFilters } from '../../models/template';
 })
 export class TemplatesListComponent {
 	@Input() public templates: ITemplate[];
-	@Output()
-	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
-	@Output()
-	public onDelete: EventEmitter<{ templateId: string }> = new EventEmitter();
-
-	public filterTemplates($event) {
-		this.onFilterChange.emit($event);
-	}
-
-	public refresh($event) {
-		this.onDelete.emit($event);
-	}
 }

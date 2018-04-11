@@ -24,11 +24,15 @@ export function reducer(
 			state.selectedCategory = action.filters.selectedCategory;
 			state.searchStr = action.filters.searchStr;
 			state.sortBy = action.filters.sortBy;
+			state.skip = 0;
 			return state;
 		}
 
-		case CollectionActionTypes.RESET: {
-			return INITIAL_FILTERS_STATE;
+		case CollectionActionTypes.RESET_FILTERS: {
+      state.selectedCategory = INITIAL_FILTERS_STATE.selectedCategory;
+      state.searchStr = INITIAL_FILTERS_STATE.searchStr;
+      state.sortBy = INITIAL_FILTERS_STATE.sortBy;
+			return state;
 		}
 
 		default: {

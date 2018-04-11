@@ -10,7 +10,8 @@ import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { select, Store } from '@ngrx/store';
+import 'rxjs/add/operator/take';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Paginate } from '../store/actions/paginate.action';
 import { ApplyFilters } from '../store/actions/apply-filters.action';
 
@@ -34,7 +35,8 @@ export class TemplatesPageComponent implements OnInit {
 	};
 	private filters$: Observable<ITemplateQueryParams>;
 	constructor(
-    private store: Store<ITemplateFilters>,
+	  private actionSubject: ActionsSubject,
+    private store: Store<ITemplateQueryParams>,
 		private templatesData: TemplatesData,
 		private subjectsData: SubjectsData,
 		private snackBar: MatSnackBar,
@@ -48,9 +50,12 @@ export class TemplatesPageComponent implements OnInit {
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select('filters'));
-		this.filters$.distinctUntilChanged().subscribe((state) => {
-		  this.getTemplates(state);
-    });
+		this.actionSubject.subscribe(() => {
+		  this.filters$.take(1).subscribe((state) => {
+        console.log(state);
+        this.getTemplates(state);
+      });
+    })
 	}
 
 	public paginate($event: PageEvent) {
@@ -58,19 +63,6 @@ export class TemplatesPageComponent implements OnInit {
 		this.pageSize = $event.pageSize;
 		let skip = this.pageIndex * this.pageSize;
     this.store.dispatch(new Paginate(skip, this.pageSize));
-	}
-
-	public filterCollection(filters: ITemplateFilters) {
-		this.filters = filters;
-		this.filters.sortBy = '_id';
-		this.pageIndex = 0;
-    this.store.dispatch(new ApplyFilters(this.filters));
-    this.store.dispatch(new Paginate(this.pageIndex, this.pageSize));
-	}
-
-	public refresh() {
-		let skip = this.pageIndex * this.pageSize;
-		this.store.dispatch(new Paginate(skip, this.pageSize));
 	}
 
 	public createNewTemplate() {
@@ -114,10 +106,10 @@ export class TemplatesPageComponent implements OnInit {
 						this.snackBar.open(`Шаблон создан`, 'Закрыть', {
 							duration: 2000
 						});
-						this.filterCollection({
-							selectedCategory: dialogResult.selectedSubject,
-							searchStr: dialogResult.templateId
-						});
+						this.store.dispatch(new ApplyFilters({
+              selectedCategory: dialogResult.selectedSubject,
+              searchStr: dialogResult.templateId
+            }));
 					}
 				},
 				errorResp => {
