@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CollectionActionTypes } from './types';
+import { CollectionActionTypes } from '../types';
 
 export class Paginate implements Action {
   public readonly type = CollectionActionTypes.PAGINATE;

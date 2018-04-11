@@ -31,7 +31,7 @@ import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { Observable } from 'rxjs/Observable';
 import { SubjectsData } from '../../services/subjects-data';
 import { Store } from '@ngrx/store';
-import { ApplyFilters } from '../../store/actions/apply-filters.action';
+import { ApplyFilters, Refresh } from '../../store/actions';
 
 /**
  * Копонента карточки шаблона
@@ -133,7 +133,7 @@ export class TemplateListItemComponent implements OnInit {
 				this.snackBar.open(`Шаблон удален `, 'Закрыть', {
 					duration: 2000
 				});
-				this.store.dispatch(null);
+				this.store.dispatch(new Refresh());
 			},
 			() => {
 				this.snackBar.open(

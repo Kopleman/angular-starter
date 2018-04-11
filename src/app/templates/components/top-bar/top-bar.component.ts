@@ -9,7 +9,7 @@ import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { ApplyFilters } from '../../store/actions/apply-filters.action';
-import { INITIAL_FILTERS_STATE } from '../../store/actions/reducer';
+import { INITIAL_FILTERS_STATE } from '../../store/reducer';
 
 @Component({
 	selector: 'top-bar',

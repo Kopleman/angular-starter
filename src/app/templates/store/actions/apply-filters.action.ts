@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CollectionActionTypes } from './types';
+import { CollectionActionTypes } from '../types';
 import { ITemplateFilters } from '../../models/template';
 
 export class ApplyFilters implements Action {

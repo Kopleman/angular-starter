@@ -24,7 +24,7 @@ import { SharedModule } from '../shared/shared.module';
 import {
 	reducer,
 	INITIAL_FILTERS_STATE
-} from './store/actions/reducer';
+} from './store/reducer';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
