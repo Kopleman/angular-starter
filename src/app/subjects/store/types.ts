@@ -1,13 +1,13 @@
-import { ApplyFilters, ResetFilters, Paginate, Refresh } from './actions';
+import { ApplyFilters, Paginate, Refresh, ResetFilters } from './actions';
 
-export enum CollectionActionTypes {
+export enum SubjectsCollectionActionTypes {
   APPLY_FILTERS = '[Collection] Apply Filters',
   RESET_FILTERS = '[Collection] ResetFilters',
   PAGINATE = '[Collection] Paginate',
   REFRESH = '[Collection] Refresh'
 }
 
-export type CollectionActionsUnion =
+export type SubjectsCollectionActionsUnion =
   | ApplyFilters
   | ResetFilters
   | Paginate

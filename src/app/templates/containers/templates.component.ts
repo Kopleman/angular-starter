@@ -12,8 +12,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/take';
 import { ActionsSubject, select, Store } from '@ngrx/store';
-import { Paginate } from '../store/actions/paginate.action';
-import { ApplyFilters } from '../store/actions/apply-filters.action';
+import { Paginate, ApplyFilters } from '../store/actions';
 
 @Component({
 	selector: 'templates-page',
@@ -28,11 +27,6 @@ export class TemplatesPageComponent implements OnInit {
 	public pageSize: number = 10;
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
-	public filters: ITemplateFilters = {
-		searchStr: '',
-		selectedCategory: '',
-    sortBy: '_id'
-	};
 	private filters$: Observable<ITemplateQueryParams>;
 	constructor(
 	  private actionSubject: ActionsSubject,

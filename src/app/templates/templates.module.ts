@@ -18,18 +18,15 @@ import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
-import { PropertiesDialogComponent } from './components/properties-dialog/properties-dialog.component';
+import { PropsDialogComponent } from './components/properties-dialog/props-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
-import {
-	reducer,
-	INITIAL_FILTERS_STATE
-} from './store/reducer';
+import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
 	CreateDialogComponent,
-	PropertiesDialogComponent
+	PropsDialogComponent
 ];
 
 export const TEMPLATE_COMPONENTS = [

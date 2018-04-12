@@ -26,7 +26,7 @@ import {
   ITemplateQueryParams
 } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
-import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
+import { PropsDialogComponent } from '../properties-dialog/props-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { Observable } from 'rxjs/Observable';
 import { SubjectsData } from '../../services/subjects-data';
@@ -294,9 +294,9 @@ export class TemplateListItemComponent implements OnInit {
 	public changeProps() {
 		let dialogResult: IChangePropsDialogData;
 		let dialogRef = this.dialog.open<
-			PropertiesDialogComponent,
+			PropsDialogComponent,
 			IChangePropsDialogData
-		>(PropertiesDialogComponent, {
+		>(PropsDialogComponent, {
 			width: '580px',
 			closeOnNavigation: true,
 			panelClass: 'properties-dialog-component',

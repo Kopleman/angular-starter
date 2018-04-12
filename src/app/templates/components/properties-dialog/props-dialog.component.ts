@@ -11,13 +11,13 @@ import { IWhiteLabel } from '../../models/whitelabel';
   templateUrl: './properties-dialog.component.html',
   styleUrls: ['./properties-dialog.component.scss'],
 })
-export class PropertiesDialogComponent implements OnInit{
+export class PropsDialogComponent implements OnInit{
   public propertiesForm: FormGroup;
   public langs: string[];
   public whiteLables: IWhiteLabel[];
   public currentTags: { [key: string]: string };
   constructor(
-    public dialogRef: MatDialogRef<PropertiesDialogComponent>,
+    public dialogRef: MatDialogRef<PropsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IChangePropsDialogData,
     private formBuilder: FormBuilder,
     private changeDetector: ChangeDetectorRef,
