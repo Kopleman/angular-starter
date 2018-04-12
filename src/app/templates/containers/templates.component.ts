@@ -46,10 +46,9 @@ export class TemplatesPageComponent implements OnInit {
 		this.filters$ = this.store.pipe(select('filters'));
 		this.actionSubject.subscribe(() => {
 		  this.filters$.take(1).subscribe((state) => {
-        console.log(state);
         this.getTemplates(state);
       });
-    })
+    });
 	}
 
 	public paginate($event: PageEvent) {
