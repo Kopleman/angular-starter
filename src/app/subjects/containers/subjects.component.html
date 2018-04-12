@@ -1,11 +1,11 @@
 <div class="list-wrapper" fxFlex fxLayoutAlign="center start" >
   <mat-spinner *ngIf="!subjects"></mat-spinner>
 
-  <div fxFlex="0 0 auto" fxLayout="column" *ngIf="templates" >
-    <top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
-    ></top-bar>
+  <div fxFlex="0 0 auto" fxLayout="column" *ngIf="subjects" >
+    <!--<top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"-->
+    <!--&gt;</top-bar>-->
 
-    <!--<templates-list fxFlex [templates]="templates"></templates-list>-->
+    <subjects-list fxFlex [subjects]="subjects"></subjects-list>
 
     <mat-paginator *ngIf="subjects.length" fxFlex [length]="total"
                    [pageIndex]="pageIndex"
