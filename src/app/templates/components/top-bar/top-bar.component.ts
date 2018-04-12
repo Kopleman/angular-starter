@@ -19,21 +19,21 @@ import { INITIAL_FILTERS_STATE } from '../../store/reducer';
 export class TopBarComponent implements OnInit {
 	public subjects$: Observable<ISubject[]>;
 	public filters: ITemplateFilters = INITIAL_FILTERS_STATE;
-  public sortOptions = [
-    {label: 'по id', value: '_id'},
-    {label: 'по дате редактирования', value: 'dateEdit'},
-    {label: 'по дате изменения gulp', value: 'lessEditHistory'},
-    {label: 'по дате создания', value: 'dateCreate'},
-  ];
+	public sortOptions = [
+		{ label: 'по id', value: '_id' },
+		{ label: 'по дате редактирования', value: 'dateEdit' },
+		{ label: 'по дате изменения gulp', value: 'lessEditHistory' },
+		{ label: 'по дате создания', value: 'dateCreate' }
+	];
 
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
-  public sortControl = new FormControl();
+	public sortControl = new FormControl();
 
-  constructor(
-    private subjectsData: SubjectsData,
-    private store: Store<ITemplateQueryParams>,
-  ) {}
+	constructor(
+		private subjectsData: SubjectsData,
+		private store: Store<ITemplateQueryParams>
+	) {}
 
 	public ngOnInit() {
 		this.bindControls();
@@ -41,30 +41,24 @@ export class TopBarComponent implements OnInit {
 	}
 
 	public bindControls() {
-		this.searchControl.valueChanges
-			.debounceTime(500)
-			.skip(1)
-			.distinctUntilChanged()
-			.subscribe(searchValue => {
-			  this.filters.searchStr = searchValue;
-				this.store.dispatch(new ApplyFilters(this.filters));
-			});
+		const helper = (control: Observable<any>, name: string) => {
+			control
+				.skip(1)
+				.distinctUntilChanged()
+				.subscribe(value => {
+					this.filters[name] = value;
+					this.store.dispatch(new ApplyFilters(this.filters));
+				});
+		};
 
-		this.categoryControl.valueChanges
-			.distinctUntilChanged()
-			.skip(1)
-			.subscribe(categoryValue => {
-				this.filters.selectedCategory = categoryValue;
-        this.store.dispatch(new ApplyFilters(this.filters));
-			});
+		const search = this.searchControl.valueChanges.debounceTime(500);
+		helper(search, 'searchStr');
 
-    this.sortControl.valueChanges
-      .distinctUntilChanged()
-      .skip(1)
-      .subscribe(sortValue => {
-        this.filters.sortBy = sortValue;
-        this.store.dispatch(new ApplyFilters(this.filters));
-      });
+		const category = this.categoryControl.valueChanges;
+		helper(category, 'selectedCategory');
+
+		const sort = this.sortControl.valueChanges;
+		helper(sort, 'sortBy');
 	}
 
 	public clearSearch() {
