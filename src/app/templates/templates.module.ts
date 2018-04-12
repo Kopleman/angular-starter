@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { StoreModule } from '@ngrx/store';
 
 import { TemplatesData } from './services/templates-data';
 import { SubjectsData } from './services/subjects-data';
@@ -17,10 +18,13 @@ import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
-import { PropertiesDialogComponent }
-  from './components/properties-dialog/properties-dialog.component';
+import { PropertiesDialogComponent } from './components/properties-dialog/properties-dialog.component';
 import { WhiteLabelsData } from './services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
+import {
+	reducer,
+	INITIAL_FILTERS_STATE
+} from './store/reducer';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -45,7 +49,15 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
-    SharedModule,
+		StoreModule.forRoot(
+			{ filters: reducer },
+			{
+				initialState: {
+					filters: INITIAL_FILTERS_STATE
+				}
+			}
+		),
+		SharedModule,
 		RouterModule.forChild([
 			{
 				path: 'templates',

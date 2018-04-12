@@ -1,16 +1,15 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import { ISubject } from '../../models/subject';
-import { ITemplateFilters } from '../../models/template';
-import { APP_CONFIG, AppConfig } from '../../../config.module';
-import { MatDialog, MatSnackBar } from '@angular/material';
-import { AuthService } from '../../../auth/services/auth';
-import { TemplatesData } from '../../services/templates-data';
+import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { ApplyFilters } from '../../store/actions/apply-filters.action';
+import { INITIAL_FILTERS_STATE } from '../../store/reducer';
 
 @Component({
 	selector: 'top-bar',
@@ -19,27 +18,21 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TopBarComponent implements OnInit {
 	public subjects$: Observable<ISubject[]>;
-	@Input()
-	public filters: ITemplateFilters = {
-		searchStr: '',
-		selectedCategory: '',
-		sortBy: '_id'
-	};
+	public filters: ITemplateFilters = INITIAL_FILTERS_STATE;
   public sortOptions = [
     {label: 'по id', value: '_id'},
     {label: 'по дате редактирования', value: 'dateEdit'},
     {label: 'по дате изменения gulp', value: 'lessEditHistory'},
     {label: 'по дате создания', value: 'dateCreate'},
   ];
-	@Output()
-	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
 
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
   public sortControl = new FormControl();
 
   constructor(
-    private subjectsData: SubjectsData
+    private subjectsData: SubjectsData,
+    private store: Store<ITemplateQueryParams>,
   ) {}
 
 	public ngOnInit() {
@@ -53,8 +46,8 @@ export class TopBarComponent implements OnInit {
 			.skip(1)
 			.distinctUntilChanged()
 			.subscribe(searchValue => {
-				this.filters.searchStr = searchValue;
-				this.onFilterChange.emit(this.filters);
+			  this.filters.searchStr = searchValue;
+				this.store.dispatch(new ApplyFilters(this.filters));
 			});
 
 		this.categoryControl.valueChanges
@@ -62,7 +55,7 @@ export class TopBarComponent implements OnInit {
 			.skip(1)
 			.subscribe(categoryValue => {
 				this.filters.selectedCategory = categoryValue;
-				this.onFilterChange.emit(this.filters);
+        this.store.dispatch(new ApplyFilters(this.filters));
 			});
 
     this.sortControl.valueChanges
@@ -70,7 +63,7 @@ export class TopBarComponent implements OnInit {
       .skip(1)
       .subscribe(sortValue => {
         this.filters.sortBy = sortValue;
-        this.onFilterChange.emit(this.filters);
+        this.store.dispatch(new ApplyFilters(this.filters));
       });
 	}
 

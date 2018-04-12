@@ -2,8 +2,8 @@
   <mat-spinner *ngIf="!templates"></mat-spinner>
 
   <div fxFlex="0 0 auto" fxLayout="column" *ngIf="templates" >
-    <top-bar *ngIf="templates" fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
-             [filters]="filters" (onFilterChange)="filterCollection($event)"></top-bar>
+    <top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
+             ></top-bar>
     <div class="controls" fxLayoutGap="8px">
       <button mat-button color="primary" (click)="createNewTemplate()">
         <mat-icon>add</mat-icon>
@@ -14,7 +14,7 @@
         Compile all
       </button>
     </div>
-    <templates-list fxFlex [templates]="templates" (onDelete)="refresh()" (onFilterChange)="filterCollection($event)"></templates-list>
+    <templates-list fxFlex [templates]="templates"></templates-list>
 
     <mat-paginator *ngIf="templates.length" fxFlex [length]="total"
                    [pageIndex]="pageIndex"

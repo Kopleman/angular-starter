@@ -21,15 +21,17 @@ import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import {
-	ITemplate,
-	ITemplateHost,
-	ITemplateFilters
+  ITemplate,
+  ITemplateHost,
+  ITemplateQueryParams
 } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { Observable } from 'rxjs/Observable';
 import { SubjectsData } from '../../services/subjects-data';
+import { Store } from '@ngrx/store';
+import { ApplyFilters, Refresh } from '../../store/actions';
 
 /**
  * Копонента карточки шаблона
@@ -42,10 +44,6 @@ import { SubjectsData } from '../../services/subjects-data';
 export class TemplateListItemComponent implements OnInit {
 	public subjects$: Observable<ISubject[]>;
 	@Input() public template: ITemplate;
-	@Output()
-	public onFilterChange: EventEmitter<ITemplateFilters> = new EventEmitter();
-	@Output()
-	public onDelete: EventEmitter<{ templateId: string }> = new EventEmitter();
 	public userRole: string;
 	public demoHosts$: Observable<ITemplateHost[]>;
 	public pubHosts$: Observable<ITemplateHost[]>;
@@ -55,7 +53,8 @@ export class TemplateListItemComponent implements OnInit {
 		private subjectsData: SubjectsData,
 		private snackBar: MatSnackBar,
 		public dialog: MatDialog,
-		@Inject(APP_CONFIG) private config: AppConfig
+		@Inject(APP_CONFIG) private config: AppConfig,
+    private store: Store<ITemplateQueryParams>,
 	) {}
 
 	public ngOnInit() {
@@ -86,11 +85,11 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public filterByName(name) {
-		this.onFilterChange.emit({ searchStr: name, selectedCategory: '' });
+	  this.store.dispatch(new ApplyFilters({ searchStr: name, selectedCategory: '' }));
 	}
 
 	public filterByCategory(category) {
-		this.onFilterChange.emit({ searchStr: '', selectedCategory: category });
+    this.store.dispatch(new ApplyFilters({ searchStr: '', selectedCategory: category }));
 	}
 
 	public getTemplatePreviewUrl(lang) {
@@ -134,7 +133,7 @@ export class TemplateListItemComponent implements OnInit {
 				this.snackBar.open(`Шаблон удален `, 'Закрыть', {
 					duration: 2000
 				});
-				this.onDelete.emit({ templateId: this.template._id });
+				this.store.dispatch(new Refresh());
 			},
 			() => {
 				this.snackBar.open(
