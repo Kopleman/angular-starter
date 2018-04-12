@@ -35,12 +35,11 @@ export const SUBJECTS_PROVIDERS = [
 		ReactiveFormsModule,
 		MaterialModule,
 		SharedModule,
-    StoreModule.forRoot(
-      { filters: subjectsStateReducer },
+    StoreModule.forFeature(
+      'subjects',
+      subjectsStateReducer,
       {
-        initialState: {
-          filters: SUBJECTS_INITIAL_FILTERS_STATE
-        }
+        initialState: SUBJECTS_INITIAL_FILTERS_STATE
       }
     ),
 		RouterModule.forChild([

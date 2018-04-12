@@ -15,6 +15,8 @@ import { TemplatesModule } from './templates/templates.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { SubjectsModule } from './subjects/subjects.module';
+import { INITIAL_FILTERS_STATE, reducer } from './templates/store/reducer';
+import { StoreModule } from '@ngrx/store';
 
 // Application wide providers
 const APP_PROVIDERS = [];
@@ -31,6 +33,9 @@ const APP_PROVIDERS = [];
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
+    StoreModule.forRoot(
+      {},
+    ),
 		RouterModule.forRoot(ROUTES, {
 			useHash: Boolean(history.pushState) === false,
 			preloadingStrategy: PreloadAllModules

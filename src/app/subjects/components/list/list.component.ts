@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ISubject } from '../../models/subject';
 import { MatTableDataSource } from '@angular/material';
 
-
 @Component({
   selector: 'subjects-list',
   styleUrls: ['./list.component.scss'],
@@ -11,7 +10,6 @@ import { MatTableDataSource } from '@angular/material';
 export class SubjectsListComponent implements OnInit{
   @Input() public subjects: ISubject[];
   public displayedColumns = [];
-  public dataSource: MatTableDataSource<ISubject>;
 
   public ngOnInit() {
     this.displayedColumns = ['_id', 'title', 'controls'];

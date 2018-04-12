@@ -43,7 +43,7 @@ export class TemplatesPageComponent implements OnInit {
 	 */
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
-		this.filters$ = this.store.pipe(select('filters'));
+		this.filters$ = this.store.pipe(select('templates'));
 		this.actionSubject.subscribe(() => {
 		  this.filters$.take(1).subscribe((state) => {
         this.getTemplates(state);

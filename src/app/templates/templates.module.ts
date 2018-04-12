@@ -46,12 +46,11 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
-		StoreModule.forRoot(
-			{ filters: reducer },
+		StoreModule.forFeature(
+		  'templates',
+      reducer,
 			{
-				initialState: {
-					filters: INITIAL_FILTERS_STATE
-				}
+				initialState: INITIAL_FILTERS_STATE
 			}
 		),
 		SharedModule,
