@@ -3,7 +3,7 @@ import { SubjectsCollectionActionTypes } from './types';
 import { SubjectsCollectionActionsUnion } from './types';
 
 
-export const INITIAL_FILTERS_STATE: ISubjectQueryParams = {
+export const SUBJECTS_INITIAL_FILTERS_STATE: ISubjectQueryParams = {
   searchStr: '',
   sortBy: '_id',
   skip: 0,
@@ -33,8 +33,8 @@ export function subjectsStateReducer(
     }
 
     case SubjectsCollectionActionTypes.RESET_FILTERS: {
-      state.searchStr = INITIAL_FILTERS_STATE.searchStr;
-      state.sortBy = INITIAL_FILTERS_STATE.sortBy;
+      state.searchStr = SUBJECTS_INITIAL_FILTERS_STATE.searchStr;
+      state.sortBy = SUBJECTS_INITIAL_FILTERS_STATE.sortBy;
       return state;
     }
 

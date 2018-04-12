@@ -10,13 +10,15 @@ import { AuthGuard } from '../auth/guards/auth';
 import { SubjectsPageComponent } from './containers/subjects.component';
 import { SharedModule } from '../shared/shared.module';
 import { SubjectsData } from './services/subjects-data';
-import { subjectsStateReducer, INITIAL_FILTERS_STATE } from './store/reducer';
+import { subjectsStateReducer, SUBJECTS_INITIAL_FILTERS_STATE } from './store/reducer';
+import { SubjectsListComponent } from './components/list/list.component';
 
 
 const SUBJECTS_DIALOG_COMPONENTS = [];
 
 export const SUBJECTS_COMPONENTS = [
 	SubjectsPageComponent,
+  SubjectsListComponent,
 	...SUBJECTS_DIALOG_COMPONENTS
 ];
 
@@ -37,7 +39,7 @@ export const SUBJECTS_PROVIDERS = [
       { filters: subjectsStateReducer },
       {
         initialState: {
-          filters: INITIAL_FILTERS_STATE
+          filters: SUBJECTS_INITIAL_FILTERS_STATE
         }
       }
     ),

@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ISubject } from '../../models/subject';
+import { MatTableDataSource } from '@angular/material';
 
 
 @Component({
@@ -7,6 +8,16 @@ import { ISubject } from '../../models/subject';
   styleUrls: ['./list.component.scss'],
   templateUrl: './list.component.html'
 })
-export class SubjectsListComponent {
-  @Input() public templates: ISubject[];
+export class SubjectsListComponent implements OnInit{
+  @Input() public subjects: ISubject[];
+  public displayedColumns = [];
+  public dataSource: MatTableDataSource<ISubject>;
+
+  public ngOnInit() {
+    this.displayedColumns = ['_id', 'title', 'controls'];
+  }
+
+  public createDataSource(subjects: ISubject[]) {
+    return new MatTableDataSource(subjects);
+  }
 }
