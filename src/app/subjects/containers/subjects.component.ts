@@ -5,12 +5,11 @@ import { ISubject, ISubjectFilters, ISubjectQueryParams } from '../models/subjec
 import { Observable } from 'rxjs/Observable';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SubjectsPaginate } from '../store/actions';
-import { SubjectsCollectionActionTypes } from '../store/types';
 import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
-import { ICustomAction } from '../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 
 
 @Component({
@@ -34,9 +33,15 @@ export class SubjectsPageComponent implements OnInit {
   ) {}
 
 	public ngOnInit() {
-    this.filters$ = this.store.pipe(select('subjects'));
+    this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
+    this.filters$.share().take(1).subscribe((state) => {
+      this.pageIndex = state.skip / state.limit;
+      this.pageSize = state.limit;
+      this.getSubjects(state);
+    });
     this.actionSubject
-      .filter((state: ICustomAction) =>  state.feature === 'subjects' )
+      .skip(1)
+      .filter((action: ICustomAction) =>  action.feature === ModuleTypes.SUBJECTS )
       .subscribe(() => {
       this.filters$.take(1).subscribe((state) => {
         this.getSubjects(state);

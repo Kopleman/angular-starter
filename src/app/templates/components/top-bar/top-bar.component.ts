@@ -7,9 +7,11 @@ import { ISubject } from '../../models/subject';
 import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
-import { ApplyFilters } from '../../store/actions/apply-filters.action';
+import { select, Store } from '@ngrx/store';
+import { ApplyFilters } from '../../store/actions';
 import { INITIAL_FILTERS_STATE } from '../../store/reducer';
+import { ModuleTypes } from '../../../shared/models/ngrx-action';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'top-bar',
@@ -29,6 +31,7 @@ export class TopBarComponent implements OnInit {
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
 	public sortControl = new FormControl();
+  private filters$: Observable<ITemplateQueryParams>;
 
 	constructor(
 		private subjectsData: SubjectsData,
@@ -36,6 +39,10 @@ export class TopBarComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
+    this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
+    this.filters$.subscribe(state => {
+      this.filters = _.merge(this.filters, state);
+    });
 		this.bindControls();
 		this.subjects$ = this.subjectsData.getSubjects();
 	}

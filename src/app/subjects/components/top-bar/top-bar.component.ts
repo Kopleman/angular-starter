@@ -6,9 +6,11 @@ import 'rxjs/add/operator/skip';
 import { ISubjectQueryParams } from '../../models/subject';
 import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { SubjectsApplyFilters } from '../../store/actions';
 import { SUBJECTS_INITIAL_FILTERS_STATE } from '../../store/reducer';
+import { ModuleTypes } from '../../../shared/models/ngrx-action';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'subjects-top-bar',
@@ -17,6 +19,7 @@ import { SUBJECTS_INITIAL_FILTERS_STATE } from '../../store/reducer';
 })
 export class TopBarComponent implements OnInit {
 	public filters: ISubjectQueryParams = SUBJECTS_INITIAL_FILTERS_STATE;
+  public filters$: Observable<ISubjectQueryParams>;
 	public sortOptions = [
 		{ label: 'по id', value: '_id' },
 		{ label: 'по имени', value: 'title' },
@@ -30,6 +33,10 @@ export class TopBarComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
+    this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
+    this.filters$.subscribe(state => {
+      this.filters = _.merge(this.filters, state);
+    });
 		this.bindControls();
 	}
 

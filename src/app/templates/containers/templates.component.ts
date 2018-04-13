@@ -9,11 +9,12 @@ import { CreateDialogComponent } from '../components/create-dialog/create-dialog
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
-import { ICustomAction } from '../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 
 @Component({
 	selector: 'templates-page',
@@ -44,8 +45,13 @@ export class TemplatesPageComponent implements OnInit {
 	 */
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
-		this.filters$ = this.store.pipe(select('templates'));
-		this.actionSubject.filter((state: ICustomAction) =>  state.feature === 'template' )
+		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
+    this.filters$.share().take(1).subscribe((state) => {
+      this.pageIndex = state.skip / state.limit;
+      this.pageSize = state.limit;
+      this.getTemplates(state);
+    });
+		this.actionSubject.filter((action: ICustomAction) =>  action.feature === ModuleTypes.TEMPLATES )
       .subscribe(() => {
 		  this.filters$.take(1).subscribe((state) => {
         this.getTemplates(state);

@@ -22,6 +22,7 @@ import { PropsDialogComponent } from './components/properties-dialog/props-dialo
 import { WhiteLabelsData } from './services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
 import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
+import { ModuleTypes } from '../shared/models/ngrx-action';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -47,7 +48,7 @@ export const TEMPLATE_COMPONENTS = [
 		ReactiveFormsModule,
 		MaterialModule,
 		StoreModule.forFeature(
-		  'templates',
+      ModuleTypes.TEMPLATES,
       reducer,
 			{
 				initialState: INITIAL_FILTERS_STATE
