@@ -1,7 +1,7 @@
 import { SubjectsCollectionActionTypes } from '../types';
-import { CustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 
-export class SubjectsRefresh implements CustomAction {
+export class SubjectsRefresh implements ICustomAction {
   public readonly type = SubjectsCollectionActionTypes.REFRESH;
-  public readonly module = ModuleTypes.SUBJECTS;
+  public readonly feature = ModuleTypes.SUBJECTS;
 }

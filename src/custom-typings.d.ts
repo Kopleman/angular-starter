@@ -1,7 +1,7 @@
 /*
  * Custom Type Definitions
- * When including 3rd party modules you also need to include the type definition for the module
- * if they don't provide one within the module. You can try to install it with @types
+ * When including 3rd party modules you also need to include the type definition for the feature
+ * if they don't provide one within the feature. You can try to install it with @types
 
 npm install @types/node
 npm install @types/lodash
@@ -9,16 +9,16 @@ npm install @types/lodash
  * If you can't find the type definition in the registry we can make an ambient/global definition in
  * this file for now. For example
 
-declare module 'my-module' {
+declare feature 'my-feature' {
  export function doesSomething(value: string): string;
 }
 
- * If you are using a CommonJS module that is using module.exports then you will have to write your
+ * If you are using a CommonJS feature that is using feature.exports then you will have to write your
  * types using export = yourObjectOrFunction with a namespace above it
  * notice how we have to create a namespace that is equal to the function we're
  * assigning the export to
 
-declare module 'jwt-decode' {
+declare feature 'jwt-decode' {
   function jwtDecode(token: string): any;
   namespace jwtDecode {}
   export = jwtDecode;
@@ -33,7 +33,7 @@ declare var _: any;
 declare var $: any;
 
  *
- * If you're importing a module that uses Node.js modules which are CommonJS you need to import as
+ * If you're importing a feature that uses Node.js modules which are CommonJS you need to import as
  * in the files such as main.browser.ts or any file within app/
  *
 
@@ -48,9 +48,9 @@ declare module '*';
 
 /*
 // for legacy tslint etc to understand rename 'modern-lru' with your package
-// then comment out `declare module '*';`. For each new module copy/paste
-// this method of creating an `any` module type definition
-declare module 'modern-lru' {
+// then comment out `declare feature '*';`. For each new feature copy/paste
+// this method of creating an `any` feature type definition
+declare feature 'modern-lru' {
   let x: any;
   export = x;
 }

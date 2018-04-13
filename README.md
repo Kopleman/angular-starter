@@ -245,7 +245,7 @@ For example to use Bootstrap as an external stylesheet:
 1) Create a `styles.scss` file (name doesn't matter) in the `src/styles` directory.
 2) `npm install` the version of Boostrap you want.
 3) In `styles.scss` add `@import 'bootstrap/scss/bootstrap.scss';`
-4) In `src/app/app.module.ts` add underneath the other import statements: `import '../styles/styles.scss';`
+4) In `src/app/app.feature.ts` add underneath the other import statements: `import '../styles/styles.scss';`
 
 # Contributing
 You can include more examples as components but they must introduce a new concept such as `Home` component (separate folders), and Todo (services). I'll accept pretty much everything so feel free to open a Pull-Request
@@ -274,7 +274,7 @@ We have good experience using these editors:
 The included `.vscode` automatically connects to the webpack development server on port `3000`.
 
 # Types
-> When you include a module that doesn't include Type Definitions inside of the module you can include external Type Definitions with @types
+> When you include a feature that doesn't include Type Definitions inside of the feature you can include external Type Definitions with @types
 
 i.e, to have youtube api support, run this command in terminal:
 ```shell
@@ -288,8 +288,8 @@ import '@types/youtube';
 ```
 
 ## Custom Type Definitions
-When including 3rd party modules you also need to include the type definition for the module
-if they don't provide one within the module. You can try to install it with @types
+When including 3rd party modules you also need to include the type definition for the feature
+if they don't provide one within the feature. You can try to install it with @types
 
 ```
 npm install @types/node
@@ -314,7 +314,7 @@ declare var _: any;
 declare var $: any;
 ```
 
-If you're importing a module that uses Node.js modules which are CommonJS you need to import as
+If you're importing a feature that uses Node.js modules which are CommonJS you need to import as
 
 ```typescript
 import * as _ from 'lodash';
@@ -344,14 +344,14 @@ import * as _ from 'lodash';
   * please see issue [#215](https://github.com/AngularClass/angular-starter/issues/215) and [#214](https://github.com/AngularClass/angular-starter/issues/214#event-511768416)
 * How do I async load a component?
   * see wiki [How-do-I-async-load-a-component-with-AsyncRoute](https://github.com/AngularClass/angular-starter/wiki/How-do-I-async-load-a-component-with-AsyncRoute)
-* Error: Cannot find module 'tapable'
+* Error: Cannot find feature 'tapable'
   * Remove `node_modules/` and run `npm cache clean` then `npm install`
 * How do I turn on Hot Module Replacement
   * Run `npm run server:dev:hmr`
 * `RangeError: Maximum call stack size exceeded`
   * This is a problem with minifying Angular and it's recent JIT templates. If you set `mangle` to `false` then you should be good.
 * Why is the size of my app larger in development?
-  * We are using inline source-maps and hot module replacement which will increase the bundle size.
+  * We are using inline source-maps and hot feature replacement which will increase the bundle size.
 * If you're in China
   * check out https://github.com/cnpm/cnpm
 * node-pre-gyp ERR in npm install (Windows)

@@ -13,6 +13,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/take';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
+import { ICustomAction } from '../../shared/models/ngrx-action';
 
 @Component({
 	selector: 'templates-page',
@@ -44,7 +45,8 @@ export class TemplatesPageComponent implements OnInit {
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select('templates'));
-		this.actionSubject.subscribe(() => {
+		this.actionSubject.filter((state: ICustomAction) =>  state.feature === 'template' )
+      .subscribe(() => {
 		  this.filters$.take(1).subscribe((state) => {
         this.getTemplates(state);
       });

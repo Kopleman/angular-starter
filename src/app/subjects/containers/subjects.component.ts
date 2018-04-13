@@ -10,6 +10,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
+import { ICustomAction } from '../../shared/models/ngrx-action';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class SubjectsPageComponent implements OnInit {
 	public ngOnInit() {
     this.filters$ = this.store.pipe(select('subjects'));
     this.actionSubject
+      .filter((state: ICustomAction) =>  state.feature === 'subjects' )
       .subscribe(() => {
       this.filters$.take(1).subscribe((state) => {
         this.getSubjects(state);

@@ -6,7 +6,7 @@ import { environment } from 'environments/environment';
 
 /**
  * App Module
- * our top level module that holds all of our components
+ * our top level feature that holds all of our components
  */
 import { AppModule } from './app';
 

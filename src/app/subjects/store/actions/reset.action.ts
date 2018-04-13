@@ -1,7 +1,7 @@
 import { SubjectsCollectionActionTypes } from '../types';
-import { CustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 
-export class SubjectsResetFilters implements CustomAction {
+export class SubjectsResetFilters implements ICustomAction {
   public readonly type = SubjectsCollectionActionTypes.RESET_FILTERS;
-  public readonly module = ModuleTypes.SUBJECTS;
+  public readonly feature = ModuleTypes.SUBJECTS;
 }

@@ -1,9 +1,9 @@
 import { SubjectsCollectionActionTypes } from '../types';
 import { ISubjectFilters } from '../../models/subject';
-import { CustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 
-export class SubjectsApplyFilters implements CustomAction {
+export class SubjectsApplyFilters implements ICustomAction {
   public readonly type = SubjectsCollectionActionTypes.APPLY_FILTERS;
-  public readonly module = ModuleTypes.SUBJECTS;
+  public readonly feature = ModuleTypes.SUBJECTS;
   constructor(public filters: ISubjectFilters) {}
 }

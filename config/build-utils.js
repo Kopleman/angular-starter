@@ -90,7 +90,7 @@ function ngcWebpackSetup(prod, metadata) {
   }
 
   if (!prod && metadata.WATCH) {
-    // Force commonjs module format for TS on dev watch builds.
+    // Force commonjs feature format for TS on dev watch builds.
     ngcWebpackPluginOptions.compilerOptions = {
       module: 'commonjs'
     };
