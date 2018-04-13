@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplatesData } from '../services/templates-data';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
@@ -15,13 +15,14 @@ import 'rxjs/add/operator/filter';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'templates-page',
 	styleUrls: ['./templates.component.scss'],
 	templateUrl: './templates.component.html'
 })
-export class TemplatesPageComponent implements OnInit {
+export class TemplatesPageComponent implements OnInit, OnDestroy {
 	public templates: ITemplate[];
 	public subjects$: Observable<ISubject[]>;
 	public total: number;
@@ -30,6 +31,7 @@ export class TemplatesPageComponent implements OnInit {
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
 	private filters$: Observable<ITemplateQueryParams>;
+  private actionSubjectSubscription: Subscription;
 	constructor(
 	  private actionSubject: ActionsSubject,
     private store: Store<ITemplateQueryParams>,
@@ -46,18 +48,25 @@ export class TemplatesPageComponent implements OnInit {
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
+
     this.filters$.share().take(1).subscribe((state) => {
       this.pageIndex = state.skip / state.limit;
       this.pageSize = state.limit;
       this.getTemplates(state);
-    });
-		this.actionSubject.filter((action: ICustomAction) =>  action.feature === ModuleTypes.TEMPLATES )
+    }).unsubscribe();
+
+		this.actionSubjectSubscription = this.actionSubject
+      .filter((action: ICustomAction) =>  action.feature === ModuleTypes.TEMPLATES )
       .subscribe(() => {
 		  this.filters$.take(1).subscribe((state) => {
         this.getTemplates(state);
-      });
+      }).unsubscribe();
     });
 	}
+
+	public ngOnDestroy() {
+    this.actionSubjectSubscription.unsubscribe();
+  }
 
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;

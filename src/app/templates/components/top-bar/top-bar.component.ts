@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component,  OnInit, } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/take';
 import { ISubject } from '../../models/subject';
 import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
@@ -40,7 +42,7 @@ export class TopBarComponent implements OnInit {
 
 	public ngOnInit() {
     this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
-    this.filters$.subscribe(state => {
+    this.filters$.share().take(1).subscribe(state => {
       this.filters = _.merge(this.filters, state);
     });
 		this.bindControls();

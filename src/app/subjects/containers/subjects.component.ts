@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { ISubject, ISubjectFilters, ISubjectQueryParams } from '../models/subject';
@@ -10,6 +10,7 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -17,15 +18,16 @@ import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 	styleUrls: ['./subjects.component.scss'],
 	templateUrl: './subjects.component.html'
 })
-export class SubjectsPageComponent implements OnInit {
-  public filters$: Observable<ISubjectQueryParams>;
+export class SubjectsPageComponent implements OnInit, OnDestroy {
+
   public subjects: ISubject[];
 	public total: number;
 	public pageIndex: number = 0;
 	public pageSize: number = 10;
 	public pageSizeOptions: number[] = [5, 10, 25];
 	public inProgress: boolean = false;
-
+  private actionSubjectSubscription: Subscription;
+  private filters$: Observable<ISubjectQueryParams>;
 	constructor(
 	  private subjectsData: SubjectsData,
     private actionSubject: ActionsSubject,
@@ -38,16 +40,20 @@ export class SubjectsPageComponent implements OnInit {
       this.pageIndex = state.skip / state.limit;
       this.pageSize = state.limit;
       this.getSubjects(state);
-    });
-    this.actionSubject
+    }).unsubscribe();
+    this.actionSubjectSubscription = this.actionSubject
       .skip(1)
-      .filter((action: ICustomAction) =>  action.feature === ModuleTypes.SUBJECTS )
+      .filter((action: ICustomAction) =>  { return action.feature === ModuleTypes.SUBJECTS } )
       .subscribe(() => {
       this.filters$.take(1).subscribe((state) => {
         this.getSubjects(state);
-      });
+      }).unsubscribe();
     });
 	}
+
+	public ngOnDestroy() {
+    this.actionSubjectSubscription.unsubscribe();
+  }
 
   public paginate($event: PageEvent) {
     this.pageIndex = $event.pageIndex;
