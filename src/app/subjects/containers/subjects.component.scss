@@ -3,6 +3,15 @@ subjects-list {
   margin-bottom: 16px;
 }
 
+subjects-top-bar {
+  position: fixed;
+  top: 53px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  width: 100%;
+}
+
 .list-wrapper {
   margin-top: 65px;
 }

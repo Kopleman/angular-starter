@@ -6,10 +6,10 @@ import {
 } from './actions';
 
 export enum SubjectsCollectionActionTypes {
-	APPLY_FILTERS = '[Collection] Apply Filters',
-	RESET_FILTERS = '[Collection] ResetFilters',
-	PAGINATE = '[Collection] Paginate',
-	REFRESH = '[Collection] Refresh'
+	APPLY_FILTERS = '[Subjects Collection] Apply Filters',
+  RESET_FILTERS = '[Subjects Collection] ResetFilters',
+  PAGINATE = '[Subjects Collection] Paginate',
+  REFRESH = '[Subjects Collection] Refresh'
 }
 
 export type SubjectsCollectionActionsUnion =

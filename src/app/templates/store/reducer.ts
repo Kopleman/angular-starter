@@ -1,5 +1,6 @@
 import { CollectionActionsUnion, CollectionActionTypes } from './types';
 import { ITemplateQueryParams } from '../models/template';
+import * as _ from 'lodash';
 
 export const INITIAL_FILTERS_STATE: ITemplateQueryParams = {
 	searchStr: '',
@@ -21,15 +22,7 @@ export function reducer(
 		}
 
 		case CollectionActionTypes.APPLY_FILTERS: {
-			state.selectedCategory = action.filters.selectedCategory
-				? action.filters.selectedCategory
-				: state.selectedCategory;
-			state.searchStr = action.filters.searchStr
-				? action.filters.searchStr
-				: state.searchStr;
-			state.sortBy = action.filters.sortBy
-				? action.filters.sortBy
-				: state.sortBy;
+			state = _.merge(state, action.filters);
 			state.skip = 0;
 			return state;
 		}

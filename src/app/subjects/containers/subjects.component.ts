@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
-import { ISubject, ISubjectQueryParams } from '../models/subject';
+import { ISubject, ISubjectFilters, ISubjectQueryParams } from '../models/subject';
 import { Observable } from 'rxjs/Observable';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SubjectsPaginate } from '../store/actions';
+import { SubjectsCollectionActionTypes } from '../store/types';
+import 'rxjs/add/operator/shareReplay';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
+
 
 @Component({
 	selector: 'subjects-page',
@@ -28,9 +34,9 @@ export class SubjectsPageComponent implements OnInit {
 
 	public ngOnInit() {
     this.filters$ = this.store.pipe(select('subjects'));
-    this.actionSubject.subscribe(() => {
+    this.actionSubject
+      .subscribe(() => {
       this.filters$.take(1).subscribe((state) => {
-        console.log(state);
         this.getSubjects(state);
       });
     });
@@ -45,8 +51,12 @@ export class SubjectsPageComponent implements OnInit {
 
 	private getSubjects(state: ISubjectQueryParams) {
     this.inProgress = true;
+    let filters: ISubjectFilters = {
+      searchStr: state.searchStr,
+      sortBy: state.sortBy
+    };
     this.subjectsData
-      .getSubjects(state.skip, state.limit)
+      .getSubjects(state.skip, state.limit, filters)
       .shareReplay()
       .subscribe(response => {
         this.inProgress = false;

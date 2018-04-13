@@ -1,7 +1,7 @@
 import { ISubjectQueryParams } from '../models/subject';
 import { SubjectsCollectionActionTypes } from './types';
 import { SubjectsCollectionActionsUnion } from './types';
-
+import * as _ from 'lodash';
 
 export const SUBJECTS_INITIAL_FILTERS_STATE: ISubjectQueryParams = {
   searchStr: '',
@@ -22,12 +22,7 @@ export function subjectsStateReducer(
     }
 
     case SubjectsCollectionActionTypes.APPLY_FILTERS: {
-      state.searchStr = action.filters.searchStr
-        ? action.filters.searchStr
-        : state.searchStr;
-      state.sortBy = action.filters.sortBy
-        ? action.filters.sortBy
-        : state.sortBy;
+      state = _.merge(state, action.filters);
       state.skip = 0;
       return state;
     }

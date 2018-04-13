@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SubjectsData } from './services/subjects-data';
 import { subjectsStateReducer, SUBJECTS_INITIAL_FILTERS_STATE } from './store/reducer';
 import { SubjectsListComponent } from './components/list/list.component';
+import { TopBarComponent } from './components/top-bar/top-bar.component';
 
 
 const SUBJECTS_DIALOG_COMPONENTS = [];
@@ -19,6 +20,7 @@ const SUBJECTS_DIALOG_COMPONENTS = [];
 export const SUBJECTS_COMPONENTS = [
 	SubjectsPageComponent,
   SubjectsListComponent,
+  TopBarComponent,
 	...SUBJECTS_DIALOG_COMPONENTS
 ];
 

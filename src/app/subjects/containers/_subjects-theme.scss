@@ -6,8 +6,12 @@
   $foreground: map-get($theme, foreground);
 
   subjects-page {
-    top-bar {
+    subjects-top-bar {
       background-color: mat-color($primary, 50);
+    }
+
+    subjects-list {
+      width: 960px;
     }
   }
 }

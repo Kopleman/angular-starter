@@ -2,7 +2,7 @@
   <mat-spinner *ngIf="!subjects"></mat-spinner>
 
   <div fxFlex="0 0 auto" fxLayout="column" *ngIf="subjects" >
-    <!--<top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"></top-bar>-->
+    <subjects-top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"></subjects-top-bar>
 
     <subjects-list fxFlex [subjects]="subjects"></subjects-list>
 
