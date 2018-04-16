@@ -1,10 +1,8 @@
 import {
 	Component,
-	EventEmitter,
 	Inject,
 	Input,
 	OnInit,
-	Output
 } from '@angular/core';
 import {
 	MatDialog,

@@ -13,9 +13,12 @@ import { SubjectsData } from './services/subjects-data';
 import { subjectsStateReducer, SUBJECTS_INITIAL_FILTERS_STATE } from './store/reducer';
 import { SubjectsListComponent } from './components/list/list.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
+import { SubjectEditDialogComponent } from './components/dialog-edit/edit-dialog.component';
 
 
-const SUBJECTS_DIALOG_COMPONENTS = [];
+const SUBJECTS_DIALOG_COMPONENTS = [
+  SubjectEditDialogComponent
+];
 
 export const SUBJECTS_COMPONENTS = [
 	SubjectsPageComponent,
@@ -52,6 +55,7 @@ export const SUBJECTS_PROVIDERS = [
 			}
 		])
 	],
+  entryComponents: SUBJECTS_DIALOG_COMPONENTS,
 	exports: [SUBJECTS_COMPONENTS],
 	providers: [SUBJECTS_PROVIDERS]
 })

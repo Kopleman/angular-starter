@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ISubject } from '../../models/subject';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { SubjectEditDialogComponent } from '../dialog-edit/edit-dialog.component';
+import { ISubjectEditDialogData } from '../../models/dialog';
+import { of } from 'rxjs/observable/of';
+import { SubjectsData } from '../../services/subjects-data';
 
 @Component({
   selector: 'subjects-list',
@@ -11,6 +15,12 @@ export class SubjectsListComponent implements OnInit{
   @Input() public subjects: ISubject[];
   public displayedColumns = [];
 
+  constructor(
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private subjectsData: SubjectsData
+  ) {}
+
   public ngOnInit() {
     this.displayedColumns = ['_id', 'title', 'controls'];
   }
@@ -20,6 +30,50 @@ export class SubjectsListComponent implements OnInit{
   }
 
   public editSubject(subject: ISubject) {
-    console.log(subject);
+    let dialogResult: ISubjectEditDialogData;
+    let dialogRef = this.dialog.open<SubjectEditDialogComponent,ISubjectEditDialogData>(
+      SubjectEditDialogComponent, {
+        width: '580px',
+        closeOnNavigation: true,
+        panelClass: 'properties-dialog-component',
+        data: {
+          subject,
+          selectedWhiteLabel: subject.whitelabelsIds.length
+            ?  subject.whitelabelsIds[0]
+            : '',
+        }
+      }
+    );
+
+    dialogRef
+      .afterClosed()
+      .flatMap(result => {
+        if (!result) {
+          return of(null);
+        }
+        dialogResult = result;
+        console.log(dialogResult);
+        result.subject.whitelabelsIds = [result.selectedWhiteLabel];
+        this.snackBar.open(`Сохраняем изменения`, 'Закрыть');
+        return this.subjectsData.saveChanges(result.subject);
+      })
+      .subscribe(
+        result => {
+          if (result) {
+            this.snackBar.open(`Сохранено`, 'Закрыть', {
+              duration: 2000
+            });
+            subject = dialogResult.subject;
+          }
+        },
+        errorResp => {
+          this.snackBar.open(
+            `Произошла ошибка при сохранение: ${
+              errorResp.error.message
+              }`,
+            'Закрыть'
+          );
+        }
+      );
   }
 }

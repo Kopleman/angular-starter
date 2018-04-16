@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../core/services/api';
-import { ISubjectFilters, ISubjectQueryParams, ISubjectsResponse } from '../models/subject';
+import {
+  ISubject,
+  ISubjectFilters,
+  ISubjectQueryParams,
+  ISubjectsResponse
+} from '../models/subject';
 
 
 @Injectable()
@@ -12,5 +17,9 @@ export class SubjectsData {
       'admin/rest/subjects',
       { skip, limit, ...filters }
     );
+  }
+
+  public saveChanges(subject:ISubject) {
+    return this.api.put(`admin/rest/subjects/${subject._id}`, subject);
   }
 }

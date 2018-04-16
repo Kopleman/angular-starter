@@ -1,5 +1,7 @@
 export interface ISubject {
-
+  whitelabelsIds:  string[];
+  _id: string;
+  title: string;
 }
 
 export interface ISubjectFilters {

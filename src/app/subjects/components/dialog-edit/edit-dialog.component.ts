@@ -20,7 +20,7 @@ export class SubjectEditDialogComponent implements OnInit{
 
   public ngOnInit() {
     let controls = {
-      selectedWhiteLabel: [null, Validators.required],
+      selectedWhiteLabel: [null, null],
     };
     this.editForm = this.formBuilder.group(controls);
     this.whiteLabelsData.getWhiteLabels().subscribe((wls) => {
