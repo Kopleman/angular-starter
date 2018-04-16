@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as _ from 'lodash';
 import { IChangePropsDialogData } from '../../models/dialog';
-import { WhiteLabelsData } from '../../services/whitelabels-data';
-import { IWhiteLabel } from '../../models/whitelabel';
+import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
+import { IWhiteLabel } from '../../../shared/models/whitelabel';
 
 @Component({
   selector: 'properties-dialog',

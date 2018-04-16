@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Редактирование {{data.subject._id}}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="editForm"  class="properties-form">
+    <mat-form-field>
+      <mat-select placeholder="White Label" formControlName="selectedWhiteLabel" [(ngModel)]="data.selectedWhiteLabel" >
+        <mat-option [value]="''">Доступен для всех</mat-option>
+        <mat-option *ngFor="let wl of whiteLables" [value]="wl._id">{{wl.id}}({{wl.ip}})</mat-option>
+      </mat-select>
+      <mat-error *ngIf="editForm.get('selectedWhiteLabel').hasError('required')">
+        <strong>Выбирите категорию</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!editForm.valid">Сохранить</button>
+  <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>

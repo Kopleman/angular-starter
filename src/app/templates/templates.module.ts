@@ -19,7 +19,7 @@ import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.com
 import { UsersData } from './services/users-data';
 import { CreateDialogComponent } from './components/create-dialog/create-dialog.component';
 import { PropsDialogComponent } from './components/properties-dialog/props-dialog.component';
-import { WhiteLabelsData } from './services/whitelabels-data';
+import { WhiteLabelsData } from '../shared/services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
 import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
 import { ModuleTypes } from '../shared/models/ngrx-action';

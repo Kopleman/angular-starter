@@ -16,8 +16,9 @@
   <ng-container matColumnDef="controls">
     <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
     <mat-cell *matCellDef="let row">
-      <button mat-raised-button color="primary">
-        Конструктор
+      <button mat-raised-button color="primary" (click)="editSubject(row)">
+        <mat-icon>settings</mat-icon>
+        <span>Edit</span>
       </button>
     </mat-cell>
   </ng-container>

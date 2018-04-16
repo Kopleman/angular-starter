@@ -18,4 +18,8 @@ export class SubjectsListComponent implements OnInit{
   public createDataSource(subjects: ISubject[]) {
     return new MatTableDataSource(subjects);
   }
+
+  public editSubject(subject: ISubject) {
+    console.log(subject);
+  }
 }
