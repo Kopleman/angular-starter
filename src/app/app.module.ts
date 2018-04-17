@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { INITIAL_FILTERS_STATE, reducer } from './templates/store/reducer';
 import { StoreModule } from '@ngrx/store';
+import { UsersModule } from './users/users.module';
 
 // Application wide providers
 const APP_PROVIDERS = [];
@@ -44,7 +45,8 @@ const APP_PROVIDERS = [];
 		CoreModule,
 		AuthModule,
 		TemplatesModule,
-		SubjectsModule
+		SubjectsModule,
+    UsersModule
 	],
 	/**
 	 * Expose our Services and Providers into Angular's dependency injection.

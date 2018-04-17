@@ -6,7 +6,7 @@
 @import '../app/core/components/navbar/navbar-theme';
 @import '../app/templates/containers/templates-theme';
 @import '../app/subjects/containers/subjects-theme';
-@import '../app/templates/components/clone-dialog/clone-dialog-theme';
+@import '../app/users/containers/users-theme';
 
 $primary: mat-palette($mat-indigo);
 $accent:  mat-palette($mat-amber, $default, $lighter, $darker);
@@ -18,6 +18,7 @@ $theme: mat-light-theme($primary, $accent);
 @include nav-bar-theme($theme);
 @include templates-theme($theme);
 @include subjects-theme($theme);
+@include users-theme($theme);
 
 $_primary: map-get($theme, primary);
 $_accent: map-get($theme, accent);

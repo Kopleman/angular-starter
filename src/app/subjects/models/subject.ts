@@ -9,7 +9,7 @@ export interface ISubjectFilters {
   sortBy?: string;
 }
 
-export interface ISubjectQueryParams extends ISubjectFilters{
+export interface ISubjectQueryParams extends ISubjectFilters {
   skip: number;
   limit: number;
 }

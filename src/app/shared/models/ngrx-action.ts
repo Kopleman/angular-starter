@@ -7,4 +7,5 @@ export interface ICustomAction extends Action{
 export enum ModuleTypes {
   TEMPLATES = 'template',
   SUBJECTS = 'subjects',
+  USERS = 'users'
 }
