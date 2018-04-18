@@ -1,0 +1,17 @@
+users-list {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+users-top-bar {
+  position: fixed;
+  top: 53px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  width: 100%;
+}
+
+.list-wrapper {
+  margin-top: 65px;
+}

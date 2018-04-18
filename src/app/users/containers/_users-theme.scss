@@ -4,6 +4,14 @@
   $warn: map-get($theme, warn);
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
+  users-page {
+    users-top-bar {
+      background-color: mat-color($primary, 50);
+    }
 
+    users-list {
+      width: 960px;
+    }
+  }
 
 }
