@@ -4,14 +4,15 @@ import { Observable } from 'rxjs/Observable';
 
 import { Api } from '../../core/services/api';
 import {
-	IUser,
-	IUserFilters,
-	IUserQueryParams,
-	IUsersResponse
+  IUser,
+  IUserFilters,
+  IUserQueryParams, IUserRole,
+  IUsersResponse
 } from '../models/user';
 
 @Injectable()
 export class UsersData {
+  private userRoles: Observable<IUserRole[]>;
 	constructor(private api: Api) {}
 
 	public getUsers(skip: number, limit: number, filters?: IUserFilters) {
@@ -21,4 +22,16 @@ export class UsersData {
 			...filters
 		});
 	}
+
+	public getRolesList() {
+	  if(!this.userRoles) {
+      this.userRoles = this._getRolesList().shareReplay(1);
+    }
+
+    return this.userRoles;
+  }
+
+	private _getRolesList() {
+    return this.api.get<IUserRole[], null>('admin/rest/users/roles');
+  }
 }

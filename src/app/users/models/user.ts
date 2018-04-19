@@ -21,3 +21,8 @@ export interface IUsersResponse {
   count: number;
   users: IUser[];
 }
+
+export interface IUserRole {
+  name: string;
+  value: string;
+}

@@ -15,7 +15,7 @@
 
   <ng-container matColumnDef="role">
     <mat-header-cell *matHeaderCellDef> Роль </mat-header-cell>
-    <mat-cell *matCellDef="let row"> {{row.role}} </mat-cell>
+    <mat-cell *matCellDef="let row"> {{translateUserRole(row.role) | async}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="created">
@@ -25,7 +25,16 @@
 
   <ng-container matColumnDef="controls">
     <mat-header-cell *matHeaderCellDef> Действия </mat-header-cell>
-    <mat-cell *matCellDef="let row">  </mat-cell>
+    <mat-cell *matCellDef="let row">
+      <button mat-raised-button color="primary">
+        <mat-icon>mode_edit</mat-icon>
+        Редактировать
+      </button>
+      <button mat-raised-button color="warn">
+        <mat-icon>delete</mat-icon>
+        Удалить
+      </button>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
