@@ -5,7 +5,7 @@ import 'rxjs/add/operator/shareReplay';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
-import { ICustomAction, ModuleTypes } from '../models/ngrx-action';
+import { ICustomAction } from '../models/ngrx-action';
 
 export abstract class Collection<T, U> implements OnDestroy{
   public collection: T;

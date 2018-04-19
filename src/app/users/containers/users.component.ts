@@ -46,6 +46,10 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
     this.store.dispatch(new UsersPaginate(skip, this.pageSize));
   }
 
+  public createNewUser() {
+	  console.log('stub');
+  }
+
   protected actionFilter(action) {
     return action.feature === ModuleTypes.USERS;
   }

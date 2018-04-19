@@ -4,7 +4,12 @@
 
   <div fxFlex="0 0 auto" fxLayout="column" *ngIf="collection" >
     <users-top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"></users-top-bar>
-
+    <div class="controls" fxLayoutGap="8px">
+      <button mat-button color="primary" (click)="createNewUser()">
+        <mat-icon>add</mat-icon>
+        Добавить пользователя
+      </button>
+    </div>
     <users-list fxFlex [users]="collection"></users-list>
 
     <mat-paginator *ngIf="collection.length" fxFlex [length]="total"

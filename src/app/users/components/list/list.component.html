@@ -25,14 +25,12 @@
 
   <ng-container matColumnDef="controls">
     <mat-header-cell *matHeaderCellDef> Действия </mat-header-cell>
-    <mat-cell *matCellDef="let row">
-      <button mat-raised-button color="primary">
+    <mat-cell *matCellDef="let row" fxLayoutGap="8px">
+      <button mat-mini-fab color="primary">
         <mat-icon>mode_edit</mat-icon>
-        Редактировать
       </button>
-      <button mat-raised-button color="warn">
+      <button mat-mini-fab color="warn">
         <mat-icon>delete</mat-icon>
-        Удалить
       </button>
     </mat-cell>
   </ng-container>
