@@ -2,15 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { ISubject, ISubjectFilters, ISubjectQueryParams } from '../models/subject';
-import { Observable } from 'rxjs/Observable';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SubjectsPaginate } from '../store/actions';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
-import { Subscription } from 'rxjs/Subscription';
+import { Collection } from '../../shared/abstracts/collection';
 
 
 @Component({
@@ -18,21 +13,14 @@ import { Subscription } from 'rxjs/Subscription';
 	styleUrls: ['./subjects.component.scss'],
 	templateUrl: './subjects.component.html'
 })
-export class SubjectsPageComponent implements OnInit, OnDestroy {
-
-  public subjects: ISubject[];
-	public total: number;
-	public pageIndex: number = 0;
-	public pageSize: number = 10;
-	public pageSizeOptions: number[] = [5, 10, 25];
-	public inProgress: boolean = false;
-  private actionSubjectSubscription: Subscription;
-  private filters$: Observable<ISubjectQueryParams>;
-	constructor(
+export class SubjectsPageComponent extends Collection<ISubject[], ISubjectQueryParams> implements OnInit, OnDestroy {
+  constructor(
 	  private subjectsData: SubjectsData,
     private actionSubject: ActionsSubject,
     private store: Store<ISubjectQueryParams>,
-  ) {}
+  ) {
+	  super();
+  }
 
 	public ngOnInit() {
     this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
@@ -43,7 +31,7 @@ export class SubjectsPageComponent implements OnInit, OnDestroy {
     }).unsubscribe();
     this.actionSubjectSubscription = this.actionSubject
       .skip(1)
-      .filter((action: ICustomAction) =>  { return action.feature === ModuleTypes.SUBJECTS } )
+      .filter((action: ICustomAction) =>  this.actionFilter(action))
       .subscribe(() => {
       this.filters$.take(1).subscribe((state) => {
         this.getSubjects(state);
@@ -51,15 +39,15 @@ export class SubjectsPageComponent implements OnInit, OnDestroy {
     });
 	}
 
-	public ngOnDestroy() {
-    this.actionSubjectSubscription.unsubscribe();
-  }
-
   public paginate($event: PageEvent) {
     this.pageIndex = $event.pageIndex;
     this.pageSize = $event.pageSize;
     let skip = this.pageIndex * this.pageSize;
     this.store.dispatch(new SubjectsPaginate(skip, this.pageSize));
+  }
+
+  protected actionFilter(action) {
+    return action.feature === ModuleTypes.SUBJECTS;
   }
 
 	private getSubjects(state: ISubjectQueryParams) {
@@ -74,7 +62,7 @@ export class SubjectsPageComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         this.inProgress = false;
         this.total = response.count;
-        this.subjects = response.subjects;
+        this.collection = response.subjects;
       });
   }
 }

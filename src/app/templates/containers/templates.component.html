@@ -1,7 +1,7 @@
 <div class="list-wrapper" fxFlex fxLayoutAlign="center start" >
-  <mat-spinner *ngIf="!templates"></mat-spinner>
+  <mat-spinner *ngIf="!collection"></mat-spinner>
 
-  <div fxFlex="0 0 auto" fxLayout="column" *ngIf="templates" >
+  <div fxFlex="0 0 auto" fxLayout="column" *ngIf="collection" >
     <top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
              ></top-bar>
     <div class="controls" fxLayoutGap="8px">
@@ -14,9 +14,9 @@
         Compile all
       </button>
     </div>
-    <templates-list fxFlex [templates]="templates"></templates-list>
+    <templates-list fxFlex [templates]="collection"></templates-list>
 
-    <mat-paginator *ngIf="templates.length" fxFlex [length]="total"
+    <mat-paginator *ngIf="collection.length" fxFlex [length]="total"
                    [pageIndex]="pageIndex"
                    [pageSize]="pageSize"
                    [pageSizeOptions]="pageSizeOptions"

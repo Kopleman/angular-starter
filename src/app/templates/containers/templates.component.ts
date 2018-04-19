@@ -3,43 +3,41 @@ import { TemplatesData } from '../services/templates-data';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import { ITemplate, ITemplateFilters, ITemplateQueryParams } from '../models/template';
+import {
+	ITemplate,
+	ITemplateFilters,
+	ITemplateQueryParams
+} from '../models/template';
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
-import { Subscription } from 'rxjs/Subscription';
+import { Collection } from '../../shared/abstracts/collection';
 
 @Component({
 	selector: 'templates-page',
 	styleUrls: ['./templates.component.scss'],
 	templateUrl: './templates.component.html'
 })
-export class TemplatesPageComponent implements OnInit, OnDestroy {
-	public templates: ITemplate[];
+export class TemplatesPageComponent extends Collection<
+	ITemplate[],
+	ITemplateQueryParams
+> implements OnInit, OnDestroy {
+	public collection: ITemplate[];
 	public subjects$: Observable<ISubject[]>;
-	public total: number;
-	public pageIndex: number = 0;
-	public pageSize: number = 10;
-	public pageSizeOptions: number[] = [5, 10, 25];
-	public inProgress: boolean = false;
-	private filters$: Observable<ITemplateQueryParams>;
-  private actionSubjectSubscription: Subscription;
 	constructor(
-	  private actionSubject: ActionsSubject,
-    private store: Store<ITemplateQueryParams>,
+		private actionSubject: ActionsSubject,
+		private store: Store<ITemplateQueryParams>,
 		private templatesData: TemplatesData,
 		private subjectsData: SubjectsData,
 		private snackBar: MatSnackBar,
 		public dialog: MatDialog
-	) {}
+	) {
+		super();
+	}
 
 	/**
 	 * При инициализации компонента фетчим первую страницу списка,
@@ -49,30 +47,33 @@ export class TemplatesPageComponent implements OnInit, OnDestroy {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
 
-    this.filters$.share().take(1).subscribe((state) => {
-      this.pageIndex = state.skip / state.limit;
-      this.pageSize = state.limit;
-      this.getTemplates(state);
-    }).unsubscribe();
+		this.filters$
+			.share()
+			.take(1)
+			.subscribe(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				this.getTemplates(state);
+			})
+			.unsubscribe();
 
 		this.actionSubjectSubscription = this.actionSubject
-      .filter((action: ICustomAction) =>  action.feature === ModuleTypes.TEMPLATES )
-      .subscribe(() => {
-		  this.filters$.take(1).subscribe((state) => {
-        this.getTemplates(state);
-      }).unsubscribe();
-    });
+			.filter((action: ICustomAction) => this.actionFilter(action))
+			.subscribe(() => {
+				this.filters$
+					.take(1)
+					.subscribe(state => {
+						this.getTemplates(state);
+					})
+					.unsubscribe();
+			});
 	}
-
-	public ngOnDestroy() {
-    this.actionSubjectSubscription.unsubscribe();
-  }
 
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;
 		this.pageSize = $event.pageSize;
 		let skip = this.pageIndex * this.pageSize;
-    this.store.dispatch(new Paginate(skip, this.pageSize));
+		this.store.dispatch(new Paginate(skip, this.pageSize));
 	}
 
 	public createNewTemplate() {
@@ -116,10 +117,12 @@ export class TemplatesPageComponent implements OnInit, OnDestroy {
 						this.snackBar.open(`Шаблон создан`, 'Закрыть', {
 							duration: 2000
 						});
-						this.store.dispatch(new ApplyFilters({
-              selectedCategory: dialogResult.selectedSubject,
-              searchStr: dialogResult.templateId
-            }));
+						this.store.dispatch(
+							new ApplyFilters({
+								selectedCategory: dialogResult.selectedSubject,
+								searchStr: dialogResult.templateId
+							})
+						);
 					}
 				},
 				errorResp => {
@@ -148,24 +151,28 @@ export class TemplatesPageComponent implements OnInit, OnDestroy {
 		);
 	}
 
-  /**
-   * Получить шаблоны с бэка с задаными параметрами
-   * @param state
-   */
+	protected actionFilter(action) {
+		return action.feature === ModuleTypes.TEMPLATES;
+	}
+
+	/**
+	 * Получить шаблоны с бэка с задаными параметрами
+	 * @param state
+	 */
 	private getTemplates(state: ITemplateQueryParams) {
 		this.inProgress = true;
 		let filters: ITemplateFilters = {
-      selectedCategory: state.selectedCategory,
-      searchStr: state.searchStr,
-      sortBy: state.sortBy
-    };
+			selectedCategory: state.selectedCategory,
+			searchStr: state.searchStr,
+			sortBy: state.sortBy
+		};
 		this.templatesData
 			.getTemplates(state.skip, state.limit, filters)
 			.shareReplay()
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;
-				this.templates = response.templates;
+				this.collection = response.templates;
 			});
 	}
 }
