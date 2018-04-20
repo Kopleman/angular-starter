@@ -8,6 +8,15 @@ export interface IUserQueryParams extends IUserFilters{
   limit: number;
 }
 
+export interface INewUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  phone: string;
+  password: string;
+}
+
 export interface IUser {
   email: string;
   created: string;

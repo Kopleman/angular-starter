@@ -1,0 +1,58 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Добавить верстальщица</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="createForm"  class="create-form">
+    <mat-form-field class="field">
+      <input matInput placeholder="Email*" formControlName="email" [(ngModel)]="data.email">
+      <mat-error *ngIf="createForm.get('email').hasError('pattern')">
+        Ошибка в email
+      </mat-error>
+      <mat-error *ngIf="createForm.get('email').hasError('required')">
+        <strong>Введите email</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="text" placeholder="Пароль*" formControlName="password" [(ngModel)]="data.password">
+      <mat-error *ngIf="createForm.get('password').hasError('required')">
+        <strong>Введите пароль</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Роль*" formControlName="role" [(ngModel)]="data.role" >
+        <mat-option *ngFor="let role of data.rolesList$ | async" [value]="role.value">{{role.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="createForm.get('role').hasError('required')">
+        <strong>Выбирите роль</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="text" placeholder="Имя*" formControlName="firstName" [(ngModel)]="data.firstName">
+      <mat-error *ngIf="createForm.get('firstName').hasError('required')">
+        <strong>Введите имя</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="text" placeholder="Фамилия*" formControlName="lastName" [(ngModel)]="data.lastName">
+      <mat-error *ngIf="createForm.get('lastName').hasError('required')">
+        <strong>Введите фамилию</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="field">
+      <input matInput type="text" placeholder="Телефон*" formControlName="phone" [(ngModel)]="data.phone">
+      <mat-error *ngIf="createForm.get('phone').hasError('required')">
+        <strong>Введите номер телефона</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!createForm.valid">Добавить</button>
+  <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>

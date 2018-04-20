@@ -35,7 +35,7 @@ export class TopBarComponent implements OnInit {
 
 	public ngOnInit() {
     this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-    this.filters$.subscribe(state => {
+    this.filters$.share().take(1).subscribe(state => {
       this.filters = _.merge(this.filters, state);
     });
 		this.bindControls();

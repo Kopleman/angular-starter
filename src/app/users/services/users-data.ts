@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Api } from '../../core/services/api';
 import {
+  INewUser,
   IUser,
   IUserFilters,
   IUserQueryParams, IUserRole,
@@ -22,6 +23,10 @@ export class UsersData {
 			...filters
 		});
 	}
+
+	public  createNewUser(user: INewUser) {
+    return this.api.post('admin/rest/users', user);
+  }
 
 	public getRolesList() {
 	  if(!this.userRoles) {
