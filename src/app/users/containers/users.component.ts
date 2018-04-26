@@ -30,26 +30,11 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-		this.filters$
-			.share()
-			.take(1)
-			.subscribe(state => {
-				this.pageIndex = state.skip / state.limit;
-				this.pageSize = state.limit;
-				this.getUsers(state);
-			})
-			.unsubscribe();
 
 		this.actionSubjectSubscription = this.actionSubject
-			.skip(1)
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
-				this.filters$
-					.take(1)
-					.subscribe(state => {
-						this.getUsers(state);
-					})
-					.unsubscribe();
+        this.getUsers()
 			});
 	}
 
@@ -83,7 +68,6 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 		dialogRef
 			.afterClosed()
 			.flatMap(result => {
-			  console.log(result);
 				if (!result) {
 					return of(null);
 				}
@@ -122,20 +106,23 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 		return action.feature === ModuleTypes.USERS;
 	}
 
-	private getUsers(state) {
-		this.inProgress = true;
-		let filters: ISubjectFilters = {
-			searchStr: state.searchStr,
-			sortBy: state.sortBy
-		};
-
-		this.usersData
-			.getUsers(state.skip, state.limit, filters)
-			.shareReplay()
-			.subscribe(response => {
-				this.inProgress = false;
-				this.total = response.count;
-				this.collection = response.users;
-			});
-	}
+	private getUsers() {
+    this.inProgress = true;
+    this.filters$
+      .flatMap((state) => {
+        this.pageIndex = state.skip / state.limit;
+        this.pageSize = state.limit;
+        let filters: ISubjectFilters = {
+          searchStr: state.searchStr,
+          sortBy: state.sortBy
+        };
+        return this.usersData
+          .getUsers(state.skip, state.limit, filters);
+      })
+      .subscribe(response => {
+        this.inProgress = false;
+        this.total = response.count;
+        this.collection = response.users;
+      });
+  }
 }
