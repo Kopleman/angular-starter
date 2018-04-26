@@ -101,7 +101,6 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 			})
 			.subscribe(
 				result => {
-					console.log(result);
 					if( result ){
             this.snackBar.open(`Пользователь создан`, 'Закрыть', {
               duration: 2000
