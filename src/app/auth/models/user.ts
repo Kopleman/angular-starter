@@ -1,13 +1,13 @@
 export interface ILoginModel {
-  email: string;
-  password: string;
+	email: string;
+	password: string;
 }
 
 export interface IProfile {
-  email: string;
-  role: string;
+	email: string;
+	role: string;
 }
 
 export interface ILoginResponse {
-  user: IProfile;
+	user: IProfile;
 }

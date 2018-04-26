@@ -1,9 +1,4 @@
-import {
-	Component,
-	Inject,
-	Input,
-	OnInit,
-} from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
 	MatDialog,
 	MatSlideToggleChange,
@@ -19,9 +14,9 @@ import { ISubject } from '../../models/subject';
 import { AuthService } from '../../../auth/services/auth';
 import { CloneDialogComponent } from '../clone-dialog/clone-dialog.component';
 import {
-  ITemplate,
-  ITemplateHost,
-  ITemplateQueryParams
+	ITemplate,
+	ITemplateHost,
+	ITemplateQueryParams
 } from '../../models/template';
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropsDialogComponent } from '../properties-dialog/props-dialog.component';
@@ -52,7 +47,7 @@ export class TemplateListItemComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		public dialog: MatDialog,
 		@Inject(APP_CONFIG) private config: AppConfig,
-    private store: Store<ITemplateQueryParams>,
+		private store: Store<ITemplateQueryParams>
 	) {}
 
 	public ngOnInit() {
@@ -83,11 +78,15 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public filterByName(name) {
-	  this.store.dispatch(new ApplyFilters({ searchStr: name, selectedCategory: '' }));
+		this.store.dispatch(
+			new ApplyFilters({ searchStr: name, selectedCategory: '' })
+		);
 	}
 
 	public filterByCategory(category) {
-    this.store.dispatch(new ApplyFilters({ searchStr: '', selectedCategory: category }));
+		this.store.dispatch(
+			new ApplyFilters({ searchStr: '', selectedCategory: category })
+		);
 	}
 
 	public getTemplatePreviewUrl(lang) {

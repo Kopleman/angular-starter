@@ -1,58 +1,56 @@
 .menu-navbar-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  padding: 8px 16px;
-  position: relative;
-  > .mat-button {
-    &.logout {
-      margin-left: auto;
-    }
-  }
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	padding: 8px 16px;
+	position: relative;
+	> .mat-button {
+		&.logout {
+			margin-left: auto;
+		}
+	}
 }
 
 .flex-spacer {
-  flex-grow: 1;
+	flex-grow: 1;
 }
 
 .logo {
-  height: 26px;
-  margin: 0 4px 3px 0;
-  vertical-align: middle;
+	height: 26px;
+	margin: 0 4px 3px 0;
+	vertical-align: middle;
 }
 
-
 .menu-navbar-link {
-  text-decoration: inherit;
-  flex: 1;
+	text-decoration: inherit;
+	flex: 1;
 }
 
 .menu-navbar {
-  display: none;
+	display: none;
 }
 
 .menu-navbar-show-small {
-  display: none;
+	display: none;
 }
 /**
   * Rules for when the device is detected to be a small screen.
   * Moves content two rows instead of one.
   */
 @media (max-width: 720px) {
-  .menu-navbar-hide-small {
-    display: none;
-  }
+	.menu-navbar-hide-small {
+		display: none;
+	}
 
-  .menu-navbar-show-small {
-    display: block;
-  }
+	.menu-navbar-show-small {
+		display: block;
+	}
 
-  .menu-navbar {
-    display: flex;
-  }
+	.menu-navbar {
+		display: flex;
+	}
 
-  .menu-navbar--github-logo {
-    margin: 0;
-  }
+	.menu-navbar--github-logo {
+		margin: 0;
+	}
 }
-

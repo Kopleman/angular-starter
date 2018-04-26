@@ -19,24 +19,22 @@ import * as _ from 'lodash';
 })
 export class TopBarComponent implements OnInit {
 	public filters: ISubjectQueryParams = SUBJECTS_INITIAL_FILTERS_STATE;
-  public filters$: Observable<ISubjectQueryParams>;
+	public filters$: Observable<ISubjectQueryParams>;
 	public sortOptions = [
 		{ label: 'по id', value: '_id' },
-		{ label: 'по имени', value: 'title' },
+		{ label: 'по имени', value: 'title' }
 	];
 
 	public searchControl = new FormControl();
 	public sortControl = new FormControl();
 
-	constructor(
-		private store: Store<ISubjectQueryParams>
-	) {}
+	constructor(private store: Store<ISubjectQueryParams>) {}
 
 	public ngOnInit() {
-    this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
-    this.filters$.subscribe(state => {
-      this.filters = _.merge(this.filters, state);
-    });
+		this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
+		this.filters$.subscribe(state => {
+			this.filters = _.merge(this.filters, state);
+		});
 		this.bindControls();
 	}
 

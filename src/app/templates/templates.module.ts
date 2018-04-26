@@ -47,13 +47,9 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
-		StoreModule.forFeature(
-      ModuleTypes.TEMPLATES,
-      reducer,
-			{
-				initialState: INITIAL_FILTERS_STATE
-			}
-		),
+		StoreModule.forFeature(ModuleTypes.TEMPLATES, reducer, {
+			initialState: INITIAL_FILTERS_STATE
+		}),
 		SharedModule,
 		RouterModule.forChild([
 			{

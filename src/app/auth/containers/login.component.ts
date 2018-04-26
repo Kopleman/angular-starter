@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-	FormBuilder,
-	FormGroup,
-	Validators
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth';
 import { Router } from '@angular/router';
 @Component({
@@ -29,13 +25,13 @@ export class LoginPageComponent implements OnInit {
 	}
 
 	public onLogin() {
-			this.userData.login(this.login.email, this.login.password).subscribe(
-				r => {
-					this.router.navigate(['/templates']);
-				},
-				response => {
-					this.errorMessage = response.error.error;
-				}
-			);
+		this.userData.login(this.login.email, this.login.password).subscribe(
+			r => {
+				this.router.navigate(['/templates']);
+			},
+			response => {
+				this.errorMessage = response.error.error;
+			}
+		);
 	}
 }

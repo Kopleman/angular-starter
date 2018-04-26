@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders, HttpParams
+	HttpClient,
+	HttpErrorResponse,
+	HttpHeaders,
+	HttpParams
 } from '@angular/common/http';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs';
@@ -20,48 +21,47 @@ import { APP_CONFIG, AppConfig } from '../../config.module';
  */
 @Injectable()
 export class Api {
-  /**
-   * Хост для запросов, с настроеным на нем CORS(!)
-   * @type {string}
-   */
+	/**
+	 * Хост для запросов, с настроеным на нем CORS(!)
+	 * @type {string}
+	 */
 	private apiHost: string;
-  /**
-   * Имутабельный обьект заголовков
-   * Добавленый isSPA — костыль для текущего бэкенда(29.01.2018)
-   * В противном случае, любой запросы к потрохам бэкенда, в случае не авторизации приводит к 302
-   * (UKIT: routes/user.js)
-   * @type {HttpHeaders}
-   */
-	private headers: HttpHeaders = new HttpHeaders({'isSPA': 'true'});
+	/**
+	 * Имутабельный обьект заголовков
+	 * Добавленый isSPA — костыль для текущего бэкенда(29.01.2018)
+	 * В противном случае, любой запросы к потрохам бэкенда, в случае не авторизации приводит к 302
+	 * (UKIT: routes/user.js)
+	 * @type {HttpHeaders}
+	 */
+	private headers: HttpHeaders = new HttpHeaders({ isSPA: 'true' });
 	constructor(
 		private http: HttpClient,
-    @Inject(APP_CONFIG) private config: AppConfig
-	)
-	{
-	    this.apiHost = this.config.host;
+		@Inject(APP_CONFIG) private config: AppConfig
+	) {
+		this.apiHost = this.config.host;
 	}
 
-  /**
-   * Обертка для GET запросов, устаналивает заголовки, query-параметры
-   * @param {string} endPoint — конечная точка бэка куда стучимся
-   * @param {U} search Объект — Объект query-параметров
-   * @param {boolean} withCredentials — флаг что мы делаем запрос с авторизацие(отправляем куку)
-   * @param {Object} headers — Объект доп. заголовков
-   * @returns {Observable<T>}
-   */
+	/**
+	 * Обертка для GET запросов, устаналивает заголовки, query-параметры
+	 * @param {string} endPoint — конечная точка бэка куда стучимся
+	 * @param {U} search Объект — Объект query-параметров
+	 * @param {boolean} withCredentials — флаг что мы делаем запрос с авторизацие(отправляем куку)
+	 * @param {Object} headers — Объект доп. заголовков
+	 * @returns {Observable<T>}
+	 */
 	public get<T, U extends Object>(
 		endPoint: string,
 		search: U = null,
-    withCredentials: boolean = true,
-    headers: Object = null,
+		withCredentials: boolean = true,
+		headers: Object = null
 	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 		let options = {
-      params: this.createSearchParams(search),
+			params: this.createSearchParams(search),
 			headers: this.headers,
-      withCredentials
+			withCredentials
 		};
 
 		return this.http
@@ -74,19 +74,19 @@ export class Api {
 			});
 	}
 
-  /**
-   * Обертка для POST запросов
-   * @param {string} endPoint — конечная точка бэка куда стучимся
-   * @param {U} body — Объект body-параметров
-   * @param {boolean} withCredentials — флаг что мы делаем запрос с авторизацие(отправляем куку)
-   * @param {Object} headers — Объект доп. заголовков
-   * @returns {Observable<T>}
-   */
+	/**
+	 * Обертка для POST запросов
+	 * @param {string} endPoint — конечная точка бэка куда стучимся
+	 * @param {U} body — Объект body-параметров
+	 * @param {boolean} withCredentials — флаг что мы делаем запрос с авторизацие(отправляем куку)
+	 * @param {Object} headers — Объект доп. заголовков
+	 * @returns {Observable<T>}
+	 */
 	public post<T, U extends Object>(
 		endPoint: string,
 		body: U = null,
-    withCredentials: boolean = true,
-    headers: Object = null
+		withCredentials: boolean = true,
+		headers: Object = null
 	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
@@ -94,28 +94,26 @@ export class Api {
 
 		let options = {
 			headers: this.headers,
-      withCredentials
+			withCredentials
 		};
 
-		return (
-			this.http
-				.post<T>(`${this.apiHost}${endPoint}`, body, options)
-				.catch(this.logError)
-				.finally(() => {
-					_.forEach(headers, (val, key) => {
-						this.deleteHeader(key);
-					});
-				})
-		);
+		return this.http
+			.post<T>(`${this.apiHost}${endPoint}`, body, options)
+			.catch(this.logError)
+			.finally(() => {
+				_.forEach(headers, (val, key) => {
+					this.deleteHeader(key);
+				});
+			});
 	}
 
-  /**
-   * Обертка для PUT запросов
-   * @param {string} endPoint — конечная точка бэка куда стучимся
-   * @param {U} body — Объект body-параметров
-   * @param {Object} headers — Объект доп. заголовков
-   * @returns {Observable<T>}
-   */
+	/**
+	 * Обертка для PUT запросов
+	 * @param {string} endPoint — конечная точка бэка куда стучимся
+	 * @param {U} body — Объект body-параметров
+	 * @param {Object} headers — Объект доп. заголовков
+	 * @returns {Observable<T>}
+	 */
 	public put<T, U>(
 		endPoint: string,
 		body: U = null,
@@ -127,7 +125,7 @@ export class Api {
 
 		let options = {
 			headers: this.headers,
-      withCredentials: true
+			withCredentials: true
 		};
 
 		return this.http
@@ -141,23 +139,20 @@ export class Api {
 			.share();
 	}
 
-  /**
-   * Обертка для DELETE запросов
-   * @param {string} endPoint — конечная точка бэка куда стучимся
-   * @param {Object} headers — Объект body-параметров
-   * @returns {Observable<T>} — Объект доп. заголовков
-   */
-	public delete<T, U>(
-		endPoint: string,
-		headers: Object = null
-	): Observable<T> {
+	/**
+	 * Обертка для DELETE запросов
+	 * @param {string} endPoint — конечная точка бэка куда стучимся
+	 * @param {Object} headers — Объект body-параметров
+	 * @returns {Observable<T>} — Объект доп. заголовков
+	 */
+	public delete<T, U>(endPoint: string, headers: Object = null): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 
 		let options = {
 			headers: this.headers,
-      withCredentials: true
+			withCredentials: true
 		};
 
 		return this.http
@@ -171,47 +166,47 @@ export class Api {
 			.share();
 	}
 
-  /**
-   * Добавить заголовок
-   * @param {string} name
-   * @param {string} value
-   */
+	/**
+	 * Добавить заголовок
+	 * @param {string} name
+	 * @param {string} value
+	 */
 	public setHeader(name: string, value: string): void {
 		this.headers = this.headers.set(name, value);
 	}
 
-  /**
-   * Удалить заголовок
-   * @param {string} name
-   */
+	/**
+	 * Удалить заголовок
+	 * @param {string} name
+	 */
 	public deleteHeader(name: string): void {
-    this.headers = this.headers.delete(name);
+		this.headers = this.headers.delete(name);
 	}
 
-  /**
-   * Обработчик не удавшихся результатов с оборачиванием в нулевой резльтат.
-   * То есть можно добавить это в pipe() запроса и тогда вместо ошибки мы просто получим пустой
-   * обьект результата, без падения преложения
-   * @param result - опциональный параметр, значение которое следует вернуть при нулевом результате
-   */
-  public emptyResult<T>(result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
-  }
+	/**
+	 * Обработчик не удавшихся результатов с оборачиванием в нулевой резльтат.
+	 * То есть можно добавить это в pipe() запроса и тогда вместо ошибки мы просто получим пустой
+	 * обьект результата, без падения преложения
+	 * @param result - опциональный параметр, значение которое следует вернуть при нулевом результате
+	 */
+	public emptyResult<T>(result?: T) {
+		return (error: any): Observable<T> => {
+			console.error(error);
+			return of(result as T);
+		};
+	}
 
-  /**
-   * Прогоняет парааметры запроса через HttpParams, готовый для использывания в запросе
-   * @param {Object} query
-   * @returns {HttpParams}
-   */
+	/**
+	 * Прогоняет парааметры запроса через HttpParams, готовый для использывания в запросе
+	 * @param {Object} query
+	 * @returns {HttpParams}
+	 */
 	protected createSearchParams(query: Object): HttpParams {
 		let params = new HttpParams();
 		_.forEach(query, (val, key) => {
-		  if(val !== null && key) {
-        params = params.set(key, val.toString());
-      }
+			if (val !== null && key) {
+				params = params.set(key, val.toString());
+			}
 		});
 		return params;
 	}

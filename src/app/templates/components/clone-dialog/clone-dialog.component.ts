@@ -6,36 +6,38 @@ import { IUser } from '../../models/users';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'clone-dialog',
-  templateUrl: './clone-dialog.component.html',
-  styleUrls: ['./clone-dialog.component.scss'],
+	selector: 'clone-dialog',
+	templateUrl: './clone-dialog.component.html',
+	styleUrls: ['./clone-dialog.component.scss']
 })
-export class CloneDialogComponent implements OnInit{
-  public users: IUser[];
-  public cloneCreateForm: FormGroup;
-  constructor(
-    public dialogRef: MatDialogRef<CloneDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ICloneDialogData,
-    private formBuilder: FormBuilder,
-    private userData: UsersData,) { }
+export class CloneDialogComponent implements OnInit {
+	public users: IUser[];
+	public cloneCreateForm: FormGroup;
+	constructor(
+		public dialogRef: MatDialogRef<CloneDialogComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: ICloneDialogData,
+		private formBuilder: FormBuilder,
+		private userData: UsersData
+	) {}
 
-  public ngOnInit() {
-    this.userData.getUsersForCloneAction().subscribe((users) => {
-      this.users = users;
-    });
+	public ngOnInit() {
+		this.userData.getUsersForCloneAction().subscribe(users => {
+			this.users = users;
+		});
 
-    this.cloneCreateForm = this.formBuilder.group({
-      cloneName: [null, [Validators.required]],
-      author: [null, Validators.required]
-    });
-  }
+		this.cloneCreateForm = this.formBuilder.group({
+			cloneName: [null, [Validators.required]],
+			author: [null, Validators.required]
+		});
+	}
 
-  public onCloseClick() {
-    this.dialogRef.close();
-  }
+	public onCloseClick() {
+		this.dialogRef.close();
+	}
 
-  public getHeaderName() {
-    return  this.data.type === 'pageLess' ? 'Клонировать шаблон без страниц' : 'Клонировать шаблон';
-  }
-
+	public getHeaderName() {
+		return this.data.type === 'pageLess'
+			? 'Клонировать шаблон без страниц'
+			: 'Клонировать шаблон';
+	}
 }

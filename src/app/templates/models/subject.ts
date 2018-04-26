@@ -1,4 +1,4 @@
 export interface ISubject {
-  _id: string;
-  title: string;
+	_id: string;
+	title: string;
 }

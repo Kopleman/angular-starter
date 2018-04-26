@@ -1,31 +1,28 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../auth/services/auth';
 
-
 /**
  * App Component
  * Top Level Component
  */
 @Component({
-  selector: 'app',
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: [
-    './app.component.scss'
-  ],
-  templateUrl: './app.component.html'
+	selector: 'app',
+	encapsulation: ViewEncapsulation.None,
+	styleUrls: ['./app.component.scss'],
+	templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit{
-  public name = 'Angular Starter';
-  public tipe = 'assets/img/tipe.png';
-  public twitter = 'https://twitter.com/gdi2290';
+export class AppComponent implements OnInit {
+	public name = 'Angular Starter';
+	public tipe = 'assets/img/tipe.png';
+	public twitter = 'https://twitter.com/gdi2290';
 
-  constructor(private userData: AuthService) {}
+	constructor(private userData: AuthService) {}
 
-  public ngOnInit() {
-    if(!this.userData.loggedIn) {
-      this.userData.logout();
-    }
-  }
+	public ngOnInit() {
+		if (!this.userData.loggedIn) {
+			this.userData.logout();
+		}
+	}
 }
 
 /**

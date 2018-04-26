@@ -1,7 +1,7 @@
 /* this file will be extracted to main dist folder and is imported in index.html */
 /* This file is for setting global styles  */
 @import 'variables';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '~@angular/material/theming';
 @import '../app/core/components/navbar/navbar-theme';
 @import '../app/templates/containers/templates-theme';
@@ -9,7 +9,7 @@
 @import '../app/users/containers/users-theme';
 
 $primary: mat-palette($mat-indigo);
-$accent:  mat-palette($mat-amber, $default, $lighter, $darker);
+$accent: mat-palette($mat-amber, $default, $lighter, $darker);
 //$primary: mat-palette($mat-pink);
 //$accent:  mat-palette($mat-indigo, A200, A100, A400);
 
@@ -25,26 +25,25 @@ $_accent: map-get($theme, accent);
 $_warn: map-get($theme, warn);
 
 body {
-  font-family: Roboto,Helvetica Neue Light,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
-  margin: 0;
-  background-color: mat-color($primary, 50);
+	font-family: Roboto, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial,
+		Lucida Grande, sans-serif;
+	margin: 0;
+	background-color: mat-color($primary, 50);
 }
 
 .sep-line {
-  border: 1px solid mat-color($accent);
-  margin: 16px 0;
+	border: 1px solid mat-color($accent);
+	margin: 16px 0;
 }
 
 .g-primary-color {
-  color: mat-color($_primary);
+	color: mat-color($_primary);
 }
 
 .g-accent-color {
-  color: mat-color($_accent);
+	color: mat-color($_accent);
 }
 
 .g-warn-color {
-  color: mat-color($_warn);
+	color: mat-color($_warn);
 }
-
-

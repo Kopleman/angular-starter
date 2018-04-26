@@ -4,29 +4,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ICreateDialogData } from '../../models/dialog';
 
 @Component({
-  selector: 'create-dialog',
-  templateUrl: './create-dialog.component.html',
-  styleUrls: ['./create-dialog.component.scss'],
+	selector: 'create-dialog',
+	templateUrl: './create-dialog.component.html',
+	styleUrls: ['./create-dialog.component.scss']
 })
-export class CreateDialogComponent implements OnInit{
-  public templateCreateForm: FormGroup;
-  constructor(
-    public dialogRef: MatDialogRef<CreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ICreateDialogData,
-    private formBuilder: FormBuilder) { }
+export class CreateDialogComponent implements OnInit {
+	public templateCreateForm: FormGroup;
+	constructor(
+		public dialogRef: MatDialogRef<CreateDialogComponent>,
+		@Inject(MAT_DIALOG_DATA) public data: ICreateDialogData,
+		private formBuilder: FormBuilder
+	) {}
 
-  public ngOnInit() {
+	public ngOnInit() {
+		this.templateCreateForm = this.formBuilder.group({
+			templateId: [null, [Validators.required]],
+			title: [null, [Validators.required]],
+			selectedSubject: [null, Validators.required],
+			about: [null, null]
+		});
+	}
 
-    this.templateCreateForm = this.formBuilder.group({
-      templateId: [null, [Validators.required]],
-      title: [null, [Validators.required]],
-      selectedSubject: [null, Validators.required],
-      about: [null, null]
-    });
-  }
-
-  public onCloseClick() {
-    this.dialogRef.close();
-  }
-
+	public onCloseClick() {
+		this.dialogRef.close();
+	}
 }

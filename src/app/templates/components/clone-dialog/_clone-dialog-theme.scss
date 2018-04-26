@@ -1,15 +1,15 @@
 @mixin clone-dialog-component-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+	$primary: map-get($theme, primary);
+	$accent: map-get($theme, accent);
+	$warn: map-get($theme, warn);
+	$background: map-get($theme, background);
+	$foreground: map-get($theme, foreground);
 
-  mat-dialog-container {
-    //padding: 0 !important;
-  }
+	mat-dialog-container {
+		//padding: 0 !important;
+	}
 }
 
 .clone-dialog-component .mat-dialog-container {
-  //padding: 0;
+	//padding: 0;
 }

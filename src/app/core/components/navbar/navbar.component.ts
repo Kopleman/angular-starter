@@ -14,12 +14,12 @@ export class NavBarComponent implements OnInit {
 		return {
 			subjects: 'Категории',
 			templates: 'Шаблоны',
-      users: 'Пользователи'
+			users: 'Пользователи'
 		};
 	}
 
 	get sectionKeys() {
-		return ['subjects', 'templates','users'];
+		return ['subjects', 'templates', 'users'];
 	}
 
 	public logout() {

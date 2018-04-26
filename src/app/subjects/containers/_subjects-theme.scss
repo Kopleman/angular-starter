@@ -1,17 +1,17 @@
 @mixin subjects-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+	$primary: map-get($theme, primary);
+	$accent: map-get($theme, accent);
+	$warn: map-get($theme, warn);
+	$background: map-get($theme, background);
+	$foreground: map-get($theme, foreground);
 
-  subjects-page {
-    subjects-top-bar {
-      background-color: mat-color($primary, 50);
-    }
+	subjects-page {
+		subjects-top-bar {
+			background-color: mat-color($primary, 50);
+		}
 
-    subjects-list {
-      width: 960px;
-    }
-  }
+		subjects-list {
+			width: 960px;
+		}
+	}
 }

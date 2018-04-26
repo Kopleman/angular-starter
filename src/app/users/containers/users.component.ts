@@ -34,7 +34,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 		this.actionSubjectSubscription = this.actionSubject
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
-        this.getUsers()
+				this.getUsers();
 			});
 	}
 
@@ -56,12 +56,12 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 			panelClass: 'create-user-dialog-component',
 			data: {
 				rolesList$: this.usersData.getRolesList(),
-        password: '',
-        email: '',
-        firstName: '',
-        lastName: '',
-        role: 'guest',
-        phone: ''
+				password: '',
+				email: '',
+				firstName: '',
+				lastName: '',
+				role: 'guest',
+				phone: ''
 			}
 		});
 
@@ -73,27 +73,29 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 				}
 				dialogResult = result;
 				let newUser: INewUser = {
-				  email: result.email,
-          phone: result.phone,
-          password: result.password,
-          firstName: result.firstName,
-          lastName: result.lastName,
-          role: result.role
-        };
-        this.snackBar.open(`Создаем нового пользователя`, 'Закрыть');
+					email: result.email,
+					phone: result.phone,
+					password: result.password,
+					firstName: result.firstName,
+					lastName: result.lastName,
+					role: result.role
+				};
+				this.snackBar.open(`Создаем нового пользователя`, 'Закрыть');
 				return this.usersData.createNewUser(newUser);
 			})
 			.subscribe(
 				result => {
-					if( result ){
-            this.snackBar.open(`Пользователь создан`, 'Закрыть', {
-              duration: 2000
-            });
-            this.store.dispatch(new UsersApplyFilters({searchStr: dialogResult.email}));
-          }
+					if (result) {
+						this.snackBar.open(`Пользователь создан`, 'Закрыть', {
+							duration: 2000
+						});
+						this.store.dispatch(
+							new UsersApplyFilters({ searchStr: dialogResult.email })
+						);
+					}
 				},
 				errorResp => {
-				  console.log(errorResp);
+					console.log(errorResp);
 					this.snackBar.open(
 						`Ошибки при создании: ${errorResp.error.message}`,
 						'Закрыть'
@@ -107,22 +109,21 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 	}
 
 	private getUsers() {
-    this.inProgress = true;
-    this.filters$
-      .flatMap((state) => {
-        this.pageIndex = state.skip / state.limit;
-        this.pageSize = state.limit;
-        let filters: ISubjectFilters = {
-          searchStr: state.searchStr,
-          sortBy: state.sortBy
-        };
-        return this.usersData
-          .getUsers(state.skip, state.limit, filters);
-      })
-      .subscribe(response => {
-        this.inProgress = false;
-        this.total = response.count;
-        this.collection = response.users;
-      });
-  }
+		this.inProgress = true;
+		this.filters$
+			.flatMap(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				let filters: ISubjectFilters = {
+					searchStr: state.searchStr,
+					sortBy: state.sortBy
+				};
+				return this.usersData.getUsers(state.skip, state.limit, filters);
+			})
+			.subscribe(response => {
+				this.inProgress = false;
+				this.total = response.count;
+				this.collection = response.users;
+			});
+	}
 }

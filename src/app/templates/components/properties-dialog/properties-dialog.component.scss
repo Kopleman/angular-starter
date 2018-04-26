@@ -1,16 +1,16 @@
 .field-wrapper {
-  &:nth-of-type(1) {
-    margin-top: 16px;
-  }
-  .visible {
-    display: inline-block;
-  }
+	&:nth-of-type(1) {
+		margin-top: 16px;
+	}
+	.visible {
+		display: inline-block;
+	}
 
-  .not-visible {
-    display: none;
-  }
+	.not-visible {
+		display: none;
+	}
 }
 
 .spacer {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }

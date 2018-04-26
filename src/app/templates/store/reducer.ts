@@ -34,7 +34,7 @@ export function reducer(
 			return state;
 		}
 
-    case CollectionActionTypes.REFRESH:
+		case CollectionActionTypes.REFRESH:
 		default: {
 			return state;
 		}

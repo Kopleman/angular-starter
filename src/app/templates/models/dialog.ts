@@ -3,23 +3,23 @@ import { ISubject } from './subject';
 import { ITemplate } from './template';
 
 export interface ICloneDialogData {
-  cloneName: string;
-  author: string;
-  type: 'pageLess' | 'normal';
+	cloneName: string;
+	author: string;
+	type: 'pageLess' | 'normal';
 }
 
 export interface ICreateDialogData {
-  templateId: string;
-  title: string;
-  about: string;
-  subjects$: Observable<ISubject[]>;
-  selectedSubject: string;
+	templateId: string;
+	title: string;
+	about: string;
+	subjects$: Observable<ISubject[]>;
+	selectedSubject: string;
 }
 
 export interface IChangePropsDialogData {
-  template: ITemplate;
-  subjects$: Observable<ISubject[]>;
-  selectedSubject: string;
-  selectedWhiteLabel: string;
-  newTags: { [key: string]: string };
+	template: ITemplate;
+	subjects$: Observable<ISubject[]>;
+	selectedSubject: string;
+	selectedWhiteLabel: string;
+	newTags: { [key: string]: string };
 }

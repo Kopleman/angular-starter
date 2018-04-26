@@ -34,9 +34,7 @@ const APP_PROVIDERS = [];
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-    StoreModule.forRoot(
-      {},
-    ),
+		StoreModule.forRoot({}),
 		RouterModule.forRoot(ROUTES, {
 			useHash: Boolean(history.pushState) === false,
 			preloadingStrategy: PreloadAllModules
@@ -46,7 +44,7 @@ const APP_PROVIDERS = [];
 		AuthModule,
 		TemplatesModule,
 		SubjectsModule,
-    UsersModule
+		UsersModule
 	],
 	/**
 	 * Expose our Services and Providers into Angular's dependency injection.

@@ -6,7 +6,7 @@ import { MaterialModule } from '../material';
 @NgModule({
 	imports: [CommonModule, MaterialModule],
 	declarations: [MomentDate, ConfirmDialogComponent],
-  entryComponents: [ConfirmDialogComponent],
+	entryComponents: [ConfirmDialogComponent],
 	exports: [MomentDate, ConfirmDialogComponent]
 })
 export class SharedModule {}

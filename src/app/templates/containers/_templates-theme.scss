@@ -1,39 +1,39 @@
 @mixin templates-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+	$primary: map-get($theme, primary);
+	$accent: map-get($theme, accent);
+	$warn: map-get($theme, warn);
+	$background: map-get($theme, background);
+	$foreground: map-get($theme, foreground);
 
-  templates-page {
-    top-bar {
-      background-color: mat-color($primary, 50);
-    }
+	templates-page {
+		top-bar {
+			background-color: mat-color($primary, 50);
+		}
 
-    templates-list-item {
+		templates-list-item {
+			a,
+			.inline-button {
+				color: mat-color($primary, A200);
+				text-decoration: none;
+				cursor: pointer;
+				&:hover {
+					color: mat-color($primary, 900);
+				}
+			}
 
-      a, .inline-button {
-        color: mat-color($primary, A200);
-        text-decoration: none;
-        cursor: pointer;
-        &:hover {
-          color: mat-color($primary, 900);
-        }
-      }
+			.type {
+				&.prototype {
+					background: mat-color($accent);
+				}
 
-      .type {
-        &.prototype {
-          background: mat-color($accent);
-        }
+				&.parent {
+					background: mat-color($primary);
+				}
 
-        &.parent {
-          background: mat-color($primary);
-        }
-
-        &.clone {
-          background: mat-color($warn, A700);
-        }
-      }
-    }
-  }
+				&.clone {
+					background: mat-color($warn, A700);
+				}
+			}
+		}
+	}
 }

@@ -1,11 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as moment from 'moment';
 @Pipe({
-  name: 'myMomentDate',
+	name: 'myMomentDate'
 })
 export class MomentDate implements PipeTransform {
-
-  public transform(date: string): string {
-    return moment(date).format('DD.MM.YYYY');
-  }
+	public transform(date: string): string {
+		return moment(date).format('DD.MM.YYYY');
+	}
 }

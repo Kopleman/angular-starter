@@ -18,26 +18,27 @@ import { IUserQueryParams } from '../../models/user';
 })
 export class TopBarComponent implements OnInit {
 	public filters: IUserQueryParams = USERS_INITIAL_FILTERS_STATE;
-  public filters$: Observable<IUserQueryParams>;
+	public filters$: Observable<IUserQueryParams>;
 
 	public sortOptions = [
 		{ label: 'по email', value: 'email' },
-    { label: 'по дате создания', value: 'created' },
-    { label: 'по роли', value: 'role' },
+		{ label: 'по дате создания', value: 'created' },
+		{ label: 'по роли', value: 'role' }
 	];
 
 	public searchControl = new FormControl();
 	public sortControl = new FormControl();
 
-	constructor(
-		private store: Store<IUserQueryParams>
-	) {}
+	constructor(private store: Store<IUserQueryParams>) {}
 
 	public ngOnInit() {
-    this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-    this.filters$.share().take(1).subscribe(state => {
-      this.filters = _.merge(this.filters, state);
-    });
+		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
+		this.filters$
+			.share()
+			.take(1)
+			.subscribe(state => {
+				this.filters = _.merge(this.filters, state);
+			});
 		this.bindControls();
 	}
 

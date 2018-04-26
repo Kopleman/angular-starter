@@ -4,17 +4,19 @@ import { environment } from '../environments/environment';
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 export interface AppConfig {
-  host: string;
+	host: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
-  host: environment.host
+	host: environment.host
 };
 
 @NgModule({
-  providers: [{
-    provide: APP_CONFIG,
-    useValue: APP_DI_CONFIG
-  }]
+	providers: [
+		{
+			provide: APP_CONFIG,
+			useValue: APP_DI_CONFIG
+		}
+	]
 })
-export class AppConfigModule { }
+export class AppConfigModule {}

@@ -1,4 +1,4 @@
-import { Component,  OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -33,7 +33,7 @@ export class TopBarComponent implements OnInit {
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
 	public sortControl = new FormControl();
-  private filters$: Observable<ITemplateQueryParams>;
+	private filters$: Observable<ITemplateQueryParams>;
 
 	constructor(
 		private subjectsData: SubjectsData,
@@ -41,10 +41,13 @@ export class TopBarComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-    this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
-    this.filters$.share().take(1).subscribe(state => {
-      this.filters = _.merge(this.filters, state);
-    });
+		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
+		this.filters$
+			.share()
+			.take(1)
+			.subscribe(state => {
+				this.filters = _.merge(this.filters, state);
+			});
 		this.bindControls();
 		this.subjects$ = this.subjectsData.getSubjects();
 	}
