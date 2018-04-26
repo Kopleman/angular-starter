@@ -28,6 +28,10 @@ export class UsersData {
     return this.api.post('admin/rest/users', user);
   }
 
+  public removeUser(user: IUser) {
+	  return this.api.delete(`admin/rest/users/${user._id}`);
+  }
+
 	public getRolesList() {
 	  if(!this.userRoles) {
       this.userRoles = this._getRolesList().shareReplay(1);

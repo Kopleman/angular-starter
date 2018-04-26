@@ -18,6 +18,7 @@ export interface INewUser {
 }
 
 export interface IUser {
+  _id: string;
   email: string;
   created: string;
   firstName: string;
