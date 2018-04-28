@@ -26,7 +26,7 @@
   <ng-container matColumnDef="controls">
     <mat-header-cell *matHeaderCellDef> Действия </mat-header-cell>
     <mat-cell *matCellDef="let row" fxLayoutGap="8px">
-      <button mat-mini-fab color="primary">
+      <button mat-mini-fab color="primary" (click)="editUser(row)">
         <mat-icon>mode_edit</mat-icon>
       </button>
       <button mat-mini-fab color="warn" (click)="deleteUser(row)">

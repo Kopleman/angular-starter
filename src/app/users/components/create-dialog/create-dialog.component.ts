@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ICreateUserDialogData } from '../../models/dialog';
 
 @Component({
 	selector: 'user-create-dialog',
@@ -11,7 +12,7 @@ export class CreateUserDialogComponent implements OnInit {
 	public createForm: FormGroup;
 	constructor(
 		public dialogRef: MatDialogRef<CreateUserDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any[],
+		@Inject(MAT_DIALOG_DATA) public data: ICreateUserDialogData,
 		private formBuilder: FormBuilder
 	) {}
 	public ngOnInit() {

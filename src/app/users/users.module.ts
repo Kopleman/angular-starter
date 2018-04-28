@@ -17,8 +17,12 @@ import { UsersData } from './services/users-data';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { UsersListComponent } from './components/list/list.component';
 import { CreateUserDialogComponent } from './components/create-dialog/create-dialog.component';
+import { EditUserDialogComponent } from './components/edit-dialog/edit-dialog.component';
 
-const USERS_DIALOG_COMPONENTS = [CreateUserDialogComponent];
+const USERS_DIALOG_COMPONENTS = [
+	CreateUserDialogComponent,
+	EditUserDialogComponent
+];
 
 const USERS_COMPONENTS = [
 	UsersPageComponent,

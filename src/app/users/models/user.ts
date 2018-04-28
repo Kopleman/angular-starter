@@ -27,6 +27,10 @@ export interface IUser {
 	phone: string;
 }
 
+export interface IEditUser extends IUser{
+  password: string;
+}
+
 export interface IUsersResponse {
 	count: number;
 	users: IUser[];
