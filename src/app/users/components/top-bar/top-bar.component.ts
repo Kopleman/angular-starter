@@ -4,21 +4,23 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import { Observable } from 'rxjs/Observable';
-import { select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { UsersApplyFilters } from '../../store/actions';
 import { USERS_INITIAL_FILTERS_STATE } from '../../store/reducer';
-import { ModuleTypes } from '../../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 import * as _ from 'lodash';
 import { IUserQueryParams } from '../../models/user';
+import { Subscription } from 'rxjs/Subscription';
+import { AbstractFilters } from '../../../shared/abstracts/filters';
 
 @Component({
 	selector: 'users-top-bar',
 	styleUrls: ['./top-bar.component.scss'],
 	templateUrl: './top-bar.component.html'
 })
-export class TopBarComponent implements OnInit {
-	public filters: IUserQueryParams = USERS_INITIAL_FILTERS_STATE;
-	public filters$: Observable<IUserQueryParams>;
+export class TopBarComponent extends AbstractFilters<IUserQueryParams>
+	implements OnInit {
+	public filters = USERS_INITIAL_FILTERS_STATE;
 
 	public sortOptions = [
 		{ label: 'по email', value: 'email' },
@@ -28,18 +30,26 @@ export class TopBarComponent implements OnInit {
 
 	public searchControl = new FormControl();
 	public sortControl = new FormControl();
+	protected actionSubjectSubscription: Subscription;
 
-	constructor(private store: Store<IUserQueryParams>) {}
+	constructor(
+		private store: Store<IUserQueryParams>,
+		private actionSubject: ActionsSubject
+	) {
+		super();
+	}
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-		this.filters$
-			.share()
-			.take(1)
-			.subscribe(state => {
-				this.filters = _.merge(this.filters, state);
-			});
+		this.onInit();
 		this.bindControls();
+		this.actionSubjectSubscription = this.actionSubject
+			.filter((action: ICustomAction) => this.actionFilter(action))
+			.subscribe(() => {
+				this.filters$.subscribe(state => {
+					this.filters = _.merge(this.filters, state);
+				});
+			});
 	}
 
 	public bindControls() {
@@ -62,5 +72,9 @@ export class TopBarComponent implements OnInit {
 
 	public clearSearch() {
 		this.searchControl.setValue('');
+	}
+
+	protected actionFilter(action) {
+		return action.feature === ModuleTypes.USERS;
 	}
 }

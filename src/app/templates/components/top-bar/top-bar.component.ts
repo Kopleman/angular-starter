@@ -9,20 +9,21 @@ import { ISubject } from '../../models/subject';
 import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
-import { select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ApplyFilters } from '../../store/actions';
 import { INITIAL_FILTERS_STATE } from '../../store/reducer';
-import { ModuleTypes } from '../../../shared/models/ngrx-action';
+import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 import * as _ from 'lodash';
+import { AbstractFilters } from '../../../shared/abstracts/filters';
 
 @Component({
 	selector: 'top-bar',
 	styleUrls: ['./top-bar.component.scss'],
 	templateUrl: './top-bar.component.html'
 })
-export class TopBarComponent implements OnInit {
+export class TopBarComponent extends AbstractFilters<ITemplateQueryParams> implements OnInit {
 	public subjects$: Observable<ISubject[]>;
-	public filters: ITemplateFilters = INITIAL_FILTERS_STATE;
+	public filters = INITIAL_FILTERS_STATE;
 	public sortOptions = [
 		{ label: 'по id', value: '_id' },
 		{ label: 'по дате редактирования', value: 'dateEdit' },
@@ -33,23 +34,27 @@ export class TopBarComponent implements OnInit {
 	public searchControl = new FormControl();
 	public categoryControl = new FormControl();
 	public sortControl = new FormControl();
-	private filters$: Observable<ITemplateQueryParams>;
 
 	constructor(
 		private subjectsData: SubjectsData,
-		private store: Store<ITemplateQueryParams>
-	) {}
+		private store: Store<ITemplateQueryParams>,
+    private actionSubject: ActionsSubject
+	) {
+	  super();
+  }
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
-		this.filters$
-			.share()
-			.take(1)
-			.subscribe(state => {
-				this.filters = _.merge(this.filters, state);
-			});
+		this.onInit();
 		this.bindControls();
 		this.subjects$ = this.subjectsData.getSubjects();
+    this.actionSubjectSubscription = this.actionSubject
+      .filter((action: ICustomAction) => this.actionFilter(action))
+      .subscribe(() => {
+        this.filters$.subscribe(state => {
+          this.filters = _.merge(this.filters, state);
+        });
+      });
 	}
 
 	public bindControls() {
@@ -76,4 +81,8 @@ export class TopBarComponent implements OnInit {
 	public clearSearch() {
 		this.searchControl.setValue('');
 	}
+
+  protected actionFilter(action) {
+    return action.feature === ModuleTypes.TEMPLATES;
+  }
 }
