@@ -11,7 +11,7 @@ export interface ICreateUserDialogData {
 	phone: string;
 }
 
-export interface IEditUserDialogData extends IUser{
-  rolesList$: Observable<IUserRole[]>;
-  password: string;
+export interface IEditUserDialogData extends IUser {
+	rolesList$: Observable<IUserRole[]>;
+	password: string;
 }

@@ -1,20 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
-import {
-	IEditUser,
-	IUser,
-	IUserQueryParams,
-} from '../../models/user';
+import { IEditUser, IUser, IUserQueryParams } from '../../models/user';
 import { UsersData } from '../../services/users-data';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
-import {
-	IEditUserDialogData
-} from '../../models/dialog';
+import { IEditUserDialogData } from '../../models/dialog';
 import { IConfirmDialogData } from '../../../shared/models/dialog';
-import {
-  ConfirmDialogComponent
-} from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent }
+  from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { of } from 'rxjs/observable/of';
 import { UsersRefresh } from '../../store/actions';
 import { Store } from '@ngrx/store';

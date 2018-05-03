@@ -27,8 +27,8 @@ export interface IUser {
 	phone: string;
 }
 
-export interface IEditUser extends IUser{
-  password: string;
+export interface IEditUser extends IUser {
+	password: string;
 }
 
 export interface IUsersResponse {

@@ -21,7 +21,8 @@ import { AbstractFilters } from '../../../shared/abstracts/filters';
 	styleUrls: ['./top-bar.component.scss'],
 	templateUrl: './top-bar.component.html'
 })
-export class TopBarComponent extends AbstractFilters<ITemplateQueryParams> implements OnInit {
+export class TopBarComponent extends AbstractFilters<ITemplateQueryParams>
+	implements OnInit {
 	public subjects$: Observable<ISubject[]>;
 	public filters = INITIAL_FILTERS_STATE;
 	public sortOptions = [
@@ -32,35 +33,34 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams> imple
 	];
 
 	public searchControl = new FormControl();
-	public categoryControl = new FormControl();
-	public sortControl = new FormControl();
+	public categoryControl = new FormControl(this.filters.selectedCategory);
+	public sortControl = new FormControl(this.filters.sortBy);
 
 	constructor(
 		private subjectsData: SubjectsData,
 		private store: Store<ITemplateQueryParams>,
-    private actionSubject: ActionsSubject
+		private actionSubject: ActionsSubject
 	) {
-	  super();
-  }
+		super();
+	}
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
 		this.onInit();
 		this.bindControls();
 		this.subjects$ = this.subjectsData.getSubjects();
-    this.actionSubjectSubscription = this.actionSubject
-      .filter((action: ICustomAction) => this.actionFilter(action))
-      .subscribe(() => {
-        this.filters$.subscribe(state => {
-          this.filters = _.merge(this.filters, state);
-        });
-      });
+		this.actionSubjectSubscription = this.actionSubject
+			.filter((action: ICustomAction) => this.actionFilter(action))
+			.subscribe(() => {
+				this.filters$.subscribe(state => {
+					this.filters = _.merge(this.filters, state);
+				});
+			});
 	}
 
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
 			control
-				.skip(1)
 				.distinctUntilChanged()
 				.subscribe(value => {
 					this.filters[name] = value;
@@ -82,7 +82,7 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams> imple
 		this.searchControl.setValue('');
 	}
 
-  protected actionFilter(action) {
-    return action.feature === ModuleTypes.TEMPLATES;
-  }
+	protected actionFilter(action) {
+		return action.feature === ModuleTypes.TEMPLATES;
+	}
 }

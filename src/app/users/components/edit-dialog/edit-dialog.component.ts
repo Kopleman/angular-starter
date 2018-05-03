@@ -16,14 +16,17 @@ export class EditUserDialogComponent implements OnInit {
 		private formBuilder: FormBuilder
 	) {}
 	public ngOnInit() {
-	  let data = this.data;
+		let data = this.data;
 		this.editForm = this.formBuilder.group({
-			email: [{value: data.email, disabled: true}, [Validators.required, Validators.email]],
-			password: [{value: data.password}, null],
-			role: [{value: data.role}, Validators.required],
-			firstName: [{value: data.firstName}, Validators.required],
-			lastName: [{value: data.lastName}, Validators.required],
-			phone: [{value: data.phone}, Validators.required]
+			email: [
+				{ value: data.email, disabled: true },
+				[Validators.required, Validators.email]
+			],
+			password: [{ value: data.password }, null],
+			role: [{ value: data.role }, Validators.required],
+			firstName: [{ value: data.firstName }, Validators.required],
+			lastName: [{ value: data.lastName }, Validators.required],
+			phone: [{ value: data.phone }, Validators.required]
 		});
 	}
 

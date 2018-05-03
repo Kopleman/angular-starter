@@ -2,7 +2,7 @@
   <div class="sorts">
     <label for="sort-select">Сортировать по:</label>
     <mat-form-field>
-      <mat-select id="sort-select" name="sortCategory" [(ngModel)]="filters.sortBy" [formControl]="sortControl">
+      <mat-select id="sort-select" name="sortCategory" [(value)]="filters.sortBy" [formControl]="sortControl">
         <mat-option *ngFor="let option of sortOptions" [value]="option.value">{{option.label}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -10,7 +10,7 @@
   <div class="search-bar">
     <label for="search-query">Поиск:</label>
     <mat-form-field>
-      <input id="search-query" matInput type="text"  name="searchStr" [(ngModel)]="filters.searchStr" [formControl]="searchControl"/>
+      <input id="search-query" matInput type="text"  name="searchStr" [(value)]="filters.searchStr" [formControl]="searchControl"/>
       <button mat-button *ngIf="filters.searchStr" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
         <mat-icon>close</mat-icon>
       </button>

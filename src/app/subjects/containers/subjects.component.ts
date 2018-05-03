@@ -16,10 +16,9 @@ import { Collection } from '../../shared/abstracts/collection';
 	styleUrls: ['./subjects.component.scss'],
 	templateUrl: './subjects.component.html'
 })
-export class SubjectsPageComponent extends Collection<
-	ISubject[],
-	ISubjectQueryParams
-> implements OnInit, OnDestroy {
+export class SubjectsPageComponent
+	extends Collection<ISubject[], ISubjectQueryParams>
+	implements OnInit, OnDestroy {
 	constructor(
 		private subjectsData: SubjectsData,
 		private actionSubject: ActionsSubject,

@@ -22,10 +22,9 @@ import { Collection } from '../../shared/abstracts/collection';
 	styleUrls: ['./templates.component.scss'],
 	templateUrl: './templates.component.html'
 })
-export class TemplatesPageComponent extends Collection<
-	ITemplate[],
-	ITemplateQueryParams
-> implements OnInit, OnDestroy {
+export class TemplatesPageComponent
+	extends Collection<ITemplate[], ITemplateQueryParams>
+	implements OnInit, OnDestroy {
 	public collection: ITemplate[];
 	public subjects$: Observable<ISubject[]>;
 	constructor(

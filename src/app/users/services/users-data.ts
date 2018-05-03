@@ -29,9 +29,9 @@ export class UsersData {
 		return this.api.post('admin/rest/users', user);
 	}
 
-  public editUser(user: IUser) {
-    return this.api.put(`admin/rest/users`, user);
-  }
+	public editUser(user: IUser) {
+		return this.api.put(`admin/rest/users`, user);
+	}
 
 	public removeUser(user: IUser) {
 		return this.api.delete(`admin/rest/users/${user._id}`);

@@ -19,8 +19,9 @@ import { AbstractFilters } from '../../../shared/abstracts/filters';
 	styleUrls: ['./top-bar.component.scss'],
 	templateUrl: './top-bar.component.html'
 })
-export class TopBarComponent extends AbstractFilters<ISubjectQueryParams> implements OnInit {
-	public filters: ISubjectQueryParams = SUBJECTS_INITIAL_FILTERS_STATE;
+export class TopBarComponent extends AbstractFilters<ISubjectQueryParams>
+	implements OnInit {
+	public filters = SUBJECTS_INITIAL_FILTERS_STATE;
 	public filters$: Observable<ISubjectQueryParams>;
 	public sortOptions = [
 		{ label: 'по id', value: '_id' },
@@ -28,29 +29,31 @@ export class TopBarComponent extends AbstractFilters<ISubjectQueryParams> implem
 	];
 
 	public searchControl = new FormControl();
-	public sortControl = new FormControl();
+	public sortControl = new FormControl(this.filters.sortBy);
 
-	constructor(private store: Store<ISubjectQueryParams>, private actionSubject: ActionsSubject) {
-	  super();
-  }
+	constructor(
+		private store: Store<ISubjectQueryParams>,
+		private actionSubject: ActionsSubject
+	) {
+		super();
+	}
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
 		this.onInit();
 		this.bindControls();
-    this.actionSubjectSubscription = this.actionSubject
-      .filter((action: ICustomAction) => this.actionFilter(action))
-      .subscribe(() => {
-        this.filters$.subscribe(state => {
-          this.filters = _.merge(this.filters, state);
-        });
-      });
+		this.actionSubjectSubscription = this.actionSubject
+			.filter((action: ICustomAction) => this.actionFilter(action))
+			.subscribe(() => {
+				this.filters$.subscribe(state => {
+					this.filters = _.merge(this.filters, state);
+				});
+			});
 	}
 
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
 			control
-				.skip(1)
 				.distinctUntilChanged()
 				.subscribe(value => {
 					this.filters[name] = value;
@@ -69,7 +72,7 @@ export class TopBarComponent extends AbstractFilters<ISubjectQueryParams> implem
 		this.searchControl.setValue('');
 	}
 
-  protected actionFilter(action) {
-    return action.feature === ModuleTypes.SUBJECTS;
-  }
+	protected actionFilter(action) {
+		return action.feature === ModuleTypes.SUBJECTS;
+	}
 }

@@ -29,7 +29,7 @@ export class TopBarComponent extends AbstractFilters<IUserQueryParams>
 	];
 
 	public searchControl = new FormControl();
-	public sortControl = new FormControl();
+	public sortControl = new FormControl(this.filters.sortBy);
 	protected actionSubjectSubscription: Subscription;
 
 	constructor(
@@ -55,7 +55,6 @@ export class TopBarComponent extends AbstractFilters<IUserQueryParams>
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
 			control
-				.skip(1)
 				.distinctUntilChanged()
 				.subscribe(value => {
 					this.filters[name] = value;
@@ -73,6 +72,11 @@ export class TopBarComponent extends AbstractFilters<IUserQueryParams>
 	public clearSearch() {
 		this.searchControl.setValue('');
 	}
+
+	public test() {
+	  console.log(this.filters);
+	  return 'email';
+  }
 
 	protected actionFilter(action) {
 		return action.feature === ModuleTypes.USERS;
