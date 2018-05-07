@@ -15,7 +15,7 @@ export class NavBarComponent implements OnInit {
 			subjects: 'Категории',
 			templates: 'Шаблоны',
 			users: 'Пользователи',
-			whiteLabels: 'Вайт-лейблы'
+      whiteLabels: 'Вайт-лейблы',
 		};
 	}
 
