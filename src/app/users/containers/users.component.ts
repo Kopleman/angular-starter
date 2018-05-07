@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
-import { INewUser, IUser, IUserQueryParams } from '../models/user';
+import {
+	INewUser,
+	IUser,
+	IUserFilters,
+	IUserQueryParams
+} from '../models/user';
 import { UsersData } from '../services/users-data';
 import { Collection } from '../../shared/abstracts/collection';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
@@ -30,10 +35,10 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-
+		this.getUsers();
 		this.actionSubjectSubscription = this.actionSubject
 			.filter((action: ICustomAction) => this.actionFilter(action))
-			.subscribe(() => {
+			.subscribe(state => {
 				this.getUsers();
 			});
 	}
@@ -105,7 +110,10 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 	}
 
 	protected actionFilter(action) {
-		return action.feature === ModuleTypes.USERS;
+		return (
+			action.feature === ModuleTypes.USERS &&
+			action.type !== '@ngrx/store/update-reducers'
+		);
 	}
 
 	private getUsers() {
@@ -114,7 +122,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 			.flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
-				let filters: ISubjectFilters = {
+				let filters: IUserFilters = {
 					searchStr: state.searchStr,
 					sortBy: state.sortBy
 				};

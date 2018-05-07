@@ -29,25 +29,11 @@ export class SubjectsPageComponent
 
 	public ngOnInit() {
 		this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
-		this.filters$
-			.share()
-			.take(1)
-			.subscribe(state => {
-				this.pageIndex = state.skip / state.limit;
-				this.pageSize = state.limit;
-				this.getSubjects(state);
-			})
-			.unsubscribe();
+		this.getSubjects();
 		this.actionSubjectSubscription = this.actionSubject
-			.skip(1)
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
-				this.filters$
-					.take(1)
-					.subscribe(state => {
-						this.getSubjects(state);
-					})
-					.unsubscribe();
+				this.getSubjects();
 			});
 	}
 
@@ -59,18 +45,24 @@ export class SubjectsPageComponent
 	}
 
 	protected actionFilter(action) {
-		return action.feature === ModuleTypes.SUBJECTS;
+		return (
+			action.feature === ModuleTypes.SUBJECTS &&
+			action.type !== '@ngrx/store/update-reducers'
+		);
 	}
 
-	private getSubjects(state: ISubjectQueryParams) {
+	private getSubjects() {
 		this.inProgress = true;
-		let filters: ISubjectFilters = {
-			searchStr: state.searchStr,
-			sortBy: state.sortBy
-		};
-		this.subjectsData
-			.getSubjects(state.skip, state.limit, filters)
-			.shareReplay()
+		this.filters$
+			.flatMap(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				let filters: ISubjectFilters = {
+					searchStr: state.searchStr,
+					sortBy: state.sortBy
+				};
+				return this.subjectsData.getSubjects(state.skip, state.limit, filters);
+			})
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

@@ -45,26 +45,11 @@ export class TemplatesPageComponent
 	public ngOnInit() {
 		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
-
-		this.filters$
-			.share()
-			.take(1)
-			.subscribe(state => {
-				this.pageIndex = state.skip / state.limit;
-				this.pageSize = state.limit;
-				this.getTemplates(state);
-			})
-			.unsubscribe();
-
+		this.getTemplates();
 		this.actionSubjectSubscription = this.actionSubject
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
-				this.filters$
-					.take(1)
-					.subscribe(state => {
-						this.getTemplates(state);
-					})
-					.unsubscribe();
+				this.getTemplates();
 			});
 	}
 
@@ -151,23 +136,32 @@ export class TemplatesPageComponent
 	}
 
 	protected actionFilter(action) {
-		return action.feature === ModuleTypes.TEMPLATES;
+		return (
+			action.feature === ModuleTypes.TEMPLATES &&
+			action.type !== '@ngrx/store/update-reducers'
+		);
 	}
 
 	/**
 	 * Получить шаблоны с бэка с задаными параметрами
-	 * @param state
 	 */
-	private getTemplates(state: ITemplateQueryParams) {
+	private getTemplates() {
 		this.inProgress = true;
-		let filters: ITemplateFilters = {
-			selectedCategory: state.selectedCategory,
-			searchStr: state.searchStr,
-			sortBy: state.sortBy
-		};
-		this.templatesData
-			.getTemplates(state.skip, state.limit, filters)
-			.shareReplay()
+		this.filters$
+			.flatMap(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				let filters: ITemplateFilters = {
+					selectedCategory: state.selectedCategory,
+					searchStr: state.searchStr,
+					sortBy: state.sortBy
+				};
+				return this.templatesData.getTemplates(
+					state.skip,
+					state.limit,
+					filters
+				);
+			})
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

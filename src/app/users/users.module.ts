@@ -18,6 +18,7 @@ import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { UsersListComponent } from './components/list/list.component';
 import { CreateUserDialogComponent } from './components/create-dialog/create-dialog.component';
 import { EditUserDialogComponent } from './components/edit-dialog/edit-dialog.component';
+import { ModuleTypes } from '../shared/models/ngrx-action';
 
 const USERS_DIALOG_COMPONENTS = [
 	CreateUserDialogComponent,
@@ -42,7 +43,7 @@ const USERS_PROVIDERS = [UsersData];
 		ReactiveFormsModule,
 		MaterialModule,
 		SharedModule,
-		StoreModule.forFeature('users', usersStateReducer, {
+		StoreModule.forFeature(ModuleTypes.USERS, usersStateReducer, {
 			initialState: USERS_INITIAL_FILTERS_STATE
 		}),
 		RouterModule.forChild([

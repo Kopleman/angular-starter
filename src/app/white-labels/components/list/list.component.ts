@@ -21,7 +21,8 @@ export class WhiteLabelsListComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-		this.displayedColumns = ['Host ID', 'Host IP'];
+		console.log(this.whiteLabels)
+		this.displayedColumns = ['_id', 'ip', 'controls'];
 	}
 
 	public createDataSource(whiteLabels: IWhiteLabel[]) {

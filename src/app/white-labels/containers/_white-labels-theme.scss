@@ -5,11 +5,11 @@
 	$background: map-get($theme, background);
 	$foreground: map-get($theme, foreground);
 	white-labels-page {
-		white-labels-top-bar {
+		wl-top-bar {
 			background-color: mat-color($primary, 50);
 		}
 
-		white-labels-list {
+		wl-list {
 			width: 960px;
 		}
 	}

@@ -27,8 +27,8 @@ export class WhiteLabelsPageComponent
 	}
 
 	public ngOnInit() {
-		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
-
+		this.filters$ = this.store.pipe(select(ModuleTypes.WHITELABELS));
+		this.getWhiteLabels();
 		this.actionSubjectSubscription = this.actionSubject
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
@@ -48,7 +48,10 @@ export class WhiteLabelsPageComponent
 	}
 
 	protected actionFilter(action) {
-		return action.feature === ModuleTypes.WHITELABELS;
+		return (
+			action.feature === ModuleTypes.WHITELABELS &&
+			action.type !== '@ngrx/store/update-reducers'
+		);
 	}
 
 	private getWhiteLabels() {

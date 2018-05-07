@@ -15,10 +15,15 @@ import {
 import { ModuleTypes } from '../shared/models/ngrx-action';
 import { WhiteLabelsPageComponent } from './containers/white-labels.component';
 import { WhiteLabelsData } from './services/white-labels-data';
+import { WhiteLabelsListComponent } from './components/list/list.component';
 
 const WHITELABELS_DIALOG_COMPONENTS = [];
 
-const WHITELABELS_COMPONENTS = [WhiteLabelsPageComponent,...WHITELABELS_DIALOG_COMPONENTS];
+const WHITELABELS_COMPONENTS = [
+	WhiteLabelsPageComponent,
+	WhiteLabelsListComponent,
+	...WHITELABELS_DIALOG_COMPONENTS
+];
 
 const WHITELABELS_PROVIDERS = [WhiteLabelsData];
 

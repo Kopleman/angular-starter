@@ -2,14 +2,14 @@
 <mat-table [dataSource]="createDataSource(whiteLabels)">
 
 
-	<ng-container matColumnDef="firstName">
-		<mat-header-cell *matHeaderCellDef> Имя и фамилия </mat-header-cell>
+	<ng-container matColumnDef="_id">
+		<mat-header-cell *matHeaderCellDef> Host ID </mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{row._id}}</mat-cell>
 	</ng-container>
 
 
-	<ng-container matColumnDef="email">
-		<mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+	<ng-container matColumnDef="ip">
+		<mat-header-cell *matHeaderCellDef> Host IP </mat-header-cell>
 		<mat-cell *matCellDef="let row"> {{row.ip}} </mat-cell>
 	</ng-container>
 
