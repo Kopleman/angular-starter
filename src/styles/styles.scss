@@ -7,6 +7,7 @@
 @import '../app/templates/containers/templates-theme';
 @import '../app/subjects/containers/subjects-theme';
 @import '../app/users/containers/users-theme';
+@import '../app/white-labels/containers/white-labels-theme';
 
 $primary: mat-palette($mat-indigo);
 $accent: mat-palette($mat-amber, $default, $lighter, $darker);
@@ -19,6 +20,7 @@ $theme: mat-light-theme($primary, $accent);
 @include templates-theme($theme);
 @include subjects-theme($theme);
 @include users-theme($theme);
+@include white-labels-theme($theme);
 
 $_primary: map-get($theme, primary);
 $_accent: map-get($theme, accent);
