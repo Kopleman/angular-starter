@@ -21,7 +21,7 @@ export class WhiteLabelsPageComponent
 		private store: Store<IWhiteLabelQueryParams>,
 		private snackBar: MatSnackBar,
 		private whiteLabelsData: WhiteLabelsData,
-		public dialog: MatDialog,
+		public dialog: MatDialog
 	) {
 		super();
 	}
@@ -48,21 +48,25 @@ export class WhiteLabelsPageComponent
 	}
 
 	private getWhiteLabels() {
-    this.inProgress = true;
-    this.filters$
-      .flatMap(state => {
-        this.pageIndex = state.skip / state.limit;
-        this.pageSize = state.limit;
-        let filters: ISubjectFilters = {
-          searchStr: state.searchStr,
-          sortBy: state.sortBy
-        };
-        return this.whiteLabelsData.getWhiteLabels(state.skip, state.limit, filters);
-      })
-      .subscribe(response => {
-        this.inProgress = false;
-        this.total = response.count;
-        this.collection = response.whiteLabels;
-      });
-  }
+		this.inProgress = true;
+		this.filters$
+			.flatMap(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				let filters: ISubjectFilters = {
+					searchStr: state.searchStr,
+					sortBy: state.sortBy
+				};
+				return this.whiteLabelsData.getWhiteLabels(
+					state.skip,
+					state.limit,
+					filters
+				);
+			})
+			.subscribe(response => {
+				this.inProgress = false;
+				this.total = response.count;
+				this.collection = response.whiteLabels;
+			});
+	}
 }
