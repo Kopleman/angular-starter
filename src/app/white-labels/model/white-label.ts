@@ -1,13 +1,11 @@
 export interface IWhiteLabelFilters {
-  searchStr?: string;
-  sortBy?: string;
+	searchStr?: string;
+	sortBy?: string;
 }
 
 export interface IWhiteLabelQueryParams extends IWhiteLabelFilters {
-  skip: number;
-  limit: number;
+	skip: number;
+	limit: number;
 }
 
-export interface IWhiteLabel {
-
-}
+export interface IWhiteLabel {}

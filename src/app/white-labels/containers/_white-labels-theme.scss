@@ -1,16 +1,16 @@
 @mixin white-labels-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-  white-labels-page {
-    white-labels-top-bar {
-      background-color: mat-color($primary, 50);
-    }
+	$primary: map-get($theme, primary);
+	$accent: map-get($theme, accent);
+	$warn: map-get($theme, warn);
+	$background: map-get($theme, background);
+	$foreground: map-get($theme, foreground);
+	white-labels-page {
+		white-labels-top-bar {
+			background-color: mat-color($primary, 50);
+		}
 
-    white-labels-list {
-      width: 960px;
-    }
-  }
+		white-labels-list {
+			width: 960px;
+		}
+	}
 }

@@ -7,39 +7,40 @@ import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { WhiteLabelsPaginate } from '../store/actions';
 
 @Component({
-  selector: 'white-labels-page',
-  styleUrls: ['./white-labels.component.scss'],
-  templateUrl: './white-labels.component.html'
+	selector: 'white-labels-page',
+	styleUrls: ['./white-labels.component.scss'],
+	templateUrl: './white-labels.component.html'
 })
-export class WhiteLabelsPageComponent extends Collection<IWhiteLabel, IWhiteLabelQueryParams>
-  implements OnInit {
-  constructor(
-    private actionSubject: ActionsSubject,
-    private store: Store<IWhiteLabelQueryParams>,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog
-  ) {
-    super();
-  }
+export class WhiteLabelsPageComponent
+	extends Collection<IWhiteLabel, IWhiteLabelQueryParams>
+	implements OnInit {
+	constructor(
+		private actionSubject: ActionsSubject,
+		private store: Store<IWhiteLabelQueryParams>,
+		private snackBar: MatSnackBar,
+		public dialog: MatDialog
+	) {
+		super();
+	}
 
-  public ngOnInit() {
-    this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
+	public ngOnInit() {
+		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
 
-    this.actionSubjectSubscription = this.actionSubject
-      .filter((action: ICustomAction) => this.actionFilter(action))
-      .subscribe(() => {
-        //
-      });
-  }
+		this.actionSubjectSubscription = this.actionSubject
+			.filter((action: ICustomAction) => this.actionFilter(action))
+			.subscribe(() => {
+				//
+			});
+	}
 
-  public paginate($event: PageEvent) {
-    this.pageIndex = $event.pageIndex;
-    this.pageSize = $event.pageSize;
-    let skip = this.pageIndex * this.pageSize;
-    this.store.dispatch(new WhiteLabelsPaginate(skip, this.pageSize));
-  }
+	public paginate($event: PageEvent) {
+		this.pageIndex = $event.pageIndex;
+		this.pageSize = $event.pageSize;
+		let skip = this.pageIndex * this.pageSize;
+		this.store.dispatch(new WhiteLabelsPaginate(skip, this.pageSize));
+	}
 
-  protected actionFilter(action) {
-    return action.feature === ModuleTypes.WHITELABELS;
-  }
+	protected actionFilter(action) {
+		return action.feature === ModuleTypes.WHITELABELS;
+	}
 }

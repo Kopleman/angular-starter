@@ -54,12 +54,10 @@ export class TopBarComponent extends AbstractFilters<IUserQueryParams>
 
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
-			control
-				.distinctUntilChanged()
-				.subscribe(value => {
-					this.filters[name] = value;
-					this.store.dispatch(new UsersApplyFilters(this.filters));
-				});
+			control.distinctUntilChanged().subscribe(value => {
+				this.filters[name] = value;
+				this.store.dispatch(new UsersApplyFilters(this.filters));
+			});
 		};
 
 		const search = this.searchControl.valueChanges.debounceTime(500);
@@ -74,9 +72,9 @@ export class TopBarComponent extends AbstractFilters<IUserQueryParams>
 	}
 
 	public test() {
-	  console.log(this.filters);
-	  return 'email';
-  }
+		console.log(this.filters);
+		return 'email';
+	}
 
 	protected actionFilter(action) {
 		return action.feature === ModuleTypes.USERS;

@@ -60,12 +60,10 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams>
 
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
-			control
-				.distinctUntilChanged()
-				.subscribe(value => {
-					this.filters[name] = value;
-					this.store.dispatch(new ApplyFilters(this.filters));
-				});
+			control.distinctUntilChanged().subscribe(value => {
+				this.filters[name] = value;
+				this.store.dispatch(new ApplyFilters(this.filters));
+			});
 		};
 
 		const search = this.searchControl.valueChanges.debounceTime(500);
