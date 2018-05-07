@@ -14,12 +14,13 @@ import {
 } from './store/reducer';
 import { ModuleTypes } from '../shared/models/ngrx-action';
 import { WhiteLabelsPageComponent } from './containers/white-labels.component';
+import { WhiteLabelsData } from './services/white-labels-data';
 
 const WHITELABELS_DIALOG_COMPONENTS = [];
 
 const WHITELABELS_COMPONENTS = [...WHITELABELS_DIALOG_COMPONENTS];
 
-const WHITELABELS_PROVIDERS = [];
+const WHITELABELS_PROVIDERS = [WhiteLabelsData];
 
 @NgModule({
 	declarations: [WHITELABELS_COMPONENTS],

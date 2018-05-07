@@ -1,4 +1,4 @@
-import { IWhiteLabelQueryParams } from '../model/white-label';
+import { IWhiteLabelQueryParams } from '../models/white-label';
 import {
 	WhiteLabelsCollectionActionsUnion,
 	WhiteLabelsCollectionActionTypes

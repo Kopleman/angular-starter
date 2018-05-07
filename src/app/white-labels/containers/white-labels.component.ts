@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { Collection } from '../../shared/abstracts/collection';
-import { IWhiteLabel, IWhiteLabelQueryParams } from '../model/white-label';
+import { IWhiteLabel, IWhiteLabelQueryParams } from '../models/white-label';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { WhiteLabelsPaginate } from '../store/actions';
+import { ISubjectFilters } from '../../subjects/models/subject';
+import { WhiteLabelsData } from '../services/white-labels-data';
 
 @Component({
 	selector: 'white-labels-page',
@@ -18,7 +20,8 @@ export class WhiteLabelsPageComponent
 		private actionSubject: ActionsSubject,
 		private store: Store<IWhiteLabelQueryParams>,
 		private snackBar: MatSnackBar,
-		public dialog: MatDialog
+		private whiteLabelsData: WhiteLabelsData,
+		public dialog: MatDialog,
 	) {
 		super();
 	}
@@ -29,7 +32,7 @@ export class WhiteLabelsPageComponent
 		this.actionSubjectSubscription = this.actionSubject
 			.filter((action: ICustomAction) => this.actionFilter(action))
 			.subscribe(() => {
-				//
+				this.getWhiteLabels();
 			});
 	}
 
@@ -43,4 +46,23 @@ export class WhiteLabelsPageComponent
 	protected actionFilter(action) {
 		return action.feature === ModuleTypes.WHITELABELS;
 	}
+
+	private getWhiteLabels() {
+    this.inProgress = true;
+    this.filters$
+      .flatMap(state => {
+        this.pageIndex = state.skip / state.limit;
+        this.pageSize = state.limit;
+        let filters: ISubjectFilters = {
+          searchStr: state.searchStr,
+          sortBy: state.sortBy
+        };
+        return this.whiteLabelsData.getWhiteLabels(state.skip, state.limit, filters);
+      })
+      .subscribe(response => {
+        this.inProgress = false;
+        this.total = response.count;
+        this.collection = response.whiteLabels;
+      });
+  }
 }

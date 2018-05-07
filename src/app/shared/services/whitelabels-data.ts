@@ -18,7 +18,7 @@ export class WhiteLabelsData {
 
 	private _getWhiteLabels() {
 		return this.api
-			.get<IWhiteLabel[], null>('admin/rest/whitelables')
+			.get<IWhiteLabel[], null>('admin/rest/whiteLabelsShort')
 			.shareReplay(1);
 	}
 }

@@ -9,3 +9,8 @@ export interface IWhiteLabelQueryParams extends IWhiteLabelFilters {
 }
 
 export interface IWhiteLabel {}
+
+export interface IWhiteLabelResponse {
+  count: number;
+  whiteLabels: IWhiteLabel[];
+}
