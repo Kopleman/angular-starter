@@ -8,7 +8,11 @@ export interface IWhiteLabelQueryParams extends IWhiteLabelFilters {
 	limit: number;
 }
 
-export interface IWhiteLabel {}
+export interface IWhiteLabel {
+	ip: string;
+	__v: string;
+	_id: string;
+}
 
 export interface IWhiteLabelResponse {
   count: number;

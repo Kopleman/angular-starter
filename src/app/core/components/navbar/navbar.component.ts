@@ -20,7 +20,7 @@ export class NavBarComponent implements OnInit {
 	}
 
 	get sectionKeys() {
-		return ['subjects', 'templates', 'users', 'white-labels'];
+		return ['subjects', 'templates', 'users', 'whiteLabels'];
 	}
 
 	public logout() {

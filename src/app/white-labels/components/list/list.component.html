@@ -1,0 +1,34 @@
+
+<mat-table [dataSource]="createDataSource(whiteLabels)">
+
+
+	<ng-container matColumnDef="firstName">
+		<mat-header-cell *matHeaderCellDef> Имя и фамилия </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{row._id}}</mat-cell>
+	</ng-container>
+
+
+	<ng-container matColumnDef="email">
+		<mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+		<mat-cell *matCellDef="let row"> {{row.ip}} </mat-cell>
+	</ng-container>
+
+
+	<ng-container matColumnDef="controls">
+		<mat-header-cell *matHeaderCellDef> Действия </mat-header-cell>
+		<mat-cell *matCellDef="let row" fxLayoutGap="8px">
+			<!--<button mat-mini-fab color="primary" (click)="editUser(row)">-->
+				<!--<mat-icon>mode_edit</mat-icon>-->
+			<!--</button>-->
+			<!--<button mat-mini-fab color="warn" (click)="deleteUser(row)">-->
+				<!--<mat-icon>delete</mat-icon>-->
+			<!--</button>-->
+		</mat-cell>
+	</ng-container>
+
+	<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+	<mat-row *matRowDef="let row; columns: displayedColumns;">
+	</mat-row>
+</mat-table>
+<div *ngIf="whiteLabels && !whiteLabels.length"> Лейблов удовлетворяющим критерям поиска нет </div>
+

@@ -14,14 +14,14 @@ import { WhiteLabelsData } from '../services/white-labels-data';
 	templateUrl: './white-labels.component.html'
 })
 export class WhiteLabelsPageComponent
-	extends Collection<IWhiteLabel, IWhiteLabelQueryParams>
+	extends Collection<IWhiteLabel[], IWhiteLabelQueryParams>
 	implements OnInit {
 	constructor(
 		private actionSubject: ActionsSubject,
 		private store: Store<IWhiteLabelQueryParams>,
 		private snackBar: MatSnackBar,
 		private whiteLabelsData: WhiteLabelsData,
-		public dialog: MatDialog,
+		public dialog: MatDialog
 	) {
 		super();
 	}
@@ -43,26 +43,34 @@ export class WhiteLabelsPageComponent
 		this.store.dispatch(new WhiteLabelsPaginate(skip, this.pageSize));
 	}
 
+	public createNewWl() {
+		console.log(1);
+	}
+
 	protected actionFilter(action) {
 		return action.feature === ModuleTypes.WHITELABELS;
 	}
 
 	private getWhiteLabels() {
-    this.inProgress = true;
-    this.filters$
-      .flatMap(state => {
-        this.pageIndex = state.skip / state.limit;
-        this.pageSize = state.limit;
-        let filters: ISubjectFilters = {
-          searchStr: state.searchStr,
-          sortBy: state.sortBy
-        };
-        return this.whiteLabelsData.getWhiteLabels(state.skip, state.limit, filters);
-      })
-      .subscribe(response => {
-        this.inProgress = false;
-        this.total = response.count;
-        this.collection = response.whiteLabels;
-      });
-  }
+		this.inProgress = true;
+		this.filters$
+			.flatMap(state => {
+				this.pageIndex = state.skip / state.limit;
+				this.pageSize = state.limit;
+				let filters: ISubjectFilters = {
+					searchStr: state.searchStr,
+					sortBy: state.sortBy
+				};
+				return this.whiteLabelsData.getWhiteLabels(
+					state.skip,
+					state.limit,
+					filters
+				);
+			})
+			.subscribe(response => {
+				this.inProgress = false;
+				this.total = response.count;
+				this.collection = response.whiteLabels;
+			});
+	}
 }

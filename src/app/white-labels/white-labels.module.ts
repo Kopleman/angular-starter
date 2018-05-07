@@ -18,7 +18,7 @@ import { WhiteLabelsData } from './services/white-labels-data';
 
 const WHITELABELS_DIALOG_COMPONENTS = [];
 
-const WHITELABELS_COMPONENTS = [...WHITELABELS_DIALOG_COMPONENTS];
+const WHITELABELS_COMPONENTS = [WhiteLabelsPageComponent,...WHITELABELS_DIALOG_COMPONENTS];
 
 const WHITELABELS_PROVIDERS = [WhiteLabelsData];
 
@@ -36,7 +36,7 @@ const WHITELABELS_PROVIDERS = [WhiteLabelsData];
 		}),
 		RouterModule.forChild([
 			{
-				path: 'white-labels',
+				path: 'whiteLabels',
 				component: WhiteLabelsPageComponent,
 				canActivate: [AuthGuard]
 			}
