@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionsSubject, select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import {
 	INewUser,
 	IUser,
@@ -112,7 +112,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 	protected actionFilter(action) {
 		return (
 			action.feature === ModuleTypes.USERS &&
-			action.type !== '@ngrx/store/update-reducers'
+			action.type !== UPDATE
 		);
 	}
 

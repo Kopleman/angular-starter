@@ -12,7 +12,7 @@ import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
 import { of } from 'rxjs/observable/of';
-import { ActionsSubject, select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { Collection } from '../../shared/abstracts/collection';
@@ -138,7 +138,7 @@ export class TemplatesPageComponent
 	protected actionFilter(action) {
 		return (
 			action.feature === ModuleTypes.TEMPLATES &&
-			action.type !== '@ngrx/store/update-reducers'
+			action.type !== UPDATE
 		);
 	}
 

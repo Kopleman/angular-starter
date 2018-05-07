@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
+import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import {
 	ISubject,
 	ISubjectFilters,
 	ISubjectQueryParams
 } from '../models/subject';
-import { ActionsSubject, select, Store } from '@ngrx/store';
 import { SubjectsPaginate } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { Collection } from '../../shared/abstracts/collection';
@@ -47,7 +47,7 @@ export class SubjectsPageComponent
 	protected actionFilter(action) {
 		return (
 			action.feature === ModuleTypes.SUBJECTS &&
-			action.type !== '@ngrx/store/update-reducers'
+			action.type !== UPDATE
 		);
 	}
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionsSubject, select, Store } from '@ngrx/store';
+import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import { Collection } from '../../shared/abstracts/collection';
 import { IWhiteLabel, IWhiteLabelQueryParams } from '../models/white-label';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
@@ -50,7 +50,7 @@ export class WhiteLabelsPageComponent
 	protected actionFilter(action) {
 		return (
 			action.feature === ModuleTypes.WHITELABELS &&
-			action.type !== '@ngrx/store/update-reducers'
+			action.type !== UPDATE
 		);
 	}
 
