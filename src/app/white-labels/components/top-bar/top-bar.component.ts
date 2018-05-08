@@ -40,7 +40,7 @@ export class WhiteLabelTopBarComponent extends AbstractFilters<IWhiteLabelQueryP
 	}
 
 	public ngOnInit() {
-		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
+		this.filters$ = this.store.pipe(select(ModuleTypes.WHITELABELS));
 		this.onInit();
 		this.bindControls();
 		this.actionSubjectSubscription = this.actionSubject

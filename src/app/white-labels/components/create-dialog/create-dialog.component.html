@@ -10,7 +10,7 @@
 <div mat-dialog-content>
 	<form fxFlex fxLayout="column" fxFlexFill [formGroup]="createWLForm" class="create-form">
 		<mat-form-field class="field">
-			<input matInput type="text" placeholder="Хост*" formControlName="host" [(ngModel)]="data._id">
+			<input matInput type="text" placeholder="Хост*" formControlName="_id" [(ngModel)]="data._id">
 			<mat-error *ngIf="createWLForm.get('_id').hasError('required')">
 				<strong>Введите хост</strong>
 			</mat-error>
