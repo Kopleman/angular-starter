@@ -8,22 +8,25 @@
 	</mat-toolbar-row>
 </mat-toolbar>
 <div mat-dialog-content>
-	<form  fxFlex fxLayout="column" fxFlexFill [formGroup]="createForm"  class="create-form">
+	<form fxFlex fxLayout="column" fxFlexFill [formGroup]="createWLForm" class="create-form">
 		<mat-form-field class="field">
-			<input matInput type="text" placeholder="Хост*" formControlName="host" [(ngModel)]="data.host">
-			<mat-error *ngIf="createForm.get('host').hasError('required')">
+			<input matInput type="text" placeholder="Хост*" formControlName="host" [(ngModel)]="data._id">
+			<mat-error *ngIf="createWLForm.get('_id').hasError('required')">
 				<strong>Введите хост</strong>
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field class="field">
 			<input matInput type="text" placeholder="IP*" formControlName="ip" [(ngModel)]="data.ip">
-			<mat-error *ngIf="createForm.get('ip').hasError('required')">
+			<mat-error *ngIf="createWLForm.get('ip').hasError('pattern')">
+				Ошибка в IP
+			</mat-error>
+			<mat-error *ngIf="createWLForm.get('ip').hasError('required')">
 				<strong>Введите IP</strong>
 			</mat-error>
 		</mat-form-field>
 	</form>
 </div>
 <div mat-dialog-actions>
-	<button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!createForm.valid">Добавить</button>
+	<button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!createWLForm.valid">Добавить</button>
 	<button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
 </div>

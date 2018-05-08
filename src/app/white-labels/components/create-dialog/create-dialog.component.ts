@@ -9,7 +9,7 @@ import { INewWhiteLabelDialogData } from '../../models/dialog';
 	styleUrls: ['./create-dialog.component.scss']
 })
 export class CreateWhiteLabelDialogComponent implements OnInit {
-	public createForm: FormGroup;
+	public createWLForm: FormGroup;
 	constructor(
 		public dialogRef: MatDialogRef<CreateWhiteLabelDialogComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: INewWhiteLabelDialogData,
@@ -18,9 +18,9 @@ export class CreateWhiteLabelDialogComponent implements OnInit {
 	public ngOnInit() {
 		const ipPattern =
 			'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
-		this.createForm = this.formBuilder.group({
-			ip: ['0.0.0.0', Validators.required, Validators.pattern(ipPattern)],
-			host: [null, Validators.required],
+		this.createWLForm = this.formBuilder.group({
+			ip: [null, [Validators.required, Validators.pattern(ipPattern)]],
+			_id: [null, Validators.required]
 		});
 	}
 

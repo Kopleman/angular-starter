@@ -56,7 +56,7 @@ export class WhiteLabelsPageComponent
 			closeOnNavigation: true,
 			panelClass: 'wl-dialog-component',
 			data: {
-				host: '',
+				_id: '',
 				ip: '0.0.0.0'
 			}
 		});
@@ -79,7 +79,7 @@ export class WhiteLabelsPageComponent
 							duration: 2000
 						});
 						this.store.dispatch(
-							new WhiteLabelsApplyFilters({ searchStr: dialogResult.host })
+							new WhiteLabelsApplyFilters({ searchStr: dialogResult._id })
 						);
 					}
 				},

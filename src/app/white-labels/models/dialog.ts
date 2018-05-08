@@ -1,4 +1,4 @@
 export interface INewWhiteLabelDialogData {
 	ip: string;
-	host: string;
+	_id: string;
 }
