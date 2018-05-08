@@ -4,9 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 import { Api } from '../../core/services/api';
 import {
-  IWhiteLabelFilters,
-  IWhiteLabelQueryParams,
-  IWhiteLabelResponse
+	IWhiteLabel,
+	IWhiteLabelFilters,
+	IWhiteLabelQueryParams,
+	IWhiteLabelResponse
 } from '../models/white-label';
 import { INewWhiteLabelDialogData } from '../models/dialog';
 
@@ -24,5 +25,9 @@ export class WhiteLabelsData {
 
   public createNewWL(newWhiteLabel: INewWhiteLabelDialogData) {
 	  return this.api.post('admin/rest/whiteLabels', newWhiteLabel);
+  }
+
+  public removeWL(whiteLabel: IWhiteLabel) {
+	  return this.api.delete(`admin/rest/whiteLabels/${whiteLabel._id}`);
   }
 }
