@@ -17,8 +17,9 @@ import { WhiteLabelsPageComponent } from './containers/white-labels.component';
 import { WhiteLabelsData } from './services/white-labels-data';
 import { WhiteLabelsListComponent } from './components/list/list.component';
 import { WhiteLabelTopBarComponent } from './components/top-bar/top-bar.component';
+import { CreateWhiteLabelDialogComponent } from './components/create-dialog/create-dialog.component';
 
-const WHITELABELS_DIALOG_COMPONENTS = [];
+const WHITELABELS_DIALOG_COMPONENTS = [CreateWhiteLabelDialogComponent];
 
 const WHITELABELS_COMPONENTS = [
 	WhiteLabelsPageComponent,

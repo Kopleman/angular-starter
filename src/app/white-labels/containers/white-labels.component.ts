@@ -4,9 +4,12 @@ import { Collection } from '../../shared/abstracts/collection';
 import { IWhiteLabel, IWhiteLabelQueryParams } from '../models/white-label';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
-import { WhiteLabelsPaginate } from '../store/actions';
+import { WhiteLabelsApplyFilters, WhiteLabelsPaginate } from '../store/actions';
 import { ISubjectFilters } from '../../subjects/models/subject';
 import { WhiteLabelsData } from '../services/white-labels-data';
+import { INewWhiteLabelDialogData } from '../models/dialog';
+import { CreateWhiteLabelDialogComponent } from '../components/create-dialog/create-dialog.component';
+import { of } from 'rxjs/observable/of';
 
 @Component({
 	selector: 'white-labels-page',
@@ -44,14 +47,54 @@ export class WhiteLabelsPageComponent
 	}
 
 	public createNewWl() {
-		console.log(1);
+		let dialogResult: INewWhiteLabelDialogData;
+		let dialogRef = this.dialog.open<
+			CreateWhiteLabelDialogComponent,
+			INewWhiteLabelDialogData
+		>(CreateWhiteLabelDialogComponent, {
+			width: '580px',
+			closeOnNavigation: true,
+			panelClass: 'wl-dialog-component',
+			data: {
+				host: '',
+				ip: '0.0.0.0'
+			}
+		});
+
+		dialogRef
+			.afterClosed()
+			.flatMap(result => {
+				if (!result) {
+					return of(null);
+				}
+				dialogResult = result;
+
+				this.snackBar.open(`Создаем новый вайт-лейбл`, 'Закрыть');
+				return this.whiteLabelsData.createNewWL(result);
+			})
+			.subscribe(
+				result => {
+					if (result) {
+						this.snackBar.open(`Вайт-лейбл создан`, 'Закрыть', {
+							duration: 2000
+						});
+						this.store.dispatch(
+							new WhiteLabelsApplyFilters({ searchStr: dialogResult.host })
+						);
+					}
+				},
+				errorResp => {
+					console.log(errorResp);
+					this.snackBar.open(
+						`Ошибки при создании: ${errorResp.error.message}`,
+						'Закрыть'
+					);
+				}
+			);
 	}
 
 	protected actionFilter(action) {
-		return (
-			action.feature === ModuleTypes.WHITELABELS &&
-			action.type !== UPDATE
-		);
+		return action.feature === ModuleTypes.WHITELABELS && action.type !== UPDATE;
 	}
 
 	private getWhiteLabels() {

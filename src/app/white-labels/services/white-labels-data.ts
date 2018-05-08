@@ -8,6 +8,7 @@ import {
   IWhiteLabelQueryParams,
   IWhiteLabelResponse
 } from '../models/white-label';
+import { INewWhiteLabelDialogData } from '../models/dialog';
 
 @Injectable()
 export class WhiteLabelsData {
@@ -19,5 +20,9 @@ export class WhiteLabelsData {
       limit,
       ...filters
     });
+  }
+
+  public createNewWL(newWhiteLabel: INewWhiteLabelDialogData) {
+	  return this.api.post('admin/rest/whiteLabels', newWhiteLabel);
   }
 }
