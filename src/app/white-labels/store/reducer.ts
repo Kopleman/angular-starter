@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 
 export const WHITELABLES_INITIAL_FILTERS_STATE: IWhiteLabelQueryParams = {
 	searchStr: '',
-	sortBy: 'email',
+	sortBy: '_id',
 	skip: 0,
 	limit: 10
 };

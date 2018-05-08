@@ -21,7 +21,6 @@ export class WhiteLabelsListComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-		console.log(this.whiteLabels)
 		this.displayedColumns = ['_id', 'ip', 'controls'];
 	}
 
