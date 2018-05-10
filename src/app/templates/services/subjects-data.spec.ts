@@ -60,5 +60,26 @@ describe('Subjects data service', () => {
 
 			req.flush(expectedAnswer);
 		});
+		it(`should return expected subjects that got on first request 
+		and shared on  other attempts (called multiple times)`, () => {
+			subjectsData
+				.getSubjects().subscribe();
+			subjectsData
+				.getSubjects().subscribe();
+			subjectsData
+				.getSubjects()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected subjects'),
+					fail
+				);
+
+			const requests = httpTestingController.match(
+				`${host}admin/rest/subjects/short`
+			);
+			expect(requests.length).toEqual(1, 'calls to getAvailablePubHosts()');
+
+			// Respond to each request with different mock hero results
+			requests[0].flush(expectedAnswer);
+		});
 	});
 });

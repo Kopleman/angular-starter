@@ -4,10 +4,10 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { Api } from '../core/services/api';
-import { APP_DI_CONFIG, AppConfigModule } from '../config.module';
-import { AuthService } from './services/auth';
-import { ILoginModel, ILoginResponse, IProfile } from './models/user';
+import { Api } from '../../core/services/api';
+import { APP_DI_CONFIG, AppConfigModule } from '../../config.module';
+import { AuthService } from './auth';
+import { ILoginModel, ILoginResponse, IProfile } from '../models/user';
 import { Router } from '@angular/router';
 
 describe('Auth service', () => {
@@ -98,7 +98,7 @@ describe('Auth service', () => {
 			expect(req.request.body).toBeDefined();
 			expect(req.request.body.email).toEqual(loginData.email);
 			expect(req.request.body.password).toEqual(loginData.password);
-			expect(req.request.withCredentials).toBeFalsy();
+			expect(req.request.withCredentials).toBeTruthy();
 
 			req.flush(expectedAnswer);
 		});

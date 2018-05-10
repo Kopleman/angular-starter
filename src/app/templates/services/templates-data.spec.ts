@@ -1,7 +1,4 @@
-import {
-	HttpClientTestingModule,
-	HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { APP_DI_CONFIG, AppConfigModule } from '../../config.module';
@@ -12,8 +9,11 @@ import {
 	ITemplateCreateReq,
 	ITemplateFilters,
 	ITemplateGulpStatusResponse,
+	ITemplateHost,
 	ITemplateResponse
 } from '../models/template';
+import { IWhiteLabel } from '../../shared/models/whitelabel';
+import { WhiteLabelsData } from '../../shared/services/whitelabels-data';
 
 describe('Templates data service', () => {
 	let httpClient: HttpClient;
@@ -51,6 +51,7 @@ describe('Templates data service', () => {
 				templates: [
 					{
 						_id: 'mock',
+						lessEditHistory: [],
 						i18nTags: { ru: ['mock', 'mock2'] },
 						i18nTitles: { ru: 'mockTitle' },
 						whitelabelsIds: [],
@@ -93,17 +94,11 @@ describe('Templates data service', () => {
 			templatesData
 				.getTemplates(0, 10, filters)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected templates'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected templates'),
 					fail
 				);
 
-			const req = httpTestingController.expectOne(_req =>
-				regexp.test(_req.url)
-			);
+			const req = httpTestingController.expectOne(_req => regexp.test(_req.url));
 			expect(req.request.method).toEqual('GET');
 			expect(req.request.params.get('skip')).toEqual('0');
 			expect(req.request.params.get('limit')).toEqual('10');
@@ -121,6 +116,7 @@ describe('Templates data service', () => {
 			expectedAnswer = { status: 'ok' } as { status: string };
 			template = {
 				_id: 'mock',
+				lessEditHistory: [],
 				i18nTags: { ru: ['mock', 'mock2'] },
 				i18nTitles: { ru: 'mockTitle' },
 				whitelabelsIds: [],
@@ -158,11 +154,7 @@ describe('Templates data service', () => {
 			templatesData
 				.updateSettings(template)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
@@ -188,11 +180,7 @@ describe('Templates data service', () => {
 			templatesData
 				.changeGulpStatus(templateId, expectedAnswer.status)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected templates'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected templates'),
 					fail
 				);
 
@@ -213,17 +201,11 @@ describe('Templates data service', () => {
 			templatesData
 				.delete(templateId)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
-			const req = httpTestingController.expectOne(
-				`${host}admin/rest/templates/${templateId}`
-			);
+			const req = httpTestingController.expectOne(`${host}admin/rest/templates/${templateId}`);
 			expect(req.request.method).toEqual('DELETE');
 		});
 	});
@@ -238,11 +220,7 @@ describe('Templates data service', () => {
 			templatesData
 				.refreshSettings(templateId)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
@@ -263,11 +241,7 @@ describe('Templates data service', () => {
 			templatesData
 				.refreshCloneSettings(templateId)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
@@ -288,11 +262,7 @@ describe('Templates data service', () => {
 			templatesData
 				.compileClones(templateId)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
@@ -312,11 +282,7 @@ describe('Templates data service', () => {
 			templatesData
 				.compileAll()
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
@@ -327,52 +293,158 @@ describe('Templates data service', () => {
 		});
 	});
 
+	describe('#getAvailableDemoHosts', () => {
+		let expectedAnswer: ITemplateHost[];
+		beforeEach(() => {
+			expectedAnswer = [
+				{ label: 'mock-host', host: 'mock-host', withDeploy: false }
+			] as ITemplateHost[];
+			api = TestBed.get(Api);
+			templatesData = TestBed.get(TemplatesData);
+		});
+
+		it('should return expected answer (called once)', () => {
+			templatesData
+				.getAvailableDemoHosts()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected hosts'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(`${host}admin/rest/templates/getAvailableDemoHosts`);
+			expect(req.request.method).toEqual('GET');
+
+			req.flush(expectedAnswer);
+		});
+
+		it(`should return expected whiteLabels that got on first request 
+		and shared on  other attempts (called multiple times)`, () => {
+			templatesData.getAvailableDemoHosts().subscribe();
+			templatesData.getAvailableDemoHosts().subscribe();
+			templatesData
+				.getAvailableDemoHosts()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected hosts'),
+					fail
+				);
+
+			const requests = httpTestingController.match(
+				`${host}admin/rest/templates/getAvailableDemoHosts`
+			);
+			expect(requests.length).toEqual(1, 'calls to getAvailableDemoHosts()');
+
+			// Respond to each request with different mock hero results
+			requests[0].flush(expectedAnswer);
+		});
+	});
+
+	describe('#getAvailablePubHosts', () => {
+		let expectedAnswer: ITemplateHost[];
+		beforeEach(() => {
+			expectedAnswer = [
+				{ label: 'mock-host', host: 'mock-host', withDeploy: false }
+			] as ITemplateHost[];
+			api = TestBed.get(Api);
+			templatesData = TestBed.get(TemplatesData);
+		});
+
+		it('should return expected answer (called once)', () => {
+			templatesData
+				.getAvailablePubHosts()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected hosts'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(`${host}admin/rest/templates/getAvailablePubHosts`);
+			expect(req.request.method).toEqual('GET');
+
+			req.flush(expectedAnswer);
+		});
+
+		it(`should return expected whiteLabels that got on first request 
+		and shared on  other attempts (called multiple times)`, () => {
+			templatesData.getAvailablePubHosts().subscribe();
+			templatesData.getAvailablePubHosts().subscribe();
+			templatesData
+				.getAvailablePubHosts()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected hosts'),
+					fail
+				);
+
+			const requests = httpTestingController.match(
+				`${host}admin/rest/templates/getAvailablePubHosts`
+			);
+			expect(requests.length).toEqual(1, 'calls to getAvailablePubHosts()');
+
+			// Respond to each request with different mock hero results
+			requests[0].flush(expectedAnswer);
+		});
+	});
+
 	describe('#publishDemo', () => {
 		let expectedAnswer: { status: string };
 		let templateId = 'mock';
-		let mode: 'normal' | 'compile';
-		let regexp = new RegExp(`^${host}admin/rest/templates/${templateId}/demo`);
+		let destHost = 'mock-host';
+		let regexp = new RegExp(`^${host}admin/rest/templates/demo/${templateId}/${destHost}`);
 		beforeEach(() => {
 			expectedAnswer = { status: 'ok' } as { status: string };
 		});
 
-		it('should return status on request and have right mode(normal) in params', () => {
-			mode = 'normal';
+		it('should return status on request', () => {
 			templatesData
-				.publishDemo(templateId, mode)
+				.publishDemo(templateId, destHost)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
-			const req = httpTestingController.expectOne(_req =>
-				regexp.test(_req.url)
-			);
+			const req = httpTestingController.expectOne(_req => regexp.test(_req.url));
 			expect(req.request.method).toEqual('GET');
-			expect(req.request.params.get('mode')).toEqual(mode);
 		});
-		it('should return status on request and have right mode(compile) in params', () => {
-			mode = 'compile';
+	});
+
+	describe('#publish', () => {
+		let expectedAnswer: { status: string };
+		let templateId = 'mock';
+		let destHost = 'mock-host';
+		let regexp = new RegExp(`^${host}admin/rest/templates/publish/${templateId}/${destHost}`);
+		beforeEach(() => {
+			expectedAnswer = { status: 'ok' } as { status: string };
+		});
+
+		it('should return status on request', () => {
 			templatesData
-				.publishDemo(templateId, mode)
+				.publish(templateId, destHost)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
-			const req = httpTestingController.expectOne(_req =>
-				regexp.test(_req.url)
-			);
+			const req = httpTestingController.expectOne(_req => regexp.test(_req.url));
 			expect(req.request.method).toEqual('GET');
-			expect(req.request.params.get('mode')).toEqual(mode);
+		});
+	});
+
+	describe('#commitTemplate', () => {
+		let expectedAnswer: { status: string };
+		let templateId = 'mock';
+		let regexp = new RegExp(`^${host}admin/rest/templates/${templateId}/commit`);
+		beforeEach(() => {
+			expectedAnswer = { status: 'ok' } as { status: string };
+		});
+
+		it('should return status on request', () => {
+			templatesData
+				.commitTemplate(templateId)
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(_req => regexp.test(_req.url));
+			expect(req.request.method).toEqual('GET');
 		});
 	});
 
@@ -392,17 +464,11 @@ describe('Templates data service', () => {
 			templatesData
 				.createTemplate(data)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 
-			const req = httpTestingController.expectOne(
-				`${host}admin/rest/templates`
-			);
+			const req = httpTestingController.expectOne(`${host}admin/rest/templates`);
 			expect(req.request.method).toEqual('POST');
 		});
 	});
@@ -421,11 +487,7 @@ describe('Templates data service', () => {
 			templatesData
 				.createClone(templateId, cloneName, author, pageLess)
 				.subscribe(
-					answer =>
-						expect(answer).toEqual(
-							expectedAnswer,
-							'should return expected answer'
-						),
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
 					fail
 				);
 

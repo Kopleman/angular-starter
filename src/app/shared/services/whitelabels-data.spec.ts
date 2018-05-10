@@ -54,7 +54,7 @@ describe('WhiteLabels data service', () => {
 				);
 
 			const req = httpTestingController.expectOne(
-				`${host}admin/rest/whitelables`
+				`${host}admin/rest/whiteLabelsShort`
 			);
 			expect(req.request.method).toEqual('GET');
 
@@ -77,7 +77,7 @@ describe('WhiteLabels data service', () => {
 				);
 
 			const requests = httpTestingController.match(
-				`${host}admin/rest/whitelables`
+				`${host}admin/rest/whiteLabelsShort`
 			);
 			expect(requests.length).toEqual(1, 'calls to getWhiteLabels()');
 
