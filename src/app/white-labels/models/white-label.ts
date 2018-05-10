@@ -15,6 +15,6 @@ export interface IWhiteLabel {
 }
 
 export interface IWhiteLabelResponse {
-  count: number;
-  whiteLabels: IWhiteLabel[];
+	count: number;
+	whiteLabels: IWhiteLabel[];
 }

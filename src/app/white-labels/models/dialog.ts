@@ -3,4 +3,4 @@ export interface INewWhiteLabelDialogData {
 	_id: string;
 }
 
-export interface IEditWhiteLabelDialogData extends INewWhiteLabelDialogData{}
+export interface IEditWhiteLabelDialogData extends INewWhiteLabelDialogData {}

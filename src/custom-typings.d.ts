@@ -13,7 +13,8 @@ declare feature 'my-feature' {
  export function doesSomething(value: string): string;
 }
 
- * If you are using a CommonJS feature that is using feature.exports then you will have to write your
+ * If you are using a CommonJS feature that is using feature.exports then you will have to write
+ * your
  * types using export = yourObjectOrFunction with a namespace above it
  * notice how we have to create a namespace that is equal to the function we're
  * assigning the export to

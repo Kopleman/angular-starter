@@ -8,7 +8,8 @@ import { WhiteLabelsApplyFilters, WhiteLabelsPaginate } from '../store/actions';
 import { ISubjectFilters } from '../../subjects/models/subject';
 import { WhiteLabelsData } from '../services/white-labels-data';
 import { INewWhiteLabelDialogData } from '../models/dialog';
-import { CreateWhiteLabelDialogComponent } from '../components/create-dialog/create-dialog.component';
+import { CreateWhiteLabelDialogComponent }
+	from '../components/create-dialog/create-dialog.component';
 import { of } from 'rxjs/observable/of';
 
 @Component({

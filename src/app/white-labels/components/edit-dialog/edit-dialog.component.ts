@@ -19,7 +19,10 @@ export class EditWhiteLabelDialogComponent implements OnInit {
 		const ipPattern =
 			'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)';
 		this.editWLForm = this.formBuilder.group({
-			ip: [{ value: this.data.ip }, [Validators.required, Validators.pattern(ipPattern)]],
+			ip: [
+				{ value: this.data.ip },
+				[Validators.required, Validators.pattern(ipPattern)]
+			],
 			_id: [{ value: this.data._id, disabled: true }, Validators.required]
 		});
 	}

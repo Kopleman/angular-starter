@@ -19,7 +19,8 @@ import { WhiteLabelsApplyFilters } from '../../store/actions';
 	styleUrls: ['./top-bar.component.scss'],
 	templateUrl: './top-bar.component.html'
 })
-export class WhiteLabelTopBarComponent extends AbstractFilters<IWhiteLabelQueryParams>
+export class WhiteLabelTopBarComponent
+	extends AbstractFilters<IWhiteLabelQueryParams>
 	implements OnInit {
 	public filters = WHITELABLES_INITIAL_FILTERS_STATE;
 

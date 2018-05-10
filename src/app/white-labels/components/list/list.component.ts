@@ -4,7 +4,8 @@ import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 import { IWhiteLabel, IWhiteLabelQueryParams } from '../../models/white-label';
 import { IConfirmDialogData } from '../../../shared/models/dialog';
-import { ConfirmDialogComponent } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent }
+	from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { WhiteLabelsData } from '../../services/white-labels-data';
 import { WhiteLabelsRefresh } from '../../store/actions';
 import { IEditWhiteLabelDialogData } from '../../models/dialog';
@@ -35,20 +36,15 @@ export class WhiteLabelsListComponent implements OnInit {
 
 	public removeWL(whiteLabel: IWhiteLabel) {
 		this.dialog
-			.open<ConfirmDialogComponent, IConfirmDialogData>(
-				ConfirmDialogComponent,
-				{
-					width: '580px',
-					closeOnNavigation: true,
-					panelClass: 'confirm-dialog-component',
-					data: {
-						header: 'Удаление вайт-лейбла',
-						text: `Вы точно хотите удалить вайт-лейбл ${whiteLabel._id}(${
-							whiteLabel.ip
-							})?`
-					}
+			.open<ConfirmDialogComponent, IConfirmDialogData>(ConfirmDialogComponent, {
+				width: '580px',
+				closeOnNavigation: true,
+				panelClass: 'confirm-dialog-component',
+				data: {
+					header: 'Удаление вайт-лейбла',
+					text: `Вы точно хотите удалить вайт-лейбл ${whiteLabel._id}(${whiteLabel.ip})?`
 				}
-			)
+			})
 			.afterClosed()
 			.flatMap(result => {
 				if (!result) {
@@ -69,10 +65,7 @@ export class WhiteLabelsListComponent implements OnInit {
 				},
 				errorResp => {
 					console.log(errorResp);
-					this.snackBar.open(
-						`Ошибки при удалении: ${errorResp.error.message}`,
-						'Закрыть'
-					);
+					this.snackBar.open(`Ошибки при удалении: ${errorResp.error.message}`, 'Закрыть');
 				}
 			);
 	}
@@ -81,7 +74,8 @@ export class WhiteLabelsListComponent implements OnInit {
 		let dialogResult: IEditWhiteLabelDialogData;
 		let dialogRef = this.dialog.open<EditWhiteLabelDialogComponent, IEditWhiteLabelDialogData>(
 			EditWhiteLabelDialogComponent,
-			{width: '580px',
+			{
+				width: '580px',
 				closeOnNavigation: true,
 				panelClass: 'edit-user-dialog-component',
 				data: whiteLabel
@@ -107,10 +101,7 @@ export class WhiteLabelsListComponent implements OnInit {
 				},
 				errorResp => {
 					console.log(errorResp);
-					this.snackBar.open(
-						`Ошибки при редактировании: ${errorResp.error.message}`,
-						'Закрыть'
-					);
+					this.snackBar.open(`Ошибки при редактировании: ${errorResp.error.message}`, 'Закрыть');
 				}
 			);
 	}

@@ -187,6 +187,7 @@
   },
   "prettier": {
     "singleQuote": true,
-    "useTabs": true
+    "useTabs": true,
+		"printWidth": 100
   }
 }
