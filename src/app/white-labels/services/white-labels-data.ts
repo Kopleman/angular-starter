@@ -9,7 +9,7 @@ import {
 	IWhiteLabelQueryParams,
 	IWhiteLabelResponse
 } from '../models/white-label';
-import { INewWhiteLabelDialogData } from '../models/dialog';
+import { IEditWhiteLabelDialogData, INewWhiteLabelDialogData } from '../models/dialog';
 
 @Injectable()
 export class WhiteLabelsData {
@@ -26,6 +26,10 @@ export class WhiteLabelsData {
   public createNewWL(newWhiteLabel: INewWhiteLabelDialogData) {
 	  return this.api.post('admin/rest/whiteLabels', newWhiteLabel);
   }
+
+	public editWL(whiteLabel: IEditWhiteLabelDialogData) {
+		return this.api.put(`admin/rest/whiteLabels/${whiteLabel._id}`, whiteLabel);
+	}
 
   public removeWL(whiteLabel: IWhiteLabel) {
 	  return this.api.delete(`admin/rest/whiteLabels/${whiteLabel._id}`);

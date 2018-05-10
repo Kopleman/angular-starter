@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<span>Добавить новый вайт-лейбл</span>
+		<span class="spacer"></span>
+		<button mat-icon-button>
+			<mat-icon (click)="onCloseClick()">close</mat-icon>
+		</button>
+	</mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+	<form fxFlex fxLayout="column" fxFlexFill [formGroup]="editWLForm" class="edit-form">
+		<mat-form-field class="field">
+			<input matInput type="text" placeholder="Хост*" formControlName="_id" [(ngModel)]="data._id" disabled>
+			<mat-error *ngIf="editWLForm.get('_id').hasError('required')">
+				<strong>Введите хост</strong>
+			</mat-error>
+		</mat-form-field>
+		<mat-form-field class="field">
+			<input matInput type="text" placeholder="IP*" formControlName="ip" [(ngModel)]="data.ip">
+			<mat-error *ngIf="editWLForm.get('ip').hasError('pattern')">
+				Ошибка в IP
+			</mat-error>
+			<mat-error *ngIf="editWLForm.get('ip').hasError('required')">
+				<strong>Введите IP</strong>
+			</mat-error>
+		</mat-form-field>
+	</form>
+</div>
+<div mat-dialog-actions>
+	<button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!editWLForm.valid">Сохранить</button>
+	<button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>
