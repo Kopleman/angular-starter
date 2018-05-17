@@ -1,0 +1,19 @@
+<mat-spinner *ngIf="!tiers"></mat-spinner>
+<mat-accordion #accordion *ngIf="tiers">
+	<mat-expansion-panel *ngFor="let tier of tiers" >
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{tier.title}}
+			</mat-panel-title>
+		</mat-expansion-panel-header>
+		<div class="templates" fxFlex="0 0 100%" fxLayout="row wrap" fxLayoutGap="16px" >
+			<div class="family" *ngFor="let template of tier.templates" fxFlex="0 0 200px" fxLayout="column">
+				<div class="template" [ngClass]="template.classes" >{{template._id}}</div>
+				<div class="child-line" *ngIf="template.children">
+					<div></div>
+				</div>
+				<div *ngFor="let child of template.children" class="template" [ngClass]="child.classes" >{{child._id}}</div>
+			</div>
+		</div>
+	</mat-expansion-panel>
+</mat-accordion>

@@ -19,6 +19,7 @@ import { INITIAL_FILTERS_STATE, reducer } from './templates/store/reducer';
 import { StoreModule } from '@ngrx/store';
 import { UsersModule } from './users/users.module';
 import { WhiteLabelsModule } from './white-labels/white-labels.module';
+import { SchemeModule } from './scheme/scheme.module';
 
 // Application wide providers
 const APP_PROVIDERS = [];
@@ -46,7 +47,8 @@ const APP_PROVIDERS = [];
 		TemplatesModule,
 		SubjectsModule,
 		UsersModule,
-		WhiteLabelsModule
+		WhiteLabelsModule,
+		SchemeModule
 	],
 	/**
 	 * Expose our Services and Providers into Angular's dependency injection.

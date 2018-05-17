@@ -1,0 +1,58 @@
+.templates {
+	.family {
+		margin-top: 24px;
+	}
+	.template {
+		border: 1px solid black;
+		padding: 8px 16px;
+		text-align: center;
+		margin-bottom: 16px;
+
+		&.premium {
+			background-color: #00FFFF;
+			&.published {
+				background-color: #00FF00;
+			}
+		}
+
+		&.parent {
+			&.published {
+				background-color: #D9EAD3;
+			}
+			&.non-published {
+				background-color: #CCCCCC;
+			}
+			&.hidden {
+				background-color: #C9DAF8;
+			}
+		}
+
+		&.child {
+			&.published {
+				background-color: #FFF2CC;
+				&.hidden {
+					background-color: #C9DAF8;
+				}
+				&.new-clone {
+					background-color: #6AA84F;
+				}
+			}
+			&.non-published {
+				background-color: #CCCCCC;
+				&.new-clone {
+					background-color: #999999;
+				}
+			}
+			&.ulanding {
+				background-color: #FF00FF;
+			}
+		}
+	}
+
+	.child-line div{
+		border-left: 1px solid black;
+		width: 0;
+		height: 32px;
+		margin: -16px auto auto;
+	}
+}
