@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../core/services/api';
 import { ISubject } from '../models/subject';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class SubjectsData {
@@ -10,7 +11,7 @@ export class SubjectsData {
 
 	public getSubjects() {
 		if (!this.subjects$) {
-			this.subjects$ = this._getSubjects().shareReplay(1);
+			this.subjects$ = this._getSubjects().pipe( shareReplay(1) );
 		}
 		return this.subjects$;
 	}

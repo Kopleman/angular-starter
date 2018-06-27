@@ -4,9 +4,10 @@ import {
 	MatSlideToggleChange,
 	MatSnackBar
 } from '@angular/material';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/map';
+import { of ,  Observable } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
+
+
 import * as _ from 'lodash';
 
 import { TemplatesData } from '../../services/templates-data';
@@ -21,7 +22,6 @@ import {
 import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
 import { PropsDialogComponent } from '../properties-dialog/props-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
-import { Observable } from 'rxjs/Observable';
 import { SubjectsData } from '../../services/subjects-data';
 import { Store } from '@ngrx/store';
 import { ApplyFilters, Refresh } from '../../store/actions';
@@ -96,14 +96,14 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public translateSubjects() {
-		return this.subjects$.map(subjects => {
+		return this.subjects$.pipe( map(subjects => {
 			let ret: ISubject[] = [];
 			this.template.subjectIds.forEach(subjectId => {
 				let subject = _.find(subjects, s => s._id === subjectId);
 				ret.push(subject ? subject : { _id: subjectId, title: subjectId });
 			});
 			return ret;
-		});
+		}));
 	}
 
 	/**
@@ -223,7 +223,7 @@ export class TemplateListItemComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe(flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -235,7 +235,7 @@ export class TemplateListItemComponent implements OnInit {
 					result.author,
 					pageLess
 				);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {
@@ -310,7 +310,7 @@ export class TemplateListItemComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe(flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -322,7 +322,7 @@ export class TemplateListItemComponent implements OnInit {
 				this.snackBar.open(`Меняем пропсы шаблона`, 'Закрыть');
 
 				return this.templatesData.updateSettings(result.template);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {

@@ -2,13 +2,13 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { IEditUser, IUser, IUserQueryParams } from '../../models/user';
 import { UsersData } from '../../services/users-data';
-import { map } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { IEditUserDialogData } from '../../models/dialog';
 import { IConfirmDialogData } from '../../../shared/models/dialog';
 import { ConfirmDialogComponent }
 	from '../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { UsersRefresh } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { EditUserDialogComponent } from '../edit-dialog/edit-dialog.component';
@@ -68,14 +68,14 @@ export class UsersListComponent implements OnInit {
 				}
 			)
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
 
 				this.snackBar.open(`Удаляем пользователя`, 'Закрыть');
 				return this.usersData.removeUser(user);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {
@@ -117,7 +117,7 @@ export class UsersListComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -134,7 +134,7 @@ export class UsersListComponent implements OnInit {
 				};
 				this.snackBar.open(`Редактируем пользователя`, 'Закрыть');
 				return this.usersData.editUser(editUser);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {

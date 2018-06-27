@@ -1,10 +1,6 @@
 import { OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
+import { Observable ,  Subscription } from 'rxjs';
+import { share, take } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { ICustomAction } from '../models/ngrx-action';
 
@@ -21,8 +17,7 @@ export abstract class AbstractFilters<T> implements OnDestroy {
 
 	protected onInit() {
 		this.filters$
-			.share()
-			.take(1)
+			.pipe(share(), take(1))
 			.subscribe(state => {
 				this.filters = _.merge(this.filters, state);
 			});

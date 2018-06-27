@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActionsSubject, select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/skip';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import * as _ from 'lodash';
-
 import { ISubjectQueryParams } from '../../models/subject';
 import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
 import { SubjectsApplyFilters } from '../../store/actions';
@@ -43,7 +40,7 @@ export class TopBarComponent extends AbstractFilters<ISubjectQueryParams>
 		this.onInit();
 		this.bindControls();
 		this.actionSubjectSubscription = this.actionSubject
-			.filter((action: ICustomAction) => this.actionFilter(action))
+			.pipe( filter((action: ICustomAction) => this.actionFilter(action)) )
 			.subscribe(() => {
 				this.filters$.subscribe(state => {
 					this.filters = _.merge(this.filters, state);
@@ -53,13 +50,13 @@ export class TopBarComponent extends AbstractFilters<ISubjectQueryParams>
 
 	public bindControls() {
 		const helper = (control: Observable<any>, name: string) => {
-			control.distinctUntilChanged().subscribe(value => {
+			control.pipe( distinctUntilChanged() ).subscribe(value => {
 				this.filters[name] = value;
 				this.store.dispatch(new SubjectsApplyFilters(this.filters));
 			});
 		};
 
-		const search = this.searchControl.valueChanges.debounceTime(500);
+		const search = this.searchControl.valueChanges.pipe( debounceTime(500) );
 		helper(search, 'searchStr');
 
 		const sort = this.sortControl.valueChanges;

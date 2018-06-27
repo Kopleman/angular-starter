@@ -1,3 +1,6 @@
+
+import { throwError as observableThrowError,  of ,  Observable } from 'rxjs';
+import { catchError, share } from 'rxjs/operators';
 import { Inject, Injectable } from '@angular/core';
 import {
 	HttpClient,
@@ -5,16 +8,15 @@ import {
 	HttpHeaders,
 	HttpParams
 } from '@angular/common/http';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs';
 import * as _ from 'lodash';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/finally';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/share';
+
+
+
+
+
+
 import { APP_CONFIG, AppConfig } from '../../config.module';
+import { finalize } from 'rxjs/internal/operators';
 
 /**
  * Обертка над ангуларовым HttpClient для работы с бэкендом
@@ -66,12 +68,14 @@ export class Api {
 
 		return this.http
 			.get<T>(`${this.apiHost}${endPoint}`, options)
-			.catch(this.logError)
-			.finally(() => {
-				_.forEach(headers, (val, key) => {
-					this.deleteHeader(key);
-				});
-			});
+			.pipe(
+				catchError(this.logError),
+				finalize(() => {
+					_.forEach(headers, (val, key) => {
+						this.deleteHeader(key);
+					});
+				})
+			);
 	}
 
 	/**
@@ -99,12 +103,14 @@ export class Api {
 
 		return this.http
 			.post<T>(`${this.apiHost}${endPoint}`, body, options)
-			.catch(this.logError)
-			.finally(() => {
-				_.forEach(headers, (val, key) => {
-					this.deleteHeader(key);
-				});
-			});
+			.pipe(
+				catchError(this.logError),
+				finalize(() => {
+					_.forEach(headers, (val, key) => {
+						this.deleteHeader(key);
+					});
+				})
+			);
 	}
 
 	/**
@@ -130,13 +136,15 @@ export class Api {
 
 		return this.http
 			.put<T>(`${this.apiHost}${endPoint}`, body, options)
-			.catch(this.logError)
-			.finally(() => {
-				_.forEach(headers, (val, key) => {
-					this.deleteHeader(key);
-				});
-			})
-			.share();
+			.pipe(
+				catchError(this.logError),
+				finalize(() => {
+					_.forEach(headers, (val, key) => {
+						this.deleteHeader(key);
+					});
+				}),
+				share()
+			);
 	}
 
 	/**
@@ -157,13 +165,15 @@ export class Api {
 
 		return this.http
 			.delete<T>(`${this.apiHost}${endPoint}`, options)
-			.catch(this.logError)
-			.finally(() => {
-				_.forEach(headers, (val, key) => {
-					this.deleteHeader(key);
-				});
-			})
-			.share();
+			.pipe(
+				catchError(this.logError),
+				finalize(() => {
+					_.forEach(headers, (val, key) => {
+						this.deleteHeader(key);
+					});
+				}),
+				share()
+			);
 	}
 
 	/**
@@ -213,11 +223,11 @@ export class Api {
 
 	/**
 	 * Обработчки ошибок
-	 * @param error
-	 * @returns {ErrorObservable}
+	 * @param {HttpErrorResponse} error
+	 * @returns {Observable<never>}
 	 */
 	private logError(error: HttpErrorResponse) {
 		console.log(error.message);
-		return Observable.throw(error);
+		return observableThrowError(error);
 	}
 }

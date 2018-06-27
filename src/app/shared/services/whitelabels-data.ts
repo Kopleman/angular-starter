@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../core/services/api';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/shareReplay';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { IWhiteLabel } from '../models/whitelabel';
 
 @Injectable()
@@ -19,6 +19,6 @@ export class WhiteLabelsData {
 	private _getWhiteLabels() {
 		return this.api
 			.get<IWhiteLabel[], null>('admin/rest/whiteLabelsShort')
-			.shareReplay(1);
+			.pipe( shareReplay(1) );
 	}
 }

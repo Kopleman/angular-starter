@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
+import { of } from 'rxjs';
+import { filter, flatMap } from 'rxjs/operators';
 import { Collection } from '../../shared/abstracts/collection';
 import { IWhiteLabel, IWhiteLabelQueryParams } from '../models/white-label';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
@@ -10,7 +12,7 @@ import { WhiteLabelsData } from '../services/white-labels-data';
 import { INewWhiteLabelDialogData } from '../models/dialog';
 import { CreateWhiteLabelDialogComponent }
 	from '../components/create-dialog/create-dialog.component';
-import { of } from 'rxjs/observable/of';
+
 
 @Component({
 	selector: 'white-labels-page',
@@ -34,7 +36,7 @@ export class WhiteLabelsPageComponent
 		this.filters$ = this.store.pipe(select(ModuleTypes.WHITELABELS));
 		this.getWhiteLabels();
 		this.actionSubjectSubscription = this.actionSubject
-			.filter((action: ICustomAction) => this.actionFilter(action))
+			.pipe( filter((action: ICustomAction) => this.actionFilter(action)) )
 			.subscribe(() => {
 				this.getWhiteLabels();
 			});
@@ -64,7 +66,7 @@ export class WhiteLabelsPageComponent
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -72,7 +74,7 @@ export class WhiteLabelsPageComponent
 
 				this.snackBar.open(`Создаем новый вайт-лейбл`, 'Закрыть');
 				return this.whiteLabelsData.createNewWL(result);
-			})
+			}) )
 			.subscribe(
 				result => {
 					if (result) {
@@ -101,7 +103,7 @@ export class WhiteLabelsPageComponent
 	private getWhiteLabels() {
 		this.inProgress = true;
 		this.filters$
-			.flatMap(state => {
+			.pipe( flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
 				let filters: ISubjectFilters = {
@@ -113,7 +115,7 @@ export class WhiteLabelsPageComponent
 					state.limit,
 					filters
 				);
-			})
+			}) )
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

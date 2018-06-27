@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/shareReplay';
-import { Observable } from 'rxjs/Observable';
-
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import {
 	INewUser,
@@ -39,7 +38,7 @@ export class UsersData {
 
 	public getRolesList() {
 		if (!this.userRoles) {
-			this.userRoles = this._getRolesList().shareReplay(1);
+			this.userRoles = this._getRolesList().pipe(shareReplay(1));
 		}
 
 		return this.userRoles;

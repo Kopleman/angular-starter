@@ -1,4 +1,4 @@
-import 'rxjs/add/operator/do';
+
 import {
 	HttpErrorResponse,
 	HttpEvent,
@@ -7,7 +7,8 @@ import {
 	HttpRequest,
 	HttpResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { AuthService } from '../../auth/services/auth';
 @Injectable()
@@ -17,7 +18,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 		req: HttpRequest<any>,
 		next: HttpHandler
 	): Observable<HttpEvent<any>> {
-		return next.handle(req).do(
+		return next.handle(req).pipe(tap(
 			(event: HttpEvent<any>) => {
 				if (event instanceof HttpResponse) {
 					console.log(event);
@@ -31,6 +32,6 @@ export class ErrorInterceptor implements HttpInterceptor {
 					}
 				}
 			}
-		);
+		));
 	}
 }

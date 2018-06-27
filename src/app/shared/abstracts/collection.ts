@@ -1,10 +1,5 @@
 import { OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/shareReplay';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/filter';
+import { Subscription ,  Observable } from 'rxjs';
 import { ICustomAction } from '../models/ngrx-action';
 
 export abstract class Collection<T, U> implements OnDestroy {

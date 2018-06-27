@@ -3,7 +3,8 @@ import { ISubject } from '../../models/subject';
 import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
 import { SubjectEditDialogComponent } from '../dialog-edit/edit-dialog.component';
 import { ISubjectEditDialogData } from '../../models/dialog';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 import { SubjectsData } from '../../services/subjects-data';
 
 @Component({
@@ -48,7 +49,7 @@ export class SubjectsListComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -57,7 +58,7 @@ export class SubjectsListComponent implements OnInit {
 				result.subject.whitelabelsIds = [result.selectedWhiteLabel];
 				this.snackBar.open(`Сохраняем изменения`, 'Закрыть');
 				return this.subjectsData.saveChanges(result.subject);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {

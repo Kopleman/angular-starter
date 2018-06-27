@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplatesData } from '../services/templates-data';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { SubjectsData } from '../services/subjects-data';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
+import { filter, flatMap, shareReplay } from 'rxjs/operators';
 import {
 	ITemplate,
 	ITemplateFilters,
@@ -11,7 +12,6 @@ import {
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
 import { ICreateDialogData } from '../models/dialog';
-import { of } from 'rxjs/observable/of';
 import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
@@ -43,11 +43,11 @@ export class TemplatesPageComponent
 	 * и словарь сабжкетов
 	 */
 	public ngOnInit() {
-		this.subjects$ = this.subjectsData.getSubjects().shareReplay(1);
+		this.subjects$ = this.subjectsData.getSubjects().pipe(shareReplay(1));
 		this.filters$ = this.store.pipe(select(ModuleTypes.TEMPLATES));
 		this.getTemplates();
 		this.actionSubjectSubscription = this.actionSubject
-			.filter((action: ICustomAction) => this.actionFilter(action))
+			.pipe(filter((action: ICustomAction) => this.actionFilter(action)))
 			.subscribe(() => {
 				this.getTemplates();
 			});
@@ -80,7 +80,7 @@ export class TemplatesPageComponent
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe(flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -94,7 +94,7 @@ export class TemplatesPageComponent
 				};
 
 				return this.templatesData.createTemplate(body);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {
@@ -148,7 +148,7 @@ export class TemplatesPageComponent
 	private getTemplates() {
 		this.inProgress = true;
 		this.filters$
-			.flatMap(state => {
+			.pipe(flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
 				let filters: ITemplateFilters = {
@@ -161,7 +161,7 @@ export class TemplatesPageComponent
 					state.limit,
 					filters
 				);
-			})
+			}))
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

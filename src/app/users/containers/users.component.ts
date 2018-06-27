@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
+import { of } from 'rxjs';
+import { filter, flatMap } from 'rxjs/operators';
 import {
 	INewUser,
 	IUser,
@@ -9,12 +11,10 @@ import {
 import { UsersData } from '../services/users-data';
 import { Collection } from '../../shared/abstracts/collection';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
-import { ISubjectFilters } from '../../subjects/models/subject';
 import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
 import { UsersApplyFilters, UsersPaginate } from '../store/actions';
 import { ICreateUserDialogData } from '../models/dialog';
 import { CreateUserDialogComponent } from '../components/create-dialog/create-dialog.component';
-import { of } from 'rxjs/observable/of';
 
 @Component({
 	selector: 'users-page',
@@ -37,8 +37,8 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 		this.filters$ = this.store.pipe(select(ModuleTypes.USERS));
 		this.getUsers();
 		this.actionSubjectSubscription = this.actionSubject
-			.filter((action: ICustomAction) => this.actionFilter(action))
-			.subscribe(state => {
+			.pipe( filter((action: ICustomAction) => this.actionFilter(action)) )
+			.subscribe(() => {
 				this.getUsers();
 			});
 	}
@@ -72,7 +72,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
@@ -87,7 +87,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 				};
 				this.snackBar.open(`Создаем нового пользователя`, 'Закрыть');
 				return this.usersData.createNewUser(newUser);
-			})
+			}))
 			.subscribe(
 				result => {
 					if (result) {
@@ -119,7 +119,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 	private getUsers() {
 		this.inProgress = true;
 		this.filters$
-			.flatMap(state => {
+			.pipe( flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
 				let filters: IUserFilters = {
@@ -127,7 +127,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 					sortBy: state.sortBy
 				};
 				return this.usersData.getUsers(state.skip, state.limit, filters);
-			})
+			}) )
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

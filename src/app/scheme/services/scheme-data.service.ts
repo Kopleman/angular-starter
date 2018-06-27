@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Api } from '../../core/services/api';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/shareReplay';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class SchemeData {
@@ -11,7 +11,7 @@ export class SchemeData {
 	public getScheme() {
 
 		if(!this.scheme$) {
-			this.scheme$ = this._getScheme().shareReplay(1);
+			this.scheme$ = this._getScheme().pipe( shareReplay(1) );
 		}
 
 		return this.scheme$;

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { IWhiteLabel, IWhiteLabelQueryParams } from '../../models/white-label';
 import { IConfirmDialogData } from '../../../shared/models/dialog';
@@ -46,14 +47,14 @@ export class WhiteLabelsListComponent implements OnInit {
 				}
 			})
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
 
 				this.snackBar.open(`Удаляем вайт-лейбл`, 'Закрыть');
 				return this.whiteLabelsData.removeWL(whiteLabel);
-			})
+			}) )
 			.subscribe(
 				result => {
 					if (result) {
@@ -71,7 +72,6 @@ export class WhiteLabelsListComponent implements OnInit {
 	}
 
 	public editWL(whiteLabel: IWhiteLabel) {
-		let dialogResult: IEditWhiteLabelDialogData;
 		let dialogRef = this.dialog.open<EditWhiteLabelDialogComponent, IEditWhiteLabelDialogData>(
 			EditWhiteLabelDialogComponent,
 			{
@@ -84,12 +84,12 @@ export class WhiteLabelsListComponent implements OnInit {
 
 		dialogRef
 			.afterClosed()
-			.flatMap(result => {
+			.pipe( flatMap(result => {
 				if (!result) {
 					return of(null);
 				}
 				return this.whiteLabelsData.editWL(result);
-			})
+			}) )
 			.subscribe(
 				result => {
 					if (result) {

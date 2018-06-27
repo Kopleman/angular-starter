@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/shareReplay';
-
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import {
 	ITemplate,
@@ -80,14 +78,14 @@ export class TemplatesData {
 
 	public getAvailablePubHosts() {
 		if (!this.pubHosts$) {
-			this.pubHosts$ = this._getAvailablePubHosts().shareReplay(1);
+			this.pubHosts$ = this._getAvailablePubHosts().pipe( shareReplay(1) );
 		}
 		return this.pubHosts$;
 	}
 
 	public getAvailableDemoHosts() {
 		if (!this.demoHosts$) {
-			this.demoHosts$ = this._getAvailableDemoHosts().shareReplay(1);
+			this.demoHosts$ = this._getAvailableDemoHosts().pipe( shareReplay(1) );
 		}
 		return this.demoHosts$;
 	}

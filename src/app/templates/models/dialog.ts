@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ISubject } from './subject';
 import { ITemplate } from './template';
 

@@ -10,6 +10,7 @@ import {
 import { SubjectsPaginate } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { Collection } from '../../shared/abstracts/collection';
+import { filter, flatMap } from 'rxjs/operators';
 
 @Component({
 	selector: 'subjects-page',
@@ -31,7 +32,7 @@ export class SubjectsPageComponent
 		this.filters$ = this.store.pipe(select(ModuleTypes.SUBJECTS));
 		this.getSubjects();
 		this.actionSubjectSubscription = this.actionSubject
-			.filter((action: ICustomAction) => this.actionFilter(action))
+			.pipe( filter((action: ICustomAction) => this.actionFilter(action)) )
 			.subscribe(() => {
 				this.getSubjects();
 			});
@@ -54,7 +55,7 @@ export class SubjectsPageComponent
 	private getSubjects() {
 		this.inProgress = true;
 		this.filters$
-			.flatMap(state => {
+			.pipe(flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
 				let filters: ISubjectFilters = {
@@ -62,7 +63,7 @@ export class SubjectsPageComponent
 					sortBy: state.sortBy
 				};
 				return this.subjectsData.getSubjects(state.skip, state.limit, filters);
-			})
+			}))
 			.subscribe(response => {
 				this.inProgress = false;
 				this.total = response.count;

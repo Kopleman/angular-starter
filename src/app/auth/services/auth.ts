@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
-import 'rxjs/add/operator/do';
-
 import { ILoginModel, ILoginResponse, IProfile } from '../models/user';
 
 @Injectable()
@@ -30,12 +29,12 @@ export class AuthService {
 
 		return this.api
 			.post<ILoginResponse, ILoginModel>('login', data, true)
-			.do(response => {
+			.pipe( tap(response => {
 				localStorage.setItem(this.PROFILE, JSON.stringify(response.user));
 				localStorage.setItem(this.LOGGEDIN, JSON.stringify(true));
 				this.setLoggedIn(true);
 				this.setProfile(response.user);
-			});
+			}));
 	}
 
 	/**

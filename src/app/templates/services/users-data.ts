@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/shareReplay';
-import { Observable } from 'rxjs/Observable';
-
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import { IUser } from '../models/users';
 
@@ -20,6 +19,6 @@ export class UsersData {
 	private _getUsersForCloneAction() {
 		return this.api
 			.get<IUser[], null>('admin/rest/userList/cloneTemplate')
-			.shareReplay();
+			.pipe( shareReplay() );
 	}
 }
