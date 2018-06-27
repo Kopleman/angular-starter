@@ -6,7 +6,7 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/take';
 import { ISubject } from '../../models/subject';
-import { ITemplateFilters, ITemplateQueryParams } from '../../models/template';
+import { ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs/Observable';
 import { ActionsSubject, select, Store } from '@ngrx/store';
