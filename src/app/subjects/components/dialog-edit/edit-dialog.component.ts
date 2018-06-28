@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
 import { IWhiteLabel } from '../../../shared/models/whitelabel';
+import { ISubject } from '../../models/subject';
 
 @Component({
 	selector: 'subject-edit-dialog',
@@ -14,7 +15,10 @@ export class SubjectEditDialogComponent implements OnInit {
 	public whiteLabels: IWhiteLabel[];
 	constructor(
 		public dialogRef: MatDialogRef<SubjectEditDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any[],
+		@Inject(MAT_DIALOG_DATA) public data: {
+			subject: ISubject,
+			selectedWhiteLabel: string
+		},
 		private formBuilder: FormBuilder,
 		private whiteLabelsData: WhiteLabelsData
 	) {}

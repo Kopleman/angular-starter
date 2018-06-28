@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
 	public loginForm: FormGroup;
-	public login: { email?: string; password?: string } = {};
 	public errorMessage: string;
 	constructor(
 		private userData: AuthService,
@@ -25,13 +24,15 @@ export class LoginPageComponent implements OnInit {
 	}
 
 	public onLogin() {
-		this.userData.login(this.login.email, this.login.password).subscribe(
-			r => {
-				this.router.navigate(['/templates']);
-			},
-			response => {
-				this.errorMessage = response.error.error;
-			}
-		);
+		this.userData
+			.login(this.loginForm.get('email').value, this.loginForm.get('password').value)
+			.subscribe(
+				() => {
+					this.router.navigate(['/templates']);
+				},
+				response => {
+					this.errorMessage = response.error.error;
+				}
+			);
 	}
 }

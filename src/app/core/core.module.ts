@@ -7,10 +7,10 @@ import { NoContentComponent } from './containers/no-content.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error';
 import { Api } from './services/api';
-import { NavBarComponent } from './components/navbar/navbar.component';
 import { MaterialModule } from '../material';
+import { NavBarModule } from './components/navbar/navbar.module';
 
-export const COMPONENTS = [AppComponent, NoContentComponent, NavBarComponent];
+export const COMPONENTS = [ AppComponent, NoContentComponent];
 
 // Application wide providers
 export const APP_PROVIDERS = [
@@ -23,7 +23,7 @@ export const APP_PROVIDERS = [
 ];
 
 @NgModule({
-	imports: [CommonModule, RouterModule, MaterialModule],
+	imports: [CommonModule, RouterModule, MaterialModule, NavBarModule],
 	declarations: COMPONENTS,
 	exports: COMPONENTS,
 	providers: APP_PROVIDERS
