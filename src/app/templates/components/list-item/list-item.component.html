@@ -1,11 +1,11 @@
 <div class="template-card">
   <div class="top" fxLayout="row">
-    <div class="main-part" fxFlex fxFlexFill fxLayout="row wrap">
-      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
-        <div fxFlex="40%">
+    <div class="main-part" fxFlex fxFlexFill fxLayout="column" fxLayoutGap="8px">
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayout="row" fxLayoutGap="8px" >
+        <div fxFlex="20%">
           <a href="#" class="name">{{ template._id }}</a>
         </div>
-        <div fxFlex="60%">
+        <div fxFlex="20%">
           <div class="subjects">
              <span *ngFor="let subject of translateSubjects() | async; let isLast=last" (click)="filterByCategory(subject._id)">
               {{subject.title}}{{isLast ? '' : ', '}}
@@ -13,7 +13,7 @@
           </div>
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
         </div>
-        <div fxFlex="470px" class="controls">
+        <div fxFlex="60%" class="controls" fxLayout="row" fxLayoutAlign="end center">
           <button mat-raised-button color="primary">
             Конструктор
           </button>
@@ -73,7 +73,7 @@
           </mat-menu>
         </div>
       </div>
-      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px" >
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayout="row" fxLayoutGap="8px" >
         <div class="status" fxFlex *ngIf="template.status === 'complete'">
           <mat-icon aria-hidden="true">done</mat-icon>
           <span>Опубликован</span>
@@ -99,9 +99,8 @@
     <div class="type" [ngClass]="getTemplateType()" fxFlex="12px"></div>
   </div>
   <div class="bottom" fxLayout="row">
-    <div class="main-part" fxFlex fxFlexFill fxLayoutWrap>
-      <div class="line" fxFlex="noshrink" fxFlexFill fxLayoutGap="8px">
-
+    <div class="main-part" fxFlex fxFlexFill fxLayout="column" fxLayoutGap="8px">
+      <div class="line" fxFlex="noshrink" fxFlexFill fxLayout="row" fxLayoutGap="8px">
         <div class="info-col" fxFlex fxFlexFill>
           <div class="header">Создан</div>
           <div>{{ template.dateCreate | myMomentDate}}</div>
