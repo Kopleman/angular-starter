@@ -42,6 +42,10 @@
               <mat-icon>settings</mat-icon>
               <span>Change props</span>
             </button>
+						<button mat-menu-item *ngIf="(isPermitted())" (click)="workWithI18n()">
+							<mat-icon>language</mat-icon>
+							<span>i18n</span>
+						</button>
             <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="createClone()">
               <mat-icon>library_books</mat-icon>
               <span>Create a clone</span>

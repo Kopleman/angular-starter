@@ -360,4 +360,8 @@ export class TemplateListItemComponent implements OnInit {
 			}
 		);
 	}
+
+	public workWithI18n() {
+		console.log(1);
+	}
 }

@@ -27,14 +27,14 @@ export class PropsDialogComponent implements OnInit {
 		this.langs = this.getTemplateLangs();
 		this.currentTags = {};
 		let controls = {
-			selectedSubject: [null, Validators.required],
-			selectedWhiteLabel: [null, null]
+			selectedSubject: [this.data.selectedSubject, Validators.required],
+			selectedWhiteLabel: [this.data.selectedWhiteLabel, null]
 		};
 		this.langs.forEach(key => {
-			controls[`title-${key}`] = [null, Validators.required];
-			controls[`tag-${key}`] = [null, null];
 			let tags = this.data.template.i18nTags[key];
 			this.data.newTags[key] = tags ? tags.join(',') : '';
+			controls[`title-${key}`] = [this.data.template.i18nTitles[key], Validators.required];
+			controls[`tag-${key}`] = [this.data.newTags[key], null];
 		});
 		this.propertiesForm = this.formBuilder.group(controls);
 		this.whiteLabelsData.getWhiteLabels().subscribe(wls => {
@@ -46,14 +46,20 @@ export class PropsDialogComponent implements OnInit {
 		this.changeDetector.detectChanges();
 	}
 
-	public onTagsChange(lang) {
-		this.data.template.i18nTags[lang] = this.currentTags[lang]
-			.split(',')
-			.map(v => v.trim());
-	}
-
 	public onCloseClick() {
 		this.dialogRef.close();
+	}
+
+	public onSaveClick() {
+		const formData = this.propertiesForm.value;
+		this.langs.forEach(key => {
+			this.data.template.i18nTitles[key]  = formData[`title-${key}`];
+			this.data.newTags[key] = formData[`tag-${key}`];
+		});
+		this.data.selectedSubject = formData.selectedSubject;
+		this.data.selectedWhiteLabel = formData.selectedWhiteLabel;
+
+		this.dialogRef.close(this.data);
 	}
 
 	public getTemplateLangs() {
