@@ -23,3 +23,8 @@ export interface IChangePropsDialogData {
 	selectedWhiteLabel: string;
 	newTags: { [key: string]: string };
 }
+
+
+export interface Ii18NDialogData {
+	template: ITemplate;
+}

@@ -73,3 +73,14 @@ export interface ITemplateHost {
 	host: string;
 	withDeploy?: boolean;
 }
+
+export interface ISiteBlank {
+	whitelabelsIds: string[];
+	ready: boolean;
+}
+
+export interface ISiteBlankUpdateBody {
+	whitelabelsIds: string[];
+	ready: boolean;
+	lang: string;
+}

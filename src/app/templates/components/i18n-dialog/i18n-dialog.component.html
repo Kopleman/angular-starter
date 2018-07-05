@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row>
+		<span>{{ data.template._id}}: Работа с i18n</span>
+		<span class="spacer"></span>
+		<button mat-icon-button>
+			<mat-icon (click)="onCloseClick()">close</mat-icon>
+		</button>
+	</mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+	<div fxFlex fxLayout="column" fxFlexFill *ngIf="(siteBlanks) as blanks; else loading">
+		<mat-button-toggle-group #group="matButtonToggleGroup" value="en">
+			<mat-button-toggle *ngFor="let lang of activeLangs" [value]="lang">
+				{{ lang }}
+			</mat-button-toggle>
+		</mat-button-toggle-group>
+
+		<div class="wrapper" *ngFor="let lang of activeLangs" [ngClass]="group.value === lang ? 'visible': 'not-visible'">
+			<div *ngIf="blanks[lang]">
+				<form fxFlex fxLayout="column" [formGroup]="siteBlanksForm">
+					<mat-checkbox [formControlName]="'ready-' + lang">Готов!</mat-checkbox>
+					<mat-form-field>
+						<mat-select placeholder="White Label" [formControlName]="'wl-' + lang" >
+							<mat-option [value]="''">Доступен для всех</mat-option>
+							<mat-option *ngFor="let wl of whiteLables" [value]="wl._id">{{wl._id}}({{wl.ip}})</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<button mat-raised-button color="primary" (click)="saveBlankData(lang)">
+						Сохранить
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<ng-template  #loading>
+		<div class="loader" fxFlex fxLayoutAlign="center center">
+			<mat-spinner></mat-spinner>
+		</div>
+	</ng-template>
+</div>

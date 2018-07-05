@@ -9,13 +9,14 @@ import {
 	ITemplateFilters,
 	ITemplateGulpStatusResponse,
 	ITemplateQueryParams,
-	ITemplateResponse
+	ITemplateResponse, ISiteBlank, ISiteBlankUpdateBody
 } from '../models/template';
 
 @Injectable()
 export class TemplatesData {
 	private demoHosts$: Observable<ITemplateHost[]>;
 	private pubHosts$: Observable<ITemplateHost[]>;
+	private activeLocalesHash$: Observable<{ [index:string]: string }>
 	constructor(private api: Api) {}
 
 	/**
@@ -112,6 +113,28 @@ export class TemplatesData {
 
 	public commitTemplate(templateId: string) {
 		return this.api.get(`admin/rest/templates/${templateId}/commit`);
+	}
+
+	public getActiveLocalesHash() {
+		if (!this.activeLocalesHash$) {
+			this.activeLocalesHash$ = this._getActiveLocalesHash().pipe( shareReplay(1) );
+		}
+		return this.activeLocalesHash$;
+	}
+
+
+	public getSiteBlanks(templateId) {
+		return this.api.get<{ [index: string]: ISiteBlank }, null>(
+			`admin/rest/templates/${templateId}/blanks`
+		);
+	}
+
+	public updateSiteBlank(temlateId, body: ISiteBlankUpdateBody) {
+			return this.api.put(`admin/rest/i18n/${temlateId}/siteblank`, body);
+	}
+
+	private _getActiveLocalesHash() {
+		return this.api.get<{[index: string]: string}, null>(`admin/rest/i18n/activeLocalesHash`);
 	}
 
 	private _getAvailableDemoHosts() {

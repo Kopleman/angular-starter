@@ -23,11 +23,13 @@ import { WhiteLabelsData } from '../shared/services/whitelabels-data';
 import { SharedModule } from '../shared/shared.module';
 import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
 import { ModuleTypes } from '../shared/models/ngrx-action';
+import { I18nDialogComponent } from './components/i18n-dialog/i18n-dialog.component';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
 	CreateDialogComponent,
-	PropsDialogComponent
+	PropsDialogComponent,
+	I18nDialogComponent
 ];
 
 export const TEMPLATE_COMPONENTS = [

@@ -19,12 +19,13 @@ import {
 	ITemplateHost,
 	ITemplateQueryParams
 } from '../../models/template';
-import { IChangePropsDialogData, ICloneDialogData } from '../../models/dialog';
+import { IChangePropsDialogData, ICloneDialogData, Ii18NDialogData } from '../../models/dialog';
 import { PropsDialogComponent } from '../properties-dialog/props-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { SubjectsData } from '../../services/subjects-data';
 import { Store } from '@ngrx/store';
 import { ApplyFilters, Refresh } from '../../store/actions';
+import { I18nDialogComponent } from '../i18n-dialog/i18n-dialog.component';
 
 /**
  * Копонента карточки шаблона
@@ -315,6 +316,7 @@ export class TemplateListItemComponent implements OnInit {
 					return of(null);
 				}
 				result.template.subjectIds = [result.selectedSubject];
+				result.template.whitelabelsIds = [result.selectedWhiteLabel];
 				_.forEach(result.newTags, (tags, lang) => {
 					result.template.i18nTags[lang] = tags.split(',').map(v => v.trim());
 				});
@@ -362,6 +364,22 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public workWithI18n() {
-		console.log(1);
+
+		let dialogRef = this.dialog.open<I18nDialogComponent, Ii18NDialogData>(
+			I18nDialogComponent, {
+				width: '580px',
+				closeOnNavigation: true,
+				panelClass: 'i18n-dialog-component',
+				data: {
+					template: this.template
+				}
+			}
+		);
+
+		dialogRef
+			.afterClosed()
+			.subscribe(result => {
+				console.log(result)
+			});
 	}
 }
