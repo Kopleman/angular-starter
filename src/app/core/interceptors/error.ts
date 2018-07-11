@@ -26,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 			},
 			(err: any) => {
 				if (err instanceof HttpErrorResponse) {
-					if (err.status === 403 || err.status === 401) {
+					if ( err.status === 401 ) {
 						const userData = this.injector.get(AuthService);
 						userData.logout();
 					}

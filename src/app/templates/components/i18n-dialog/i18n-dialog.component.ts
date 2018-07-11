@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Ii18NDialogData } from '../../models/dialog';
 import { TemplatesData } from '../../services/templates-data';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 import { Observable, zip } from 'rxjs/index';
 import { ISiteBlank } from '../../models/template';
 import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
@@ -97,7 +97,9 @@ export class I18nDialogComponent implements OnInit {
 
 	public deleteBlank(lang) {
 		this.snackBar.open(`Удаляем локаль ${lang}`, 'Закрыть');
-		this.templatesData.removeSiteBlank(this.data.template._id, lang).subscribe(
+		this.templatesData.removeSiteBlank(this.data.template._id, lang)
+			.pipe(flatMap(() => this.templatesData.getSiteBlanks(this.data.template._id)))
+			.subscribe(
 			() => {
 				this.snackBar.open(`Локаль удалена`, 'Закрыть', {
 					duration: 2000
@@ -107,5 +109,25 @@ export class I18nDialogComponent implements OnInit {
 				this.snackBar.open(`Произошла ошибка при удалений: ${errorResp.message}`, 'Закрыть');
 			}
 		);
+	}
+
+	public createLocale(lang) {
+		this.snackBar.open(`Создаем новую локаль`, 'Закрыть');
+		this.templatesData.createSiteBlank(this.data.template._id, lang)
+			.pipe(flatMap(() => this.templatesData.getSiteBlanks(this.data.template._id)))
+			.subscribe(
+			(blanks) => {
+				this.siteBlanks = blanks;
+				this.snackBar.open(`Новая локаль создана`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(
+					`Произошла ошибка при создании: ${errorResp.message}`,
+					'Закрыть'
+				);
+			}
+		)
 	}
 }

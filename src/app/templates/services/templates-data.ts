@@ -129,6 +129,10 @@ export class TemplatesData {
 		);
 	}
 
+	public createSiteBlank(temlateId, lang: string) {
+		return this.api.post(`admin/rest/i18n/${temlateId}/siteblank/${lang}`);
+	}
+
 	public updateSiteBlank(temlateId, body: ISiteBlankUpdateBody) {
 			return this.api.put(`admin/rest/i18n/${temlateId}/siteblank`, body);
 	}

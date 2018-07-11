@@ -16,7 +16,7 @@
 		</mat-button-toggle-group>
 
 		<div class="wrapper" *ngFor="let lang of activeLangs" [ngClass]="group.value === lang ? 'visible': 'not-visible'">
-			<div *ngIf="blanks[lang]">
+			<div *ngIf="blanks[lang.toLowerCase()]; else create">
 				<form fxFlex fxLayout="column" [formGroup]="siteBlanksForm">
 					<mat-checkbox [formControlName]="'ready-' + lang">Готов!</mat-checkbox>
 					<mat-form-field>
@@ -28,11 +28,21 @@
 					<button mat-raised-button color="primary" (click)="saveBlankData(lang)">
 						Сохранить
 					</button>
-					<button *ngIf="!(isAllowedToCommit$ | async)" mat-raised-button color="warn" (click)="deleteBlank(lang)">
+					<button *ngIf="(isAllowedToCommit$ | async)" mat-raised-button color="warn" (click)="deleteBlank(lang)">
 						Удалить
 					</button>
 				</form>
 			</div>
+			<ng-template #create>
+				<div>
+					<button *ngIf="(isAllowedToCommit$ | async); else cantCreate" mat-raised-button color="accent" (click)="createLocale(lang)">
+						Создать локаль
+					</button>
+					<ng-template #cantCreate>
+						Нет допустимых операции.
+					</ng-template>
+				</div>
+			</ng-template>
 		</div>
 	</div>
 	<ng-template  #loading>
