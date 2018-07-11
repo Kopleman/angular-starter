@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { shareReplay, tap } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import { ILoginModel, ILoginResponse, IProfile } from '../models/user';
 
@@ -10,6 +10,7 @@ export class AuthService {
 	public LOGGEDIN = 'LOGGEDIN';
 	public loggedIn: boolean = JSON.parse(localStorage.getItem(this.LOGGEDIN));
 	public loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
+	public userAllowToCommit$: Observable<boolean>;
 	private PROFILE = 'PROFILE';
 	private profile: IProfile = JSON.parse(localStorage.getItem(this.PROFILE));
 	private profile$ = new BehaviorSubject<IProfile>(this.profile);
@@ -27,14 +28,14 @@ export class AuthService {
 			password
 		};
 
-		return this.api
-			.post<ILoginResponse, ILoginModel>('login', data, true)
-			.pipe( tap(response => {
+		return this.api.post<ILoginResponse, ILoginModel>('login', data, true).pipe(
+			tap(response => {
 				localStorage.setItem(this.PROFILE, JSON.stringify(response.user));
 				localStorage.setItem(this.LOGGEDIN, JSON.stringify(true));
 				this.setLoggedIn(true);
 				this.setProfile(response.user);
-			}));
+			})
+		);
 	}
 
 	/**
@@ -72,5 +73,17 @@ export class AuthService {
 	public setProfile(profile: IProfile) {
 		this.profile$.next(profile);
 		this.profile = profile;
+	}
+
+	public allowToCommit() {
+		if( !this.userAllowToCommit$ ) {
+			this.userAllowToCommit$ = this._allowToCommit().pipe(shareReplay(1));
+		}
+		return  this.userAllowToCommit$;
+	}
+
+	private _allowToCommit() {
+		return this.api
+			.get<boolean, null>(`admin/rest/userAllowToCommit/${this.profile.email}`)
 	}
 }

@@ -133,6 +133,10 @@ export class TemplatesData {
 			return this.api.put(`admin/rest/i18n/${temlateId}/siteblank`, body);
 	}
 
+	public removeSiteBlank(temlateId, lang: string) {
+		return this.api.delete(`admin/rest/i18n/${temlateId}/siteblank/${lang}`);
+	}
+
 	private _getActiveLocalesHash() {
 		return this.api.get<{[index: string]: string}, null>(`admin/rest/i18n/activeLocalesHash`);
 	}

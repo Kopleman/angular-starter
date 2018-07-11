@@ -28,6 +28,9 @@
 					<button mat-raised-button color="primary" (click)="saveBlankData(lang)">
 						Сохранить
 					</button>
+					<button *ngIf="!(isAllowedToCommit$ | async)" mat-raised-button color="warn" (click)="deleteBlank(lang)">
+						Удалить
+					</button>
 				</form>
 			</div>
 		</div>

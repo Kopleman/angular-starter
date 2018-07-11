@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Ii18NDialogData } from '../../models/dialog';
 import { TemplatesData } from '../../services/templates-data';
 import { map } from 'rxjs/operators';
-import { zip } from 'rxjs/index';
+import { Observable, zip } from 'rxjs/index';
 import { ISiteBlank } from '../../models/template';
 import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
 import { IWhiteLabel } from '../../../shared/models/whitelabel';
+import { AuthService } from '../../../auth/services/auth';
 
 @Component({
 	selector: 'i18n-dialog',
@@ -19,16 +20,19 @@ export class I18nDialogComponent implements OnInit {
 	public activeLangs: string[];
 	public siteBlanks: { [index: string]: ISiteBlank };
 	public whiteLables: IWhiteLabel[];
+	public isAllowedToCommit$: Observable<boolean>;
 	constructor(
 		public dialogRef: MatDialogRef<I18nDialogComponent>,
 		private formBuilder: FormBuilder,
 		@Inject(MAT_DIALOG_DATA) public data: Ii18NDialogData,
 		private snackBar: MatSnackBar,
 		private templatesData: TemplatesData,
+		private auth: AuthService,
 		private whiteLabelsData: WhiteLabelsData
 	) {}
 
 	public ngOnInit() {
+		this.isAllowedToCommit$ = this.auth.allowToCommit();
 		const activeLangs$ = this.templatesData.getActiveLocalesHash().pipe(
 			map(response => {
 				return Object.keys(response);
@@ -84,9 +88,23 @@ export class I18nDialogComponent implements OnInit {
 			},
 			errorResp => {
 				this.snackBar.open(
-					`Произошла ошибка при сохранений: ${errorResp.error.message}`,
+					`Произошла ошибка при сохранений: ${errorResp.message}`,
 					'Закрыть'
 				);
+			}
+		);
+	}
+
+	public deleteBlank(lang) {
+		this.snackBar.open(`Удаляем локаль ${lang}`, 'Закрыть');
+		this.templatesData.removeSiteBlank(this.data.template._id, lang).subscribe(
+			() => {
+				this.snackBar.open(`Локаль удалена`, 'Закрыть', {
+					duration: 2000
+				});
+			},
+			errorResp => {
+				this.snackBar.open(`Произошла ошибка при удалений: ${errorResp.message}`, 'Закрыть');
 			}
 		);
 	}
