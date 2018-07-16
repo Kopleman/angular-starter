@@ -227,9 +227,10 @@ export class Api {
 	 * @returns {Observable<never>}
 	 */
 	private logError(_error: HttpErrorResponse) {
+		console.log(_error);
 		console.log(_error.message);
 		let error = {
-			message: (_error.error && _error.error.message) ? _error.error.message : _error.message,
+			message: (_error.error && (_error.error.message || _error.error.error)) ? _error.error.message || _error.error.error : _error.message,
 			status: _error.status
 		};
 		return observableThrowError(error);
