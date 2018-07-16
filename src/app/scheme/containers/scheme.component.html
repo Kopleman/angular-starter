@@ -1,5 +1,4 @@
-<mat-spinner *ngIf="!tiers"></mat-spinner>
-<mat-accordion #accordion *ngIf="tiers">
+<mat-accordion #accordion *ngIf="tiers; else loading;" >
 	<mat-expansion-panel *ngFor="let tier of tiers" >
 		<mat-expansion-panel-header>
 			<mat-panel-title>
@@ -17,3 +16,7 @@
 		</div>
 	</mat-expansion-panel>
 </mat-accordion>
+
+<ng-template #loading>
+	<mat-spinner ></mat-spinner>
+</ng-template>

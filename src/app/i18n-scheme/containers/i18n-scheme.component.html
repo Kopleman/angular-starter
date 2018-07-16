@@ -1,0 +1,32 @@
+<div *ngIf="templates && locales; else loading">
+	<div class="top-bar mat-elevation-z6" fxFlex="0 0 100%" fxLayout="row" fxLayoutGap="16px" >
+		<div [fxFlex]="100/(locales.length + 1)" class="item" fxLayoutAlign="center center">
+			Шаблоны
+		</div>
+		<div *ngFor="let lang of locales" [fxFlex]="100/(locales.length + 1)" fxLayoutAlign="center center">
+			{{lang.title}}
+		</div>
+	</div>
+
+	<div class="scheme" >
+		<div *ngFor="let template of templates" class="line">
+			<div [fxFlex]="100/(locales.length + 1)" class="item" fxLayoutAlign="center center">
+				{{template._id}}
+			</div>
+			<div *ngFor="let lang of locales" [fxFlex]="100/(locales.length + 1)" class="item" fxLayoutAlign="center center">
+				<mat-icon *ngIf="template.locales.includes(lang.hash); else none" color="primary">done</mat-icon>
+				<ng-template #none>
+					<mat-icon color="warn">close</mat-icon>
+				</ng-template>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+<ng-template #loading>
+	<mat-spinner class="loader"></mat-spinner>
+</ng-template>
+
+

@@ -18,27 +18,16 @@ app > app-component-sidenav {
 	flex: 1;
 }
 
-@media (max-width: 720px) {
-	//app {
-	//  top: 92px;
-	//}
-	//
-	//app > app-homepage,
-	//app > app-guides,
-	//app > guide-viewer {
-	//  overflow-y: visible;
-	//}
-}
-
 main {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
 	min-height: 100%;
-
+	i18n-scheme-page,
 	templates-page,
 	subjects-page {
 		flex: 1;
 		width: 100%;
 	}
+
 }

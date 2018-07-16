@@ -1,0 +1,30 @@
+.scheme {
+	background-color: #FFF;
+	margin-top: 53px;
+	flex: 1;
+	width: 100%;
+}
+
+.top-bar {
+	background-color: #FFF;
+	position: fixed;
+	top: 53px;
+	height: 53px;
+	left: 0;
+	right: 0;
+	z-index: 3;
+	width: 100%;
+}
+
+.item {
+	padding: 8px 16px;
+}
+
+.line {
+	border-bottom: 1px solid #eee;
+}
+
+
+.loader {
+	margin: 50px auto;
+}

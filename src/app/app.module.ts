@@ -20,6 +20,7 @@ import { StoreModule } from '@ngrx/store';
 import { UsersModule } from './users/users.module';
 import { WhiteLabelsModule } from './white-labels/white-labels.module';
 import { SchemeModule } from './scheme/scheme.module';
+import { I18nSchemeModule } from './i18n-scheme/i18n-scheme.module';
 
 // Application wide providers
 const APP_PROVIDERS = [];
@@ -48,7 +49,8 @@ const APP_PROVIDERS = [];
 		SubjectsModule,
 		UsersModule,
 		WhiteLabelsModule,
-		SchemeModule
+		SchemeModule,
+		I18nSchemeModule
 	],
 	/**
 	 * Expose our Services and Providers into Angular's dependency injection.
