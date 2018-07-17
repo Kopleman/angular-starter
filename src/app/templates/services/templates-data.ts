@@ -16,7 +16,7 @@ import {
 export class TemplatesData {
 	private demoHosts$: Observable<ITemplateHost[]>;
 	private pubHosts$: Observable<ITemplateHost[]>;
-	private activeLocalesHash$: Observable<{ [index:string]: string }>
+	private activeLocalesHash$: Observable<{ [index:string]: string }>;
 	constructor(private api: Api) {}
 
 	/**
@@ -129,8 +129,8 @@ export class TemplatesData {
 		);
 	}
 
-	public createSiteBlank(temlateId, lang: string) {
-		return this.api.post(`admin/rest/i18n/${temlateId}/siteblank/${lang}`);
+	public createSiteBlank(templateId, lang: string) {
+		return this.api.post(`admin/rest/i18n/${templateId}/siteblank/${lang}`);
 	}
 
 	public updateSiteBlank(temlateId, body: ISiteBlankUpdateBody) {

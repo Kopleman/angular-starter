@@ -203,7 +203,7 @@ describe('Auth service', () => {
 			authService
 				.allowToCommit()
 				.subscribe(
-					answer => expect(answer).toEqual(expectedAnswer, 'should return true'),
+					answer => expect(answer).toBeTruthy('should return true'),
 					fail
 				);
 

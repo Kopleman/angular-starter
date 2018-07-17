@@ -5,6 +5,7 @@ import { APP_DI_CONFIG, AppConfigModule } from '../../config.module';
 import { Api } from '../../core/services/api';
 import { TemplatesData } from './templates-data';
 import {
+	ISiteBlank, ISiteBlankUpdateBody,
 	ITemplate,
 	ITemplateCreateReq,
 	ITemplateFilters,
@@ -12,8 +13,6 @@ import {
 	ITemplateHost,
 	ITemplateResponse
 } from '../models/template';
-import { IWhiteLabel } from '../../shared/models/whitelabel';
-import { WhiteLabelsData } from '../../shared/services/whitelabels-data';
 
 describe('Templates data service', () => {
 	let httpClient: HttpClient;
@@ -311,7 +310,9 @@ describe('Templates data service', () => {
 					fail
 				);
 
-			const req = httpTestingController.expectOne(`${host}admin/rest/templates/getAvailableDemoHosts`);
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/templates/getAvailableDemoHosts`
+			);
 			expect(req.request.method).toEqual('GET');
 
 			req.flush(expectedAnswer);
@@ -356,7 +357,9 @@ describe('Templates data service', () => {
 					fail
 				);
 
-			const req = httpTestingController.expectOne(`${host}admin/rest/templates/getAvailablePubHosts`);
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/templates/getAvailablePubHosts`
+			);
 			expect(req.request.method).toEqual('GET');
 
 			req.flush(expectedAnswer);
@@ -500,6 +503,142 @@ describe('Templates data service', () => {
 			expect(req.request.body.cloneName).toEqual(cloneName);
 			expect(req.request.body.author).toEqual(author);
 			expect(req.request.body.pageLess).toEqual(pageLess);
+		});
+	});
+
+	describe('#getActiveLocalesHash', () => {
+		let expectedAnswer: { [index: string]: string };
+
+		beforeEach(() => {
+			expectedAnswer = { ru: 'Russian', en: 'English' };
+		});
+
+		it('should return expected answer (called once)', () => {
+			templatesData
+				.getActiveLocalesHash()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected list'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(`${host}admin/rest/i18n/activeLocalesHash`);
+			expect(req.request.method).toEqual('GET');
+
+			req.flush(expectedAnswer);
+		});
+		it(`should return expected list that got on first request 
+		and shared on  other attempts (called multiple times)`, () => {
+			templatesData.getActiveLocalesHash().subscribe();
+			templatesData.getActiveLocalesHash().subscribe();
+			templatesData
+				.getActiveLocalesHash()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected list'),
+					fail
+				);
+
+			const requests = httpTestingController.match(`${host}admin/rest/i18n/activeLocalesHash`);
+			expect(requests.length).toEqual(1, 'calls to getSubjects()');
+
+			// Respond to each request with different mock hero results
+			requests[0].flush(expectedAnswer);
+		});
+	});
+
+	describe('#getSiteBlanks', () => {
+		let expectedAnswer: { [index: string]: ISiteBlank };
+		const templateId = 'test';
+		beforeEach(() => {
+			expectedAnswer = {
+				en: {
+					whitelabelsIds: [],
+					ready: true
+				}
+			};
+		});
+		it('should return list of blanks', () => {
+			templatesData
+				.getSiteBlanks(templateId)
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/templates/${templateId}/blanks`
+			);
+			expect(req.request.method).toEqual('GET');
+		});
+	});
+
+	describe('#createSiteBlank', () => {
+		let expectedAnswer: { status: string };
+		const templateId = 'test';
+		const lang = 'en';
+		beforeEach(() => {
+			expectedAnswer = { status: 'ok' } as { status: string };
+		});
+		it('should return status on request', () => {
+			templatesData
+				.createSiteBlank(templateId, lang)
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/i18n/${templateId}/siteblank/${lang}`
+			);
+			expect(req.request.method).toEqual('POST');
+		});
+	});
+
+	describe('#updateSiteBlank', () => {
+		let expectedAnswer: { status: string };
+		const templateId = 'test';
+		let body: ISiteBlankUpdateBody;
+		beforeEach(() => {
+			expectedAnswer = { status: 'ok' } as { status: string };
+			body = {
+				lang: 'en',
+				whitelabelsIds: [],
+				ready: true
+			}
+		});
+		it('should return status on request', () => {
+			templatesData
+				.updateSiteBlank(templateId, body)
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/i18n/${templateId}/siteblank`
+			);
+			expect(req.request.method).toEqual('PUT');
+		});
+	});
+
+	describe('#removeSiteBlank', () => {
+		let expectedAnswer: { status: string };
+		const templateId = 'test';
+		const lang = 'en';
+		beforeEach(() => {
+			expectedAnswer = { status: 'ok' } as { status: string };
+		});
+		it('should return status on request', () => {
+			templatesData
+				.removeSiteBlank(templateId, lang)
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected answer'),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/i18n/${templateId}/siteblank/${lang}`
+			);
+			expect(req.request.method).toEqual('DELETE');
 		});
 	});
 });
