@@ -1,19 +1,8 @@
-
-import { throwError as observableThrowError,  of ,  Observable } from 'rxjs';
+import { throwError as observableThrowError, of, Observable } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 import { Inject, Injectable } from '@angular/core';
-import {
-	HttpClient,
-	HttpErrorResponse,
-	HttpHeaders,
-	HttpParams
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as _ from 'lodash';
-
-
-
-
-
 
 import { APP_CONFIG, AppConfig } from '../../config.module';
 import { finalize } from 'rxjs/internal/operators';
@@ -36,10 +25,7 @@ export class Api {
 	 * @type {HttpHeaders}
 	 */
 	private headers: HttpHeaders = new HttpHeaders({ isSPA: 'true' });
-	constructor(
-		private http: HttpClient,
-		@Inject(APP_CONFIG) private config: AppConfig
-	) {
+	constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {
 		this.apiHost = this.config.host;
 	}
 
@@ -66,16 +52,14 @@ export class Api {
 			withCredentials
 		};
 
-		return this.http
-			.get<T>(`${this.apiHost}${endPoint}`, options)
-			.pipe(
-				catchError(this.logError),
-				finalize(() => {
-					_.forEach(headers, (val, key) => {
-						this.deleteHeader(key);
-					});
-				})
-			);
+		return this.http.get<T>(`${this.apiHost}${endPoint}`, options).pipe(
+			catchError(this.logError),
+			finalize(() => {
+				_.forEach(headers, (val, key) => {
+					this.deleteHeader(key);
+				});
+			})
+		);
 	}
 
 	/**
@@ -101,16 +85,14 @@ export class Api {
 			withCredentials
 		};
 
-		return this.http
-			.post<T>(`${this.apiHost}${endPoint}`, body, options)
-			.pipe(
-				catchError(this.logError),
-				finalize(() => {
-					_.forEach(headers, (val, key) => {
-						this.deleteHeader(key);
-					});
-				})
-			);
+		return this.http.post<T>(`${this.apiHost}${endPoint}`, body, options).pipe(
+			catchError(this.logError),
+			finalize(() => {
+				_.forEach(headers, (val, key) => {
+					this.deleteHeader(key);
+				});
+			})
+		);
 	}
 
 	/**
@@ -120,11 +102,7 @@ export class Api {
 	 * @param {Object} headers — Объект доп. заголовков
 	 * @returns {Observable<T>}
 	 */
-	public put<T, U>(
-		endPoint: string,
-		body: U = null,
-		headers: Object = null
-	): Observable<T> {
+	public put<T, U>(endPoint: string, body: U = null, headers: Object = null): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
@@ -134,17 +112,15 @@ export class Api {
 			withCredentials: true
 		};
 
-		return this.http
-			.put<T>(`${this.apiHost}${endPoint}`, body, options)
-			.pipe(
-				catchError(this.logError),
-				finalize(() => {
-					_.forEach(headers, (val, key) => {
-						this.deleteHeader(key);
-					});
-				}),
-				share()
-			);
+		return this.http.put<T>(`${this.apiHost}${endPoint}`, body, options).pipe(
+			catchError(this.logError),
+			finalize(() => {
+				_.forEach(headers, (val, key) => {
+					this.deleteHeader(key);
+				});
+			}),
+			share()
+		);
 	}
 
 	/**
@@ -163,17 +139,15 @@ export class Api {
 			withCredentials: true
 		};
 
-		return this.http
-			.delete<T>(`${this.apiHost}${endPoint}`, options)
-			.pipe(
-				catchError(this.logError),
-				finalize(() => {
-					_.forEach(headers, (val, key) => {
-						this.deleteHeader(key);
-					});
-				}),
-				share()
-			);
+		return this.http.delete<T>(`${this.apiHost}${endPoint}`, options).pipe(
+			catchError(this.logError),
+			finalize(() => {
+				_.forEach(headers, (val, key) => {
+					this.deleteHeader(key);
+				});
+			}),
+			share()
+		);
 	}
 
 	/**
@@ -229,8 +203,11 @@ export class Api {
 	private logError(_error: HttpErrorResponse) {
 		console.log(_error);
 		console.log(_error.message);
-		let error = {
-			message: (_error.error && (_error.error.message || _error.error.error)) ? _error.error.message || _error.error.error : _error.message,
+		const error = {
+			message:
+				_error.error && (_error.error.message || _error.error.error)
+					? _error.error.message || _error.error.error
+					: _error.message,
 			status: _error.status
 		};
 		return observableThrowError(error);

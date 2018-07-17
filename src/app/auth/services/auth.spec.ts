@@ -147,4 +147,72 @@ describe('Auth service', () => {
 			expect(navArgs).toEqual(['/'], 'should nav to mainpage');
 		});
 	});
+
+	describe('#allowToCommit', () => {
+		let profile: IProfile;
+		let expectedAnswer: boolean;
+		let expectedLoginAnswer: ILoginResponse;
+		let loginData: ILoginModel = {
+			email: 'mock@mock',
+			password: '123321'
+		};
+
+		beforeEach(done => {
+			expectedAnswer = true;
+			api = TestBed.get(Api);
+			authService = TestBed.get(AuthService);
+			profile = { email: 'mock@mock', role: 'admin' };
+			expectedLoginAnswer = {
+				user: profile
+			} as ILoginResponse;
+			authService
+				.login(loginData.email, loginData.password)
+				.subscribe(() => {
+					done();
+			});
+			const req = httpTestingController.expectOne(`${host}login`);
+			req.flush(expectedLoginAnswer);
+		});
+
+		it('should return expected answer (called once)', () => {
+			authService
+				.allowToCommit()
+				.subscribe(
+					answer =>
+						expect(answer).toBeTruthy(
+							'should return true'
+						),
+					fail
+				);
+
+			const req = httpTestingController.expectOne(
+				`${host}admin/rest/userAllowToCommit/${loginData.email}`
+			);
+			expect(req.request.method).toEqual('GET');
+			/**
+			 * https://github.com/angular/angular/issues/20690
+			 */
+			req.flush(1);
+		});
+		it(`should return true that got on first request
+		and shared on other attempts (called multiple times)`, () => {
+			authService
+				.allowToCommit().subscribe();
+			authService
+				.allowToCommit().subscribe();
+			authService
+				.allowToCommit()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return true'),
+					fail
+				);
+
+			const requests = httpTestingController.match(
+				`${host}admin/rest/userAllowToCommit/${loginData.email}`
+			);
+			expect(requests.length).toBeTruthy( 'calls to allowToCommit()');
+
+			requests[0].flush(1);
+		});
+	});
 });

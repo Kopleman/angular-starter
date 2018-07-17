@@ -76,7 +76,7 @@ describe('Subjects data service', () => {
 			const requests = httpTestingController.match(
 				`${host}admin/rest/subjects/short`
 			);
-			expect(requests.length).toEqual(1, 'calls to getAvailablePubHosts()');
+			expect(requests.length).toEqual(1, 'calls to getSubjects()');
 
 			// Respond to each request with different mock hero results
 			requests[0].flush(expectedAnswer);
