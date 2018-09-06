@@ -82,5 +82,27 @@ describe('i18n service', () => {
 
 			req.flush(expectedAnswer);
 		});
+
+		it(`should return expected subjects that got on first request 
+		and shared on  other attempts (called multiple times)`, () => {
+			templatesI18nData
+				.getActiveLocalesHash().subscribe();
+			templatesI18nData
+				.getActiveLocalesHash().subscribe();
+			templatesI18nData
+				.getActiveLocalesHash()
+				.subscribe(
+					answer => expect(answer).toEqual(expectedAnswer, 'should return expected locales'),
+					fail
+				);
+
+			const requests = httpTestingController.match(
+				`${host}admin/rest/i18n/activeLocalesHash`
+			);
+			expect(requests.length).toEqual(1, 'calls to http');
+
+			// Respond to each request with different mock hero results
+			requests[0].flush(expectedAnswer);
+		});
 	});
 });
