@@ -9,7 +9,6 @@ import {
 	IWhiteLabelResponse
 } from '../models/white-label';
 import { WhiteLabelsData } from './white-labels-data';
-import { INewUser } from '../../users/models/user';
 import { INewWhiteLabelDialogData } from '../models/dialog';
 
 describe('White labels service(module)', () => {
