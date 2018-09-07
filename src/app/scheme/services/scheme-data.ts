@@ -5,7 +5,7 @@ import { shareReplay } from 'rxjs/operators';
 
 @Injectable()
 export class SchemeData {
-	private scheme$: Observable<any>
+	private scheme$: Observable<any>;
 	constructor(private api: Api) {}
 
 	public getScheme() {

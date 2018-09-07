@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material';
-import { SchemeData } from '../services/scheme-data.service';
+import { SchemeData } from '../services/scheme-data';
 
 @Component({
 	selector: 'scheme-page',
