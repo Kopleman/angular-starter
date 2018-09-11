@@ -12,13 +12,10 @@ import { AuthService } from '../../auth/services/auth';
 	templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-	public name = 'Angular Starter';
-	public tipe = 'assets/img/tipe.png';
-	public twitter = 'https://twitter.com/gdi2290';
-
 	constructor(private userData: AuthService) {}
 
 	public ngOnInit() {
+		console.log(this.userData.loggedIn, 'aaa');
 		if (!this.userData.loggedIn) {
 			this.userData.logout();
 		}
