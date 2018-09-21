@@ -7,7 +7,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AuthGuard } from '../auth/guards/auth';
 import { SchemePageComponent } from './containers/scheme.component';
-import { SchemeData } from './services/scheme-data.service';
+import { SchemeData } from './services/scheme-data';
 
 const SCHEME_DIALOG_COMPONENTS = [];
 

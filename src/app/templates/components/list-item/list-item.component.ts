@@ -248,7 +248,7 @@ export class TemplateListItemComponent implements OnInit {
 				},
 				errorResp => {
 					this.snackBar.open(
-						`Ошибки при клонировании: ${errorResp.error.message}`,
+						`Ошибки при клонировании: ${errorResp.message}`,
 						'Закрыть'
 					);
 				}
@@ -265,7 +265,7 @@ export class TemplateListItemComponent implements OnInit {
 			},
 			errorResp => {
 				this.snackBar.open(
-					`Произошла ошибка при demo-публикации: ${errorResp.error.message}`,
+					`Произошла ошибка при demo-публикации: ${errorResp.message}`,
 					'Закрыть'
 				);
 			}
@@ -282,7 +282,7 @@ export class TemplateListItemComponent implements OnInit {
 			},
 			errorResp => {
 				this.snackBar.open(
-					`Произошла ошибка при публикации: ${errorResp.error.message}`,
+					`Произошла ошибка при публикации: ${errorResp.message}`,
 					'Закрыть'
 				);
 			}
@@ -337,7 +337,7 @@ export class TemplateListItemComponent implements OnInit {
 				errorResp => {
 					this.snackBar.open(
 						`Произошла ошибка при изминение пропсов: ${
-							errorResp.error.message
+							errorResp.message
 						}`,
 						'Закрыть'
 					);
@@ -353,10 +353,11 @@ export class TemplateListItemComponent implements OnInit {
 					duration: 2000
 				});
 			},
-			error => {
-				console.log(error);
+			errorResp => {
 				this.snackBar.open(
-					`Не удалось закомитеть ${this.template._id}`,
+					`Не удалось закомитить ${this.template._id}: ${
+						errorResp.message
+						}`,
 					'Закрыть'
 				);
 			}
