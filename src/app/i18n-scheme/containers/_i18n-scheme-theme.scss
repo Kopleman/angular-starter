@@ -6,6 +6,13 @@
 	$foreground: map-get($theme, foreground);
 
 	i18n-scheme-page {
-		
+		a {
+			color: mat-color($primary, A200);
+			text-decoration: none;
+			cursor: pointer;
+			&:hover {
+				color: mat-color($primary, 900);
+			}
+		}
 	}
 }

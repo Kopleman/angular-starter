@@ -11,6 +11,7 @@ import { INITIAL_FILTERS_STATE } from '../../store/reducer';
 import { ICustomAction, ModuleTypes } from '../../../shared/models/ngrx-action';
 import * as _ from 'lodash';
 import { AbstractFilters } from '../../../shared/abstracts/filters';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	selector: 'top-bar',
@@ -35,7 +36,8 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams>
 	constructor(
 		private subjectsData: SubjectsData,
 		private store: Store<ITemplateQueryParams>,
-		private actionSubject: ActionsSubject
+		private actionSubject: ActionsSubject,
+		private route: ActivatedRoute
 	) {
 		super();
 	}
@@ -51,6 +53,15 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams>
 				this.filters$.subscribe(state => {
 					this.filters = _.merge(this.filters, state);
 				});
+			});
+
+		/**
+		 * @TODO не лучшее решение, приводит к 2 запросам, полумать как сократить до 1
+		 */
+		this.route.queryParams
+			.pipe(filter(params => params.templateId))
+			.subscribe(params => {
+				this.searchControl.setValue(params.templateId)
 			});
 	}
 

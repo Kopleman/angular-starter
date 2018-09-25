@@ -11,7 +11,7 @@
 	<div class="scheme" >
 		<div *ngFor="let template of templates" class="line">
 			<div [fxFlex]="100/(locales.length + 1)" class="item" fxLayoutAlign="center center">
-				{{template._id}}
+				<a [routerLink]="['/templates']" [queryParams]="{templateId: template._id}">{{template._id}}</a>
 			</div>
 			<div *ngFor="let lang of locales" [fxFlex]="100/(locales.length + 1)" class="item" fxLayoutAlign="center center">
 				<mat-icon *ngIf="template.locales.includes(lang.hash); else none" color="primary">done</mat-icon>
