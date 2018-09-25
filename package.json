@@ -1,19 +1,20 @@
 {
-  "name": "angular-starter",
+  "name": "ukit-template-manage",
   "version": "7.0.0",
-  "description": "An Angular Webpack Starter kit featuring Angular (Router, Http, Forms, Services, Tests, E2E, Coverage), Karma, Protractor, Jasmine, Istanbul, TypeScript, and Webpack by AngularClass",
+  "description": "UKIT's app for managing templates",
   "keywords": [
     "angular",
     "angular2",
     "angular4",
     "angular5",
+		"angular6",
     "webpack",
     "typescript",
     "tipe",
     "tipe.io"
   ],
   "author": "Patrick Stapleton <patrick@tipe.io>",
-  "homepage": "https://github.com/gdi2290/angular-starter",
+  "homepage": "https:/ukit.com/",
   "license": "MIT",
   "scripts": {
     "build:aot:prod": "npm run clean:dist && npm run clean:aot && cross-env BUILD_AOT=1 npm run webpack -- --config config/webpack.prod.js  --progress --profile --bail",
