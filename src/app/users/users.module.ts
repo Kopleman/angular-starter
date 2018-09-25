@@ -19,6 +19,7 @@ import { UsersListComponent } from './components/list/list.component';
 import { CreateUserDialogComponent } from './components/create-dialog/create-dialog.component';
 import { EditUserDialogComponent } from './components/edit-dialog/edit-dialog.component';
 import { ModuleTypes } from '../shared/models/ngrx-action';
+import { UsersGuard } from './guards/can-activate';
 
 const USERS_DIALOG_COMPONENTS = [
 	CreateUserDialogComponent,
@@ -32,7 +33,7 @@ const USERS_COMPONENTS = [
 	...USERS_DIALOG_COMPONENTS
 ];
 
-const USERS_PROVIDERS = [UsersData];
+const USERS_PROVIDERS = [UsersData, UsersGuard];
 
 @NgModule({
 	declarations: [USERS_COMPONENTS],
@@ -50,7 +51,7 @@ const USERS_PROVIDERS = [UsersData];
 			{
 				path: 'users',
 				component: UsersPageComponent,
-				canActivate: [AuthGuard]
+				canActivate: [AuthGuard, UsersGuard]
 			}
 		])
 	],

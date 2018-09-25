@@ -11,18 +11,34 @@ export class NavBarComponent implements OnInit {
 	public profile: IProfile;
 	constructor(private userData: AuthService) {}
 	get sections() {
-		return {
-			subjects: 'Категории',
-			templates: 'Шаблоны',
-			scheme: 'Схема шаблонов',
-			i18n: 'i18n-схема',
-			users: 'Пользователи',
-      whiteLabels: 'Вайт-лейблы',
-		};
+		switch (this.profile.role) {
+			case 'admin':
+				return {
+					subjects: 'Категории',
+					templates: 'Шаблоны',
+					scheme: 'Схема шаблонов',
+					i18n: 'i18n-схема',
+					users: 'Пользователи',
+					whiteLabels: 'Вайт-лейблы',
+				};
+			case 'guest':
+				return {};
+			default:
+				return {
+					templates: 'Шаблоны',
+				};
+		}
 	}
 
 	get sectionKeys() {
-		return ['subjects', 'templates', 'scheme', 'i18n', 'users', 'whiteLabels'];
+		switch (this.profile.role) {
+			case 'admin':
+				return ['subjects', 'templates', 'scheme', 'i18n', 'users', 'whiteLabels'];
+			case 'guest':
+				return [];
+			default:
+				return ['templates'];
+		}
 	}
 
 	public logout() {

@@ -17,6 +17,7 @@ import {
 import { SubjectsListComponent } from './components/list/list.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
 import { SubjectEditDialogComponent } from './components/dialog-edit/edit-dialog.component';
+import { SubjectsGuard } from './guards/can-activate';
 
 const SUBJECTS_DIALOG_COMPONENTS = [SubjectEditDialogComponent];
 
@@ -27,7 +28,7 @@ export const SUBJECTS_COMPONENTS = [
 	...SUBJECTS_DIALOG_COMPONENTS
 ];
 
-export const SUBJECTS_PROVIDERS = [SubjectsData];
+export const SUBJECTS_PROVIDERS = [SubjectsData, SubjectsGuard];
 
 @NgModule({
 	declarations: [SUBJECTS_COMPONENTS],
@@ -45,7 +46,7 @@ export const SUBJECTS_PROVIDERS = [SubjectsData];
 			{
 				path: 'subjects',
 				component: SubjectsPageComponent,
-				canActivate: [AuthGuard]
+				canActivate: [AuthGuard, SubjectsGuard]
 			}
 		])
 	],

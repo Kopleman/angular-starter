@@ -20,6 +20,7 @@ import { WhiteLabelTopBarComponent } from './components/top-bar/top-bar.componen
 import { CreateWhiteLabelDialogComponent }
 	from './components/create-dialog/create-dialog.component';
 import { EditWhiteLabelDialogComponent } from './components/edit-dialog/edit-dialog.component';
+import { WhiteLabelsGuard } from './guards/can-activate';
 
 const WHITELABELS_DIALOG_COMPONENTS = [
 	CreateWhiteLabelDialogComponent,
@@ -33,7 +34,7 @@ const WHITELABELS_COMPONENTS = [
 	...WHITELABELS_DIALOG_COMPONENTS
 ];
 
-const WHITELABELS_PROVIDERS = [WhiteLabelsData];
+const WHITELABELS_PROVIDERS = [WhiteLabelsData, WhiteLabelsGuard];
 
 @NgModule({
 	declarations: [WHITELABELS_COMPONENTS],
@@ -51,7 +52,7 @@ const WHITELABELS_PROVIDERS = [WhiteLabelsData];
 			{
 				path: 'whiteLabels',
 				component: WhiteLabelsPageComponent,
-				canActivate: [AuthGuard]
+				canActivate: [AuthGuard, WhiteLabelsGuard]
 			}
 		])
 	],

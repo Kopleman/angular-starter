@@ -66,6 +66,10 @@ export class AuthService {
 		return this.profile$;
 	}
 
+	public getRole(): string {
+		return this.profile.role;
+	}
+
 	/**
 	 * Установить профиль
 	 * @param {IProfile} profile
