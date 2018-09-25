@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
 	constructor(private userData: AuthService) {}
 
 	public ngOnInit() {
-		console.log(this.userData.loggedIn, 'aaa');
 		if (!this.userData.loggedIn) {
 			this.userData.logout();
 		}

@@ -4,6 +4,7 @@ import { ICloneDialogData } from '../../models/dialog';
 import { UsersData } from '../../services/users-data';
 import { IUser } from '../../models/users';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { filter, map } from 'rxjs/internal/operators';
 
 @Component({
 	selector: 'clone-dialog',
@@ -26,13 +27,23 @@ export class CloneDialogComponent implements OnInit {
 		});
 
 		this.cloneCreateForm = this.formBuilder.group({
-			cloneName: [null, [Validators.required]],
-			author: [null, Validators.required]
+			cloneName: [this.data.cloneName, [Validators.required]],
+			author: [this.data.author, Validators.required]
 		});
+
+		this.cloneCreateForm.valueChanges
+			.pipe(filter(() => this.cloneCreateForm.valid))
+			.subscribe((value) => {
+				this.data = {...this.data, ...value};
+			});
 	}
 
 	public onCloseClick() {
 		this.dialogRef.close();
+	}
+
+	public  create() {
+		console.log(this.data);
 	}
 
 	public getHeaderName() {

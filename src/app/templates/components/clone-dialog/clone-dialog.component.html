@@ -10,14 +10,14 @@
 <div mat-dialog-content>
   <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="cloneCreateForm" class="clone-form">
     <mat-form-field>
-      <input matInput placeholder="Имя шаблона-клона" formControlName="cloneName" [(ngModel)]="data.cloneName">
+      <input matInput placeholder="Имя шаблона-клона" formControlName="cloneName" >
       <mat-error *ngIf="cloneCreateForm.get('cloneName').hasError('required')">
         <strong>Введите имя шаблона</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Исполнитель" formControlName="author" [(ngModel)]="data.author" >
-        <mat-option *ngFor="let user of users" [value]="user.email">{{user.username}}</mat-option>
+      <mat-select placeholder="Исполнитель" formControlName="author"  >
+        <mat-option *ngFor="let user of users" [value]="user.email">{{user.email}}{{user.username ? '(' + user.username + ')' : ''}}</mat-option>
       </mat-select>
       <mat-error *ngIf="cloneCreateForm.get('author').hasError('required')">
         <strong>Выбирите исполнителя</strong>
@@ -26,6 +26,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!cloneCreateForm.valid">Создать</button>
+  <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!cloneCreateForm.valid">Создать</button>
   <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
 </div>
