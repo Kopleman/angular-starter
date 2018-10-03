@@ -14,9 +14,12 @@
           <color-themes [colorThemes]="template.colorThemes"></color-themes>
         </div>
         <div fxFlex="60%" class="controls" fxLayout="row" fxLayoutAlign="end center">
-          <button mat-raised-button color="primary">
+          <button mat-raised-button color="primary" [matMenuTriggerFor]="constructorMenu">
             Конструктор
           </button>
+					<mat-menu #constructorMenu="matMenu">
+						<a [href]="getConstructorUrl(lang)" mat-menu-item *ngFor="let lang of getTemplateLangs()" target="_blank"><span>{{ lang }}</span></a>
+					</mat-menu>
           <button mat-raised-button color="warn" [matMenuTriggerFor]="menu">
             Demo
           </button>
@@ -123,7 +126,7 @@
         <div class="info-col" fxFlex fxFlexFill >
           <div class="header">Локали</div>
           <div fxLayoutAlign="start start" class="langs" fxLayout="row wrap">
-            <a [href]="getTemplatePreviewUrl(lang)" *ngFor="let lang of getTempalateLangs()" target="_blank">{{ lang }}</a>
+            <a [href]="getTemplatePreviewUrl(lang)" *ngFor="let lang of getTemplateLangs()" target="_blank">{{ lang }}</a>
           </div>
         </div>
       </div>

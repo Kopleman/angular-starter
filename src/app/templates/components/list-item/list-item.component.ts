@@ -74,8 +74,15 @@ export class TemplateListItemComponent implements OnInit {
 		return this.isParent() ? 'parent' : 'clone';
 	}
 
-	public getTempalateLangs() {
-		return Object.keys(this.template.i18nTitles);
+	public getTemplateLangs() {
+		return Object.keys(this.template.i18nTitles)
+			.sort((lang) => lang === 'ru' ? -1 : 1)
+			.sort((lang) => {
+				 if (lang === 'ru') {
+				 	return  0;
+				 }
+				 return lang === 'en' ? -1 : 1;
+			});
 	}
 
 	public filterByName(name) {
@@ -94,6 +101,12 @@ export class TemplateListItemComponent implements OnInit {
 		return `${this.config.host}preview/template_${this.template._id}${
 			lang !== 'ru' ? `_${lang}` : ``
 		}`;
+	}
+
+	public getConstructorUrl(lang) {
+		return `${this.config.host}sites/url/template_${this.template._id}${
+			lang !== 'ru' ? `_${lang}` : ``
+			}/pages/id/index/constructor`;
 	}
 
 	public translateSubjects() {
