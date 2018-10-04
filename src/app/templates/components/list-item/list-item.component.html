@@ -73,7 +73,7 @@
               <mat-icon>fast_forward</mat-icon>
               <span>Commit</span>
             </button>
-            <button mat-menu-item (click)="deleteTemplate()">
+            <button mat-menu-item *ngIf="!template.cloneNames.length" (click)="deleteTemplate()">
               <mat-icon>delete</mat-icon>
               <span>Удалить</span>
             </button>
