@@ -75,6 +75,9 @@ export class TemplateListItemComponent implements OnInit {
 	}
 
 	public getTemplateLangs() {
+		/**
+		 * Подымае ру и ен локаль в топ
+		 */
 		return Object.keys(this.template.i18nTitles)
 			.sort((lang) => lang === 'ru' ? -1 : 1)
 			.sort((lang) => {
