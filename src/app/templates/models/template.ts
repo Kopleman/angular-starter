@@ -43,6 +43,7 @@ export interface ITemplate {
 	editHistory: IEditHistory[];
 	lessEditHistory: ILessEditHistory[];
 	i18nTitles: { [key: string]: string };
+	locales: string[];
 	i18nTags: { [key: string]: string[] };
 	sourceTemplate: string;
 	colorThemes: IColorThemes;
