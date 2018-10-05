@@ -74,6 +74,7 @@ export class TemplatesPageComponent
 					templateId: '',
 					title: '',
 					about: '',
+					author: '',
 					subjects$: this.subjects$,
 					selectedSubject: ''
 				}
@@ -87,12 +88,14 @@ export class TemplatesPageComponent
 					return of(null);
 				}
 				dialogResult = result;
+				console.log(result)
 				this.snackBar.open(`Создаем новый шаблон`, 'Закрыть');
 				let body = {
 					templateId: result.templateId,
 					title: result.title,
 					subjectIds: [result.selectedSubject],
-					about: result.about
+					about: result.about,
+					author: result.author
 				};
 
 				return this.templatesData.createTemplate(body);
@@ -113,7 +116,7 @@ export class TemplatesPageComponent
 				},
 				errorResp => {
 					this.snackBar.open(
-						`Ошибки при создании: ${errorResp.error.message}`,
+						`Ошибки при создании: ${errorResp.message}`,
 						'Закрыть'
 					);
 				}
@@ -130,7 +133,7 @@ export class TemplatesPageComponent
 			},
 			errorResp => {
 				this.snackBar.open(
-					`Ошибки при компиляции: ${errorResp.error.message}`,
+					`Ошибки при компиляции: ${errorResp.message}`,
 					'Закрыть'
 				);
 			}

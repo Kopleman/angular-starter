@@ -10,19 +10,27 @@
 <div mat-dialog-content>
   <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="templateCreateForm" class="create-form">
     <mat-form-field>
-      <input matInput placeholder="Имя шаблона*" formControlName="title" [(ngModel)]="data.title">
+      <input matInput placeholder="Имя шаблона*" formControlName="title" >
       <mat-error *ngIf="templateCreateForm.get('title').hasError('required')">
         <strong>Введите имя шаблона</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="ID шаблона*" formControlName="templateId" [(ngModel)]="data.templateId">
+      <input matInput placeholder="ID шаблона*" formControlName="templateId" >
       <mat-error *ngIf="templateCreateForm.get('templateId').hasError('required')">
         <strong>Введите ID шаблона</strong>
       </mat-error>
     </mat-form-field>
+		<mat-form-field>
+			<mat-select placeholder="Исполнитель" formControlName="author"  >
+				<mat-option *ngFor="let user of users" [value]="user.email">{{user.email}}{{user.username ? '(' + user.username + ')' : ''}}</mat-option>
+			</mat-select>
+			<mat-error *ngIf="templateCreateForm.get('author').hasError('required')">
+				<strong>Выбирите исполнителя</strong>
+			</mat-error>
+		</mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Категория*" formControlName="selectedSubject" [(ngModel)]="data.selectedSubject" >
+      <mat-select placeholder="Категория*" formControlName="selectedSubject"  >
         <mat-option *ngFor="let subject of data.subjects$ | async" [value]="subject._id">{{subject.title}}</mat-option>
       </mat-select>
       <mat-error *ngIf="templateCreateForm.get('selectedSubject').hasError('required')">
@@ -30,7 +38,7 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <textarea matInput placeholder="Комментарий" matTextareaAutosize matAutosizeMinRows="2" formControlName="about" [(ngModel)]="data.about"
+      <textarea matInput placeholder="Комментарий" matTextareaAutosize matAutosizeMinRows="2" formControlName="about"
         matAutosizeMaxRows="5"></textarea>
     </mat-form-field>
   </form>

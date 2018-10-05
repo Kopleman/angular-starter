@@ -12,6 +12,7 @@ export interface ICreateDialogData {
 	templateId: string;
 	title: string;
 	about: string;
+	author: string;
 	subjects$: Observable<ISubject[]>;
 	selectedSubject: string;
 }
