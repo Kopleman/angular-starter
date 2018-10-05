@@ -4,7 +4,7 @@
   <div fxFlex="0 0 auto" fxLayout="column" *ngIf="collection" >
     <top-bar fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="16px"
              ></top-bar>
-    <div class="controls" fxLayoutGap="8px">
+    <div class="controls" fxLayoutGap="8px" *ngIf="isAdmin()">
       <button mat-button color="primary" (click)="createNewTemplate()">
         <mat-icon>add</mat-icon>
         Добавить шаблон

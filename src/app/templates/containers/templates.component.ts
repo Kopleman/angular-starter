@@ -16,6 +16,7 @@ import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import { Paginate, ApplyFilters } from '../store/actions';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
 import { Collection } from '../../shared/abstracts/collection';
+import { AuthService } from '../../auth/services/auth';
 
 @Component({
 	selector: 'templates-page',
@@ -28,6 +29,7 @@ export class TemplatesPageComponent
 	public collection: ITemplate[];
 	public subjects$: Observable<ISubject[]>;
 	constructor(
+		private userData: AuthService,
 		private actionSubject: ActionsSubject,
 		private store: Store<ITemplateQueryParams>,
 		private templatesData: TemplatesData,
@@ -133,6 +135,10 @@ export class TemplatesPageComponent
 				);
 			}
 		);
+	}
+
+	public isAdmin() {
+		return this.userData.isAdmin();
 	}
 
 	protected actionFilter(action) {

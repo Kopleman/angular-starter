@@ -79,6 +79,10 @@ export class AuthService {
 		this.profile = profile;
 	}
 
+	public isAdmin() {
+	return this.getProfile().getValue().role === 'admin';
+	}
+
 	public allowToCommit() {
 		if( !this.userAllowToCommit$ ) {
 			this.userAllowToCommit$ = this._allowToCommit().pipe(shareReplay(1));

@@ -66,6 +66,10 @@ export class TemplateListItemComponent implements OnInit {
 		);
 	}
 
+	public isAdmin() {
+		return this.userData.isAdmin();
+	}
+
 	public isParent() {
 		return this.template.sourceTemplate === 'none';
 	}

@@ -28,10 +28,10 @@
               <span>{{ demoHost.label }}</span>
             </button>
           </mat-menu>
-          <button mat-raised-button color="accent" [matMenuTriggerFor]="publishMenu">
+          <button mat-raised-button color="accent" [matMenuTriggerFor]="publishMenu" *ngIf="isAdmin()">
             Выкатка
           </button>
-          <mat-menu #publishMenu="matMenu">
+          <mat-menu #publishMenu="matMenu" >
             <button mat-menu-item *ngFor="let pubHost of pubHosts$ | async" (click)="publish(pubHost.host)">
               <span>{{ pubHost.label }}</span>
             </button>
@@ -73,7 +73,7 @@
               <mat-icon>fast_forward</mat-icon>
               <span>Commit</span>
             </button>
-            <button mat-menu-item *ngIf="!template.cloneNames.length" (click)="deleteTemplate()">
+            <button mat-menu-item *ngIf="!template.cloneNames.length && isAdmin()" (click)="deleteTemplate()">
               <mat-icon>delete</mat-icon>
               <span>Удалить</span>
             </button>
