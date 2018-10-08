@@ -3,8 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const helpers = require('./helpers');
 
+const APP_COMMON_CONFIG = require('./config.common.json');
+
 const DEFAULT_METADATA = {
-  title: 'UKIT template management tool',
+  title: APP_COMMON_CONFIG.title,
+  description: APP_COMMON_CONFIG.description,
   baseUrl: '/admin-templates/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: helpers.hasProcessFlag('hot'),
@@ -75,7 +78,7 @@ function ngcWebpackSetup(prod, metadata) {
     metadata = DEFAULT_METADATA;
   }
 
-  const buildOptimizer = prod;
+  const buildOptimizer = prod && metadata.AOT;
   const sourceMap = true; // TODO: apply based on tsconfig value?
   const ngcWebpackPluginOptions = {
     skipCodeGeneration: !metadata.AOT,
@@ -90,7 +93,7 @@ function ngcWebpackSetup(prod, metadata) {
   }
 
   if (!prod && metadata.WATCH) {
-    // Force commonjs feature format for TS on dev watch builds.
+    // Force commonjs module format for TS on dev watch builds.
     ngcWebpackPluginOptions.compilerOptions = {
       module: 'commonjs'
     };
@@ -106,7 +109,7 @@ function ngcWebpackSetup(prod, metadata) {
   const loaders = [
     {
       test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
-      use: metadata.AOT && buildOptimizer ? [ buildOptimizerLoader, '@ngtools/webpack' ] : [ '@ngtools/webpack' ]
+      use: buildOptimizer ? [ buildOptimizerLoader, '@ngtools/webpack' ] : [ '@ngtools/webpack' ]
     },
     ...buildOptimizer
       ? [ { test: /\.js$/, use: [ buildOptimizerLoader ] } ]

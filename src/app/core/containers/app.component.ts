@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../../auth/services/auth';
-
+export const ROOT_SELECTOR = 'app';
 /**
  * App Component
  * Top Level Component
  */
 @Component({
-	selector: 'app',
-	encapsulation: ViewEncapsulation.None,
-	styleUrls: ['./app.component.scss'],
-	templateUrl: './app.component.html'
+  selector: ROOT_SELECTOR,
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./app.component.scss'],
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 	constructor(private userData: AuthService) {}

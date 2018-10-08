@@ -17,7 +17,7 @@
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
-import 'hammerjs';
+
 // Internet Explorer 9 support
 // import 'ie-shim';
 
@@ -71,7 +71,9 @@ import 'zone.js/dist/zone';
  */
 // import 'intl/locale-data/jsonp/en';
 if ('production' === ENV) {
-	// Production
+  // Production
+
 } else {
-	// Development
+
+  // Development
 }

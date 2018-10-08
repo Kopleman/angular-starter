@@ -1,11 +1,11 @@
 /**
- * @author: @AngularClass
+ * @author: tipe.io
  */
 
 module.exports = function (config) {
-  var testWebpackConfig = require('./webpack.test.js')({ env: 'test' });
+  const testWebpackConfig = require('./webpack.test.js')({ env: 'test' });
 
-  var configuration = {
+  const configuration = {
 
     /**
      * Base path that will be used to resolve all patterns (e.g. files, exclude).
@@ -74,7 +74,7 @@ module.exports = function (config) {
        * webpack-dev-middleware configuration
        * i.e.
        */
-      noInfo: true,
+      logLevel: 'warn',
       /**
        * and use stats to turn off verbose output
        */
@@ -113,20 +113,20 @@ module.exports = function (config) {
     /**
      * enable / disable watching file and executing tests whenever any file changes
      */
-    autoWatch: false,
+    autoWatch: true,
 
     /**
      * start these browsers
      * available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
      */
     browsers: [
-      'Chrome'
+      'ChromeTravisCi'
     ],
 
     customLaunchers: {
       ChromeTravisCi: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--disable-gpu']
       }
     },
 
@@ -134,8 +134,39 @@ module.exports = function (config) {
      * Continuous Integration mode
      * if true, Karma captures browsers, runs the tests and exits
      */
-    singleRun: true
+    singleRun: false,
+
+    client: {
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
+    },
+
+    /**
+     * For slower machines you may need to have a longer browser
+     * wait time . Uncomment the line below if required.
+     */
+    // browserNoActivityTimeout: 30000
+
   };
+
+  // Optional Sonar Qube Reporter
+  if (process.env.SONAR_QUBE) {
+
+    // SonarQube reporter plugin configuration
+    configuration.sonarQubeUnitReporter = {
+      sonarQubeVersion: '5.x',
+      outputFile: 'reports/ut_report.xml',
+      overrideTestDescription: true,
+      testPath: 'src/app',
+      testFilePattern: '.spec.ts',
+      useBrowserName: false
+    };
+
+    // Additional lcov format required for
+    // sonarqube
+    configuration.remapCoverageReporter.lcovonly = './coverage/coverage.lcov';
+
+    configuration.reporters.push('sonarqubeUnit');
+  }
 
   if (process.env.TRAVIS) {
     configuration.browsers = [
