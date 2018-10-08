@@ -5,7 +5,7 @@ const helpers = require('./helpers');
 
 const DEFAULT_METADATA = {
   title: 'UKIT template management tool',
-  baseUrl: '/',
+  baseUrl: '/admin-templates/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: helpers.hasProcessFlag('hot'),
   AOT: process.env.BUILD_AOT || helpers.hasNpmFlag('aot'),
