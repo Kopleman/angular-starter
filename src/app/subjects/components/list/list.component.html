@@ -16,8 +16,8 @@
   <ng-container matColumnDef="controls">
     <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
     <mat-cell *matCellDef="let row" fxLayoutAlign="end">
-      <button mat-raised-button color="primary" (click)="editSubject(row)">
-        <span>Редактировать</span>
+      <button mat-mini-fab color="primary" (click)="editSubject(row)">
+        <mat-icon>mode_edit</mat-icon>
       </button>
     </mat-cell>
   </ng-container>
