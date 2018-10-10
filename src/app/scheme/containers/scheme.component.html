@@ -1,4 +1,35 @@
+
 <mat-accordion #accordion *ngIf="tiers; else loading;" >
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Легенда
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="templates" fxFlex="0 0 100%" fxLayout="row wrap" fxLayoutGap="16px" >
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template parent published">родитель в бою</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child published">клон в бою</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child non-published">клон не в бою</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child published new-clone">новый клон в бою</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child non-published new-clone">скрытый клон в бою</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child published inheritance">клон в бою, свой html</div>
+      </div>
+      <div class="family" fxFlex="0 0 200px" fxLayout="column">
+        <div class="template child non-published lpt">шаблоны не ukit</div>
+      </div>
+    </div>
+  </mat-expansion-panel>
 	<mat-expansion-panel *ngFor="let tier of tiers" >
 		<mat-expansion-panel-header>
 			<mat-panel-title>
