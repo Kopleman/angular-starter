@@ -26,12 +26,12 @@ export class PropsDialogComponent implements OnInit {
 	public ngOnInit() {
 		this.langs = this.getTemplateLangs();
 		this.currentTags = {};
-		let controls = {
+		const controls = {
 			selectedSubject: [this.data.selectedSubject, Validators.required],
 			selectedWhiteLabel: [this.data.selectedWhiteLabel, null]
 		};
 		this.langs.forEach(key => {
-			let tags = this.data.template.i18nTags[key];
+			const tags = this.data.template.i18nTags[key];
 			this.data.newTags[key] = tags ? tags.join(',') : '';
 			controls[`title-${key}`] = [this.data.template.i18nTitles[key], Validators.required];
 			controls[`tag-${key}`] = [this.data.newTags[key], null];
@@ -63,6 +63,17 @@ export class PropsDialogComponent implements OnInit {
 	}
 
 	public getTemplateLangs() {
-		return Object.keys(this.data.template.i18nTitles);
+    const langs = [ 'ru' ].concat(this.data.template.locales);
+    /**
+     * Подымае ру и ен локаль в топ
+     */
+    return langs
+      .sort((lang) => lang === 'ru' ? -1 : 1)
+      .sort((lang) => {
+        if (lang === 'ru') {
+          return  0;
+        }
+        return lang === 'en' ? -1 : 1;
+      });
 	}
 }
