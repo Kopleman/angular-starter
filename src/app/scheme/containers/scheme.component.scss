@@ -8,6 +8,12 @@
 		text-align: center;
 		margin-bottom: 16px;
 
+    a {
+      color: #536dfe;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
 		&.premium {
 			background-color: #00FFFF;
 			&.published {

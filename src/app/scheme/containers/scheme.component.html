@@ -38,11 +38,15 @@
 		</mat-expansion-panel-header>
 		<div class="templates" fxFlex="0 0 100%" fxLayout="row wrap" fxLayoutGap="16px" >
 			<div class="family" *ngFor="let template of tier.templates" fxFlex="0 0 200px" fxLayout="column">
-				<div class="template" [ngClass]="template.classes" >{{template._id}}</div>
+				<div class="template" [ngClass]="template.classes" >
+          <a [routerLink]="['/templates']" [queryParams]="{templateId: template._id}">{{template._id}}</a>
+        </div>
 				<div class="child-line" *ngIf="template.children">
 					<div></div>
 				</div>
-				<div *ngFor="let child of template.children" class="template" [ngClass]="child.classes" >{{child._id}}</div>
+				<div *ngFor="let child of template.children" class="template" [ngClass]="child.classes" >
+          <a [routerLink]="['/templates']" [queryParams]="{templateId: child._id}">{{child._id}}</a>
+        </div>
 			</div>
 		</div>
 	</mat-expansion-panel>
