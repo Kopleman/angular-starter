@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
+import { MatPaginatorIntl } from '@angular/material';
 import '../styles/styles.scss';
 import '../styles/headings.css';
 /*
@@ -15,15 +16,15 @@ import { TemplatesModule } from './templates/templates.module';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { SubjectsModule } from './subjects/subjects.module';
-import { INITIAL_FILTERS_STATE, reducer } from './templates/store/reducer';
 import { StoreModule } from '@ngrx/store';
 import { UsersModule } from './users/users.module';
 import { WhiteLabelsModule } from './white-labels/white-labels.module';
 import { SchemeModule } from './scheme/scheme.module';
 import { I18nSchemeModule } from './i18n-scheme/i18n-scheme.module';
+import { MatPaginatorIntlRu } from './shared/providers/MatPaginatorIntlRu';
 
 // Application wide providers
-const APP_PROVIDERS = [];
+const APP_PROVIDERS = [{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlRu}];
 
 /**
  * `AppModule` is the main entry point into Angular2's bootstraping process
