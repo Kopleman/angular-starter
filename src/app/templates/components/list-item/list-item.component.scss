@@ -7,6 +7,7 @@
 		.header {
 			color: #3b7694;
 			margin-bottom: 5px;
+      user-select: none;
 		}
 
 		.langs,
@@ -26,6 +27,10 @@
 		mat-slide-toggle {
 			margin-right: 16px;
 		}
+
+    .subjects {
+      user-select: none;
+    }
 
 		.main-part {
 			padding: 8px;
@@ -53,6 +58,7 @@
 				}
 				.status {
 					color: #4caf50;
+          user-select: none;
 					&.not-ready {
 						color: #f40018;
 					}
