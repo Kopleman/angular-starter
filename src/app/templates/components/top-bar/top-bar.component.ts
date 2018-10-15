@@ -4,7 +4,7 @@ import { ISubject } from '../../models/subject';
 import { ITemplateQueryParams } from '../../models/template';
 import { SubjectsData } from '../../services/subjects-data';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { ActionsSubject, select, Store } from '@ngrx/store';
 import { ApplyFilters } from '../../store/actions';
 import { INITIAL_FILTERS_STATE } from '../../store/reducer';
@@ -73,7 +73,10 @@ export class TopBarComponent extends AbstractFilters<ITemplateQueryParams>
 			});
 		};
 
-		const search = this.searchControl.valueChanges.pipe( debounceTime(500) );
+		const search = this.searchControl
+      .valueChanges
+      .pipe( debounceTime(500) )
+      .pipe( map(str => str.trim()));
 		helper(search, 'searchStr');
 
 		const category = this.categoryControl.valueChanges;

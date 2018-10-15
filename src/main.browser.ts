@@ -4,6 +4,7 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { environment } from 'environments/environment';
 import { NgModuleRef } from '@angular/core';
+import 'hammerjs';
 
 /**
  * App Module
