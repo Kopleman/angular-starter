@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth';
-
+import { tap } from 'rxjs/operators';
 @Injectable()
 export class AuthGuard implements CanActivate {
 	constructor(private userData: AuthService, private router: Router) {}
@@ -16,8 +16,16 @@ export class AuthGuard implements CanActivate {
 		state: RouterStateSnapshot
 	): Observable<boolean> | Promise<boolean> | boolean {
 		if (!this.userData.loggedIn) {
-			this.router.navigate(['/login']);
-			return false;
+      /**
+       * проверяем а не залогинен ли уже пользовтель через сам юкит
+       */
+		  return this.userData.checkLogin().pipe(
+		    tap(r => {
+		      if(!r) {
+            this.router.navigate(['/login']);
+          }
+        })
+      );
 		}
 
 		if(this.userData.getRole() === 'guest') {

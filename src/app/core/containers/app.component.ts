@@ -11,15 +11,7 @@ export const ROOT_SELECTOR = 'app';
   styleUrls: ['./app.component.scss'],
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
-	constructor(private userData: AuthService) {}
-
-	public ngOnInit() {
-		if (!this.userData.loggedIn) {
-			this.userData.logout();
-		}
-	}
-}
+export class AppComponent {}
 
 /**
  * Please review the https://github.com/AngularClass/angular2-examples/ repo for

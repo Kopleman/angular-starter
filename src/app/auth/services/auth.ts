@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { shareReplay, tap, map } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import { ILoginModel, ILoginResponse, IProfile } from '../models/user';
+import { catchError } from 'rxjs/internal/operators';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
 	 * @returns {Observable<ILoginResponse>}
 	 */
 	public login(email: string, password: string) {
-		let data = {
+		const data = {
 			email,
 			password
 		};
@@ -38,15 +39,28 @@ export class AuthService {
 		);
 	}
 
+	public checkLogin() {
+	  return this.api.get<ILoginResponse, null>('admin/rest/isLogedIn').pipe(
+      map(response => {
+        localStorage.setItem(this.PROFILE, JSON.stringify(response.user));
+        localStorage.setItem(this.LOGGEDIN, JSON.stringify(true));
+        this.setLoggedIn(true);
+        this.setProfile(response.user);
+        return true;
+      }),
+      catchError(this.api.emptyResult<boolean>(false))
+    );
+  }
+
 	/**
 	 * Логаут, с очисткой профиля и стауса, и переходом на главную
 	 */
 	public logout(): void {
-		localStorage.removeItem(this.PROFILE);
-		localStorage.removeItem(this.LOGGEDIN);
-		this.setProfile(null);
-		this.setLoggedIn(false);
-		this.router.navigate(['/']);
+    localStorage.removeItem(this.PROFILE);
+    localStorage.removeItem(this.LOGGEDIN);
+    this.setProfile(null);
+    this.setLoggedIn(false);
+    this.router.navigate(['/']);
 	}
 
 	/**
