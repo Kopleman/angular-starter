@@ -1,7 +1,12 @@
 import { throwError as observableThrowError, of, Observable } from 'rxjs';
 import { catchError, share } from 'rxjs/operators';
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+	HttpClient,
+	HttpErrorResponse,
+	HttpHeaders,
+	HttpParams
+} from '@angular/common/http';
 import * as _ from 'lodash';
 
 import { APP_CONFIG, AppConfig } from '../../config.module';
@@ -25,7 +30,10 @@ export class Api {
 	 * @type {HttpHeaders}
 	 */
 	private headers: HttpHeaders = new HttpHeaders({ isSPA: 'true' });
-	constructor(private http: HttpClient, @Inject(APP_CONFIG) private config: AppConfig) {
+	constructor(
+		private http: HttpClient,
+		@Inject(APP_CONFIG) private config: AppConfig
+	) {
 		this.apiHost = this.config.host;
 	}
 
@@ -37,16 +45,16 @@ export class Api {
 	 * @param {Object} headers — Объект доп. заголовков
 	 * @returns {Observable<T>}
 	 */
-	public get<T, U extends Object>(
+	public get<T, U extends { [name: string]: string | string[] }>(
 		endPoint: string,
 		search: U = null,
 		withCredentials: boolean = true,
-		headers: Object = null
+		headers: { [name: string]: string | string[] } = null
 	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
-		let options = {
+		const options = {
 			params: this.createSearchParams(search),
 			headers: this.headers,
 			withCredentials
@@ -70,17 +78,17 @@ export class Api {
 	 * @param {Object} headers — Объект доп. заголовков
 	 * @returns {Observable<T>}
 	 */
-	public post<T, U extends Object>(
+	public post<T, U>(
 		endPoint: string,
 		body: U = null,
 		withCredentials: boolean = true,
-		headers: Object = null
+		headers: { [name: string]: string | string[] } = null
 	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 
-		let options = {
+		const options = {
 			headers: this.headers,
 			withCredentials
 		};
@@ -102,12 +110,16 @@ export class Api {
 	 * @param {Object} headers — Объект доп. заголовков
 	 * @returns {Observable<T>}
 	 */
-	public put<T, U>(endPoint: string, body: U = null, headers: Object = null): Observable<T> {
+	public put<T, U>(
+		endPoint: string,
+		body: U = null,
+		headers: { [name: string]: string | string[] } = null
+	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 
-		let options = {
+		const options = {
 			headers: this.headers,
 			withCredentials: true
 		};
@@ -129,12 +141,15 @@ export class Api {
 	 * @param {Object} headers — Объект body-параметров
 	 * @returns {Observable<T>} — Объект доп. заголовков
 	 */
-	public delete<T, U>(endPoint: string, headers: Object = null): Observable<T> {
+	public delete<T, U>(
+		endPoint: string,
+		headers: { [name: string]: string | string[] } = null
+	): Observable<T> {
 		_.forEach(headers, (val, key) => {
 			this.setHeader(key, val.toString());
 		});
 
-		let options = {
+		const options = {
 			headers: this.headers,
 			withCredentials: true
 		};
@@ -185,7 +200,9 @@ export class Api {
 	 * @param {Object} query
 	 * @returns {HttpParams}
 	 */
-	protected createSearchParams(query: Object): HttpParams {
+	protected createSearchParams(query: {
+		[name: string]: string | string[];
+	}): HttpParams {
 		let params = new HttpParams();
 		_.forEach(query, (val, key) => {
 			if (val !== null && key) {
@@ -195,11 +212,12 @@ export class Api {
 		return params;
 	}
 
-	/**
-	 * Обработчки ошибок
-	 * @param {HttpErrorResponse} error
-	 * @returns {Observable<never>}
-	 */
+
+  /**
+   * Обработчки ошибок
+   * @param {HttpErrorResponse} _error
+   * @returns {Observable<never>}
+   */
 	private logError(_error: HttpErrorResponse) {
 		console.log(_error);
 		console.log(_error.message);
