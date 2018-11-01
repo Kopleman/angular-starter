@@ -50,7 +50,7 @@ export class I18nDialogComponent implements OnInit {
 			const blanks = results[1];
 			this.siteBlanks = blanks;
 			this.whiteLables = results[2];
-			let controls = {};
+			const controls = {};
 			this.activeLangs.forEach(key => {
 				controls[`ready-${key}`] = blanks[key]
 					? [{ value: blanks[key].ready, disabled: blanks[key].ready }, null]
@@ -100,7 +100,8 @@ export class I18nDialogComponent implements OnInit {
 		this.templatesData.removeSiteBlank(this.data.template._id, lang)
 			.pipe(flatMap(() => this.templatesData.getSiteBlanks(this.data.template._id)))
 			.subscribe(
-			() => {
+			(blanks) => {
+        this.siteBlanks = blanks;
 				this.snackBar.open(`Локаль удалена`, 'Закрыть', {
 					duration: 2000
 				});
