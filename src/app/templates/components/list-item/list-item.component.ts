@@ -119,9 +119,9 @@ export class TemplateListItemComponent implements OnInit {
 
 	public translateSubjects() {
 		return this.subjects$.pipe( map(subjects => {
-			let ret: ISubject[] = [];
+			const ret: ISubject[] = [];
 			this.template.subjectIds.forEach(subjectId => {
-				let subject = _.find(subjects, s => s._id === subjectId);
+				const subject = _.find(subjects, s => s._id === subjectId);
 				ret.push(subject ? subject : { _id: subjectId, title: subjectId });
 			});
 			return ret;
@@ -232,7 +232,7 @@ export class TemplateListItemComponent implements OnInit {
 
 	public createClone(pageLess: boolean = false) {
 		let dialogResult: ICloneDialogData;
-		let dialogRef = this.dialog.open(CloneDialogComponent, {
+		const dialogRef = this.dialog.open(CloneDialogComponent, {
 			width: '580px',
 			closeOnNavigation: true,
 			panelClass: 'clone-dialog-component',
