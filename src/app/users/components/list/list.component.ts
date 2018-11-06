@@ -45,7 +45,7 @@ export class UsersListComponent implements OnInit {
 	public translateUserRole(role: string) {
 		return this.usersData.getRolesList().pipe(
 			map(list => {
-				let founded = _.find(list, r => r.value === role);
+				const founded = _.find(list, r => r.value === role);
 				return founded ? founded.name : role;
 			})
 		);
@@ -97,7 +97,7 @@ export class UsersListComponent implements OnInit {
 
 	public editUser(user: IUser) {
 		let dialogResult: IEditUserDialogData;
-		let data = Object.assign(
+		const data = Object.assign(
 			{
 				rolesList$: this.usersData.getRolesList(),
 				password: ''
@@ -105,7 +105,7 @@ export class UsersListComponent implements OnInit {
 			user
 		);
 
-		let dialogRef = this.dialog.open<
+		const dialogRef = this.dialog.open<
 			EditUserDialogComponent,
 			IEditUserDialogData
 		>(EditUserDialogComponent, {
@@ -122,7 +122,7 @@ export class UsersListComponent implements OnInit {
 					return of(null);
 				}
 				dialogResult = result;
-				let editUser: IEditUser = {
+				const editUser: IEditUser = {
 					email: result.email,
 					phone: result.phone,
 					password: result.password,

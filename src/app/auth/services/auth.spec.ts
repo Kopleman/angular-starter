@@ -107,7 +107,7 @@ describe('Auth service', () => {
 	describe('#logout', () => {
 		let profile: IProfile;
 		let expectedAnswer: ILoginResponse;
-		let loginData: ILoginModel = {
+		const loginData: ILoginModel = {
 			email: 'mock@mock',
 			password: '123321'
 		};
@@ -152,7 +152,7 @@ describe('Auth service', () => {
 		let profile: IProfile;
 		let expectedAnswer: boolean;
 		let expectedLoginAnswer: ILoginResponse;
-		let loginData: ILoginModel = {
+		const loginData: ILoginModel = {
 			email: 'mock@mock',
 			password: '123321'
 		};

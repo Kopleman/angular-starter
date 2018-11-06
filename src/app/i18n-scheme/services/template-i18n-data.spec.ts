@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { APP_DI_CONFIG, AppConfigModule } from '../../config.module';
 import { Api } from '../../core/services/api';
 import { TemplatesI18nData } from './template-i18n-data';
-import { IUserRole } from '../../users/models/user';
 
 describe('i18n service', () => {
 	let httpClient: HttpClient;

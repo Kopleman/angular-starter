@@ -10,7 +10,7 @@ export class ColorThemesComponent {
 	@Input() public colorThemes: IColorThemes;
 
 	public getColors() {
-		let colors = [];
+		const colors = [];
 		Object.keys(this.colorThemes.site)
 			.reverse()
 			.forEach(v => {

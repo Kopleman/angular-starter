@@ -312,7 +312,7 @@ export class TemplateListItemComponent implements OnInit {
 
 	public changeProps() {
 		let dialogResult: IChangePropsDialogData;
-		let dialogRef = this.dialog.open<
+		const dialogRef = this.dialog.open<
 			PropsDialogComponent,
 			IChangePropsDialogData
 		>(PropsDialogComponent, {
@@ -387,7 +387,7 @@ export class TemplateListItemComponent implements OnInit {
 
 	public workWithI18n() {
 
-		let dialogRef = this.dialog.open<I18nDialogComponent, Ii18NDialogData>(
+		const dialogRef = this.dialog.open<I18nDialogComponent, Ii18NDialogData>(
 			I18nDialogComponent, {
 				width: '580px',
 				closeOnNavigation: true,

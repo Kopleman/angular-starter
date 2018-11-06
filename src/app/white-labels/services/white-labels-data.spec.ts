@@ -39,7 +39,7 @@ describe('White labels service(module)', () => {
 	describe('#getTemplates', () => {
 		let expectedAnswer: IWhiteLabelResponse;
 		let filters: IWhiteLabelFilters;
-		let regexp = new RegExp(`^${host}admin/rest/whiteLabels`);
+		const regexp = new RegExp(`^${host}admin/rest/whiteLabels`);
 		beforeEach(() => {
 			expectedAnswer = {
 				count: 1,

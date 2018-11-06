@@ -3,10 +3,10 @@ import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import { of } from 'rxjs';
 import { filter, flatMap } from 'rxjs/operators';
 import {
-	INewUser,
-	IUser,
-	IUserFilters,
-	IUserQueryParams
+  INewUser,
+  IUser,
+  IUserFilters,
+  IUserQueryParams, IUsersResponse
 } from '../models/user';
 import { UsersData } from '../services/users-data';
 import { Collection } from '../../shared/abstracts/collection';
@@ -46,13 +46,13 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;
 		this.pageSize = $event.pageSize;
-		let skip = this.pageIndex * this.pageSize;
+		const skip = this.pageIndex * this.pageSize;
 		this.store.dispatch(new UsersPaginate(skip, this.pageSize));
 	}
 
 	public createNewUser() {
 		let dialogResult: ICreateUserDialogData;
-		let dialogRef = this.dialog.open<
+    const dialogRef = this.dialog.open<
 			CreateUserDialogComponent,
 			ICreateUserDialogData
 		>(CreateUserDialogComponent, {
@@ -77,7 +77,7 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 					return of(null);
 				}
 				dialogResult = result;
-				let newUser: INewUser = {
+        const newUser: INewUser = {
 					email: result.email,
 					phone: result.phone,
 					password: result.password,
@@ -122,13 +122,13 @@ export class UsersPageComponent extends Collection<IUser[], IUserQueryParams>
 			.pipe( flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
-				let filters: IUserFilters = {
+        const filters: IUserFilters = {
 					searchStr: state.searchStr,
 					sortBy: state.sortBy
 				};
 				return this.usersData.getUsers(state.skip, state.limit, filters);
 			}) )
-			.subscribe(response => {
+			.subscribe((response: IUsersResponse) => {
 				this.inProgress = false;
 				this.total = response.count;
 				this.collection = response.users;

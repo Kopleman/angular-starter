@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplatesI18nData } from '../services/template-i18n-data';
-import { Observable, zip } from 'rxjs/index';
+import { zip } from 'rxjs/index';
 import { map } from 'rxjs/operators';
 
 

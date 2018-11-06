@@ -5,9 +5,9 @@ import { SubjectsData } from '../services/subjects-data';
 import { Observable ,  of } from 'rxjs';
 import { filter, flatMap, shareReplay } from 'rxjs/operators';
 import {
-	ITemplate,
-	ITemplateFilters,
-	ITemplateQueryParams
+  ITemplate,
+  ITemplateFilters,
+  ITemplateQueryParams, ITemplateResponse
 } from '../models/template';
 import { ISubject } from '../models/subject';
 import { CreateDialogComponent } from '../components/create-dialog/create-dialog.component';
@@ -58,13 +58,13 @@ export class TemplatesPageComponent
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;
 		this.pageSize = $event.pageSize;
-		let skip = this.pageIndex * this.pageSize;
+		const skip = this.pageIndex * this.pageSize;
 		this.store.dispatch(new Paginate(skip, this.pageSize));
 	}
 
 	public createNewTemplate() {
 		let dialogResult: ICreateDialogData;
-		let dialogRef = this.dialog.open<CreateDialogComponent, ICreateDialogData>(
+    const dialogRef = this.dialog.open<CreateDialogComponent, ICreateDialogData>(
 			CreateDialogComponent,
 			{
 				width: '580px',
@@ -88,9 +88,8 @@ export class TemplatesPageComponent
 					return of(null);
 				}
 				dialogResult = result;
-				console.log(result)
 				this.snackBar.open(`Создаем новый шаблон`, 'Закрыть');
-				let body = {
+        const body = {
 					templateId: result.templateId,
 					title: result.title,
 					subjectIds: [result.selectedSubject],
@@ -160,7 +159,7 @@ export class TemplatesPageComponent
 			.pipe(flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
-				let filters: ITemplateFilters = {
+        const filters: ITemplateFilters = {
 					selectedCategory: state.selectedCategory,
 					searchStr: state.searchStr,
 					sortBy: state.sortBy
@@ -171,7 +170,7 @@ export class TemplatesPageComponent
 					filters
 				);
 			}))
-			.subscribe(response => {
+			.subscribe((response: ITemplateResponse) => {
 				this.inProgress = false;
 				this.total = response.count;
 				this.collection = response.templates;

@@ -4,7 +4,7 @@ import { ICloneDialogData } from '../../models/dialog';
 import { UsersData } from '../../services/users-data';
 import { IUser } from '../../models/users';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { filter, map } from 'rxjs/internal/operators';
+import { filter } from 'rxjs/internal/operators';
 
 @Component({
 	selector: 'clone-dialog',

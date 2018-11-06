@@ -32,7 +32,7 @@ export class SubjectsListComponent implements OnInit {
 
 	public editSubject(subject: ISubject) {
 		let dialogResult: ISubjectEditDialogData;
-		let dialogRef = this.dialog.open<
+		const dialogRef = this.dialog.open<
 			SubjectEditDialogComponent,
 			ISubjectEditDialogData
 		>(SubjectEditDialogComponent, {

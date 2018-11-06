@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
 import { IWhiteLabel } from '../../../shared/models/whitelabel';
 import { ISubject } from '../../models/subject';
@@ -24,7 +24,7 @@ export class SubjectEditDialogComponent implements OnInit {
 	) {}
 
 	public ngOnInit() {
-		let controls = {
+		const controls = {
 			selectedWhiteLabel: [null, null]
 		};
 		this.editForm = this.formBuilder.group(controls);

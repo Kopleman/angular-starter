@@ -45,13 +45,13 @@ export class WhiteLabelsPageComponent
 	public paginate($event: PageEvent) {
 		this.pageIndex = $event.pageIndex;
 		this.pageSize = $event.pageSize;
-		let skip = this.pageIndex * this.pageSize;
+		const skip = this.pageIndex * this.pageSize;
 		this.store.dispatch(new WhiteLabelsPaginate(skip, this.pageSize));
 	}
 
 	public createNewWl() {
 		let dialogResult: INewWhiteLabelDialogData;
-		let dialogRef = this.dialog.open<
+		const dialogRef = this.dialog.open<
 			CreateWhiteLabelDialogComponent,
 			INewWhiteLabelDialogData
 		>(CreateWhiteLabelDialogComponent, {
@@ -106,7 +106,7 @@ export class WhiteLabelsPageComponent
 			.pipe( flatMap(state => {
 				this.pageIndex = state.skip / state.limit;
 				this.pageSize = state.limit;
-				let filters: ISubjectFilters = {
+				const filters: ISubjectFilters = {
 					searchStr: state.searchStr,
 					sortBy: state.sortBy
 				};

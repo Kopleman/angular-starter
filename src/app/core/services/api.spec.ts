@@ -41,12 +41,12 @@ describe('Api service', () => {
 
 	describe('#GET', () => {
 		let expectedAnswer: IMockOkResponse;
-		let mockEndPoint = 'mock';
-		let search = {
+		const mockEndPoint = 'mock';
+    const search = {
 			foo: 'bar',
 			bar: null
 		};
-		let headers = {
+    const headers = {
 			bar: 'foo'
 		};
 
@@ -100,11 +100,11 @@ describe('Api service', () => {
 	});
 	describe('#POST', () => {
 		let expectedAnswer: IMockOkResponse;
-		let mockEndPoint = 'mock';
-		let body = {
+    const mockEndPoint = 'mock';
+    const body = {
 			foo: 'bar'
 		};
-		let headers = {
+    const headers = {
 			bar: 'foo'
 		};
 		beforeEach(() => {
@@ -155,11 +155,11 @@ describe('Api service', () => {
 	});
 	describe('#PUT', () => {
 		let expectedAnswer: IMockOkResponse;
-		let mockEndPoint = 'mock';
-		let body = {
+    const mockEndPoint = 'mock';
+    const body = {
 			foo: 'bar'
 		};
-		let headers = {
+    const headers = {
 			bar: 'foo'
 		};
 		beforeEach(() => {
@@ -211,8 +211,8 @@ describe('Api service', () => {
 	});
 	describe('#DELETE', () => {
 		let expectedAnswer: IMockOkResponse;
-		let mockEndPoint = 'mock';
-		let headers = {
+    const mockEndPoint = 'mock';
+    const headers = {
 			bar: 'foo'
 		};
 
@@ -263,7 +263,7 @@ describe('Api service', () => {
 	});
 	describe('#emptyResult', () => {
 		let expectedAnswer: IMockNotOkResponse;
-		let mockEndPoint = 'mock';
+    const mockEndPoint = 'mock';
 
 		beforeEach(() => {
 			api = TestBed.get(Api);

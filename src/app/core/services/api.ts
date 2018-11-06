@@ -45,7 +45,7 @@ export class Api {
 	 * @param {Object} headers — Объект доп. заголовков
 	 * @returns {Observable<T>}
 	 */
-	public get<T, U extends { [name: string]: string | string[] }>(
+	public get<T, U>(
 		endPoint: string,
 		search: U = null,
 		withCredentials: boolean = true,
@@ -200,9 +200,7 @@ export class Api {
 	 * @param {Object} query
 	 * @returns {HttpParams}
 	 */
-	protected createSearchParams(query: {
-		[name: string]: string | string[];
-	}): HttpParams {
+	protected createSearchParams(query): HttpParams {
 		let params = new HttpParams();
 		_.forEach(query, (val, key) => {
 			if (val !== null && key) {

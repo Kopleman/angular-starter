@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { shareReplay, tap, map } from 'rxjs/operators';
 import { Api } from '../../core/services/api';
 import { ILoginModel, ILoginResponse, IProfile } from '../models/user';

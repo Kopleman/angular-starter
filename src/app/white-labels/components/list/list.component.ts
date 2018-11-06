@@ -72,7 +72,7 @@ export class WhiteLabelsListComponent implements OnInit {
 	}
 
 	public editWL(whiteLabel: IWhiteLabel) {
-		let dialogRef = this.dialog.open<EditWhiteLabelDialogComponent, IEditWhiteLabelDialogData>(
+		const dialogRef = this.dialog.open<EditWhiteLabelDialogComponent, IEditWhiteLabelDialogData>(
 			EditWhiteLabelDialogComponent,
 			{
 				width: '580px',

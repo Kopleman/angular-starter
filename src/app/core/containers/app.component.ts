@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { AuthService } from '../../auth/services/auth';
+import { Component, ViewEncapsulation } from '@angular/core';
 export const ROOT_SELECTOR = 'app';
 /**
  * App Component
