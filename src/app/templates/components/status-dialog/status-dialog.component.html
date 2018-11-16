@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Смена статуса {{data._id}}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="editForm"  class="edit-form">
+    <mat-form-field>
+      <mat-select placeholder="Статус" formControlName="status">
+        <mat-option *ngFor="let status of statuses" [value]="status.value">{{status.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="data" color="primary" [disabled]="!editForm.valid">Сохранить</button>
+  <button mat-button (click)="onCloseClick()" color="warn">Отмена</button>
+</div>

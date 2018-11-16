@@ -24,12 +24,14 @@ import { SharedModule } from '../shared/shared.module';
 import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
 import { ModuleTypes } from '../shared/models/ngrx-action';
 import { I18nDialogComponent } from './components/i18n-dialog/i18n-dialog.component';
+import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
 	CreateDialogComponent,
 	PropsDialogComponent,
-	I18nDialogComponent
+	I18nDialogComponent,
+  StatusDialogComponent
 ];
 
 export const TEMPLATE_COMPONENTS = [

@@ -47,7 +47,7 @@ export interface ITemplate {
 	i18nTags: { [key: string]: string[] };
 	sourceTemplate: string;
 	colorThemes: IColorThemes;
-	status: string;
+	status: 'inProcess' | 'test' | 'complete';
 	cloneNames: string[];
 	gulpStatus: 'stopped' | 'online';
 	whitelabelsIds: string[];

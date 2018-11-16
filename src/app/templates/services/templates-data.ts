@@ -141,6 +141,10 @@ export class TemplatesData {
 		return this.api.delete(`admin/rest/i18n/${temlateId}/siteblank/${lang}`);
 	}
 
+	public changeTemplateStatus(templateId, status: 'inProcess' | 'test' | 'complete') {
+    return this.api.put(`admin/rest/templates/${templateId}/setStatus`, {status});
+  }
+
 	private _getActiveLocalesHash() {
 		return this.api.get<{[index: string]: string}, null>(`admin/rest/i18n/activeLocalesHash`);
 	}

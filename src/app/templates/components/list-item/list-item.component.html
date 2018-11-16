@@ -49,6 +49,10 @@
 							<mat-icon>language</mat-icon>
 							<span>i18n</span>
 						</button>
+            <button mat-menu-item  *ngIf="(isPermitted())" (click)="changeStatus()">
+              <mat-icon>done</mat-icon>
+              <span>Change status</span>
+            </button>
             <button mat-menu-item *ngIf="(isParent() && isPermitted())" (click)="createClone()">
               <mat-icon>library_books</mat-icon>
               <span>Create a clone</span>

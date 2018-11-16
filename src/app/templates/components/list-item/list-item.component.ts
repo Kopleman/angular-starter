@@ -26,6 +26,7 @@ import { SubjectsData } from '../../services/subjects-data';
 import { Store } from '@ngrx/store';
 import { ApplyFilters, Refresh } from '../../store/actions';
 import { I18nDialogComponent } from '../i18n-dialog/i18n-dialog.component';
+import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
 
 /**
  * Копонента карточки шаблона
@@ -398,4 +399,47 @@ export class TemplateListItemComponent implements OnInit {
 			}
 		);
 	}
+
+	public changeStatus() {
+    let dialogResult: ITemplate;
+    const dialogRef = this.dialog.open<StatusDialogComponent, ITemplate>(
+      StatusDialogComponent, {
+        width: '580px',
+        closeOnNavigation: true,
+        panelClass: 'i18n-dialog-component',
+        data: this.template
+      }
+    );
+
+    dialogRef
+      .afterClosed()
+      .pipe(flatMap(result => {
+        if (!result) {
+          return of(null);
+        }
+        dialogResult = result;
+        this.snackBar.open(`Меняем статус шаблона`, 'Закрыть');
+
+        return this.templatesData.changeTemplateStatus(this.template._id, result.status)
+
+      }))
+      .subscribe(
+        result => {
+          if (result) {
+            this.snackBar.open(`Статус изминен`, 'Закрыть', {
+              duration: 2000
+            });
+            this.template.status = dialogResult.status;
+          }
+        },
+        errorResp => {
+          this.snackBar.open(
+            `Произошла ошибка при изминение пропсов: ${
+              errorResp.message
+              }`,
+            'Закрыть'
+          );
+        }
+      );
+  }
 }
