@@ -33,4 +33,8 @@ export class StatusDialogComponent implements OnInit{
         this.data = {...this.data, ...value};
       });
   }
+
+  public onCloseClick() {
+    this.dialogRef.close();
+  }
 }
