@@ -26,6 +26,7 @@ module.exports = function(options) {
     host: HOST,
     port: PORT,
     ENV: ENV,
+    baseUrl: process.env.BASE_URL || '/admin-templates/',
     HMR: helpers.hasProcessFlag('hot'),
     PUBLIC: process.env.PUBLIC_DEV || HOST + ':' + PORT
   });

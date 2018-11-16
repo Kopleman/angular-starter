@@ -59,6 +59,7 @@
     "rimraf": "rimraf",
     "server:dev:hmr": "npm run server:dev -- --hot --hotOnly",
     "server:aot:dev": "cross-env BUILD_AOT=1 npm run server:dev",
+    "server:aot:dev:local": "cross-env BUILD_AOT=1 BASE_URL=/ npm run server:dev",
     "server:dev": "npm run webpack-dev-server -- --config config/webpack.dev.js --open --progress --profile --watch --content-base src/",
     "server:prod": "http-server dist -c-1 --cors",
     "server:prod:ci": "http-server dist -p 3000 -c-1 --cors",
