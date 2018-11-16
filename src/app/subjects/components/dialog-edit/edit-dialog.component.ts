@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { WhiteLabelsData } from '../../../shared/services/whitelabels-data';
 import { IWhiteLabel } from '../../../shared/models/whitelabel';
 import { ISubject } from '../../models/subject';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'subject-edit-dialog',
@@ -25,12 +26,18 @@ export class SubjectEditDialogComponent implements OnInit {
 
 	public ngOnInit() {
 		const controls = {
-			selectedWhiteLabel: [null, null]
+			selectedWhiteLabel: [this.data.selectedWhiteLabel, null]
 		};
 		this.editForm = this.formBuilder.group(controls);
 		this.whiteLabelsData.getWhiteLabels().subscribe(wls => {
 			this.whiteLabels = wls;
 		});
+
+    this.editForm.valueChanges
+      .pipe(filter(() => this.editForm.valid))
+      .subscribe((value) => {
+        this.data = {...this.data, ...value};
+      });
 	}
 
 	public onCloseClick() {

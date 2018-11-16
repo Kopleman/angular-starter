@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { INewWhiteLabelDialogData } from '../../models/dialog';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'wl-create-dialog',
@@ -22,6 +23,12 @@ export class CreateWhiteLabelDialogComponent implements OnInit {
 			ip: [null, [Validators.required, Validators.pattern(ipPattern)]],
 			_id: [null, Validators.required]
 		});
+
+    this.createWLForm.valueChanges
+      .pipe(filter(() => this.createWLForm.valid))
+      .subscribe((value) => {
+        this.data = {...this.data, ...value};
+      });
 	}
 
 	public onCloseClick() {

@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ICreateUserDialogData } from '../../models/dialog';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'user-create-dialog',
@@ -24,6 +25,12 @@ export class CreateUserDialogComponent implements OnInit {
 			lastName: [null, Validators.required],
 			phone: [null, Validators.required]
 		});
+
+    this.createForm.valueChanges
+      .pipe(filter(() => this.createForm.valid))
+      .subscribe((value) => {
+        this.data = {...this.data, ...value};
+      });
 	}
 
 	public onCloseClick() {

@@ -10,7 +10,7 @@
 <div mat-dialog-content>
   <form  fxFlex fxLayout="column" fxFlexFill [formGroup]="editForm"  class="edit-form">
     <mat-form-field>
-      <mat-select placeholder="White Label" formControlName="selectedWhiteLabel" [(ngModel)]="data.selectedWhiteLabel" >
+      <mat-select placeholder="White Label" formControlName="selectedWhiteLabel">
         <mat-option [value]="''">Доступен для всех</mat-option>
         <mat-option *ngFor="let wl of whiteLabels" [value]="wl._id">{{wl._id}}({{wl.ip}})</mat-option>
       </mat-select>

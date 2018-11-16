@@ -10,13 +10,13 @@
 <div mat-dialog-content>
 	<form fxFlex fxLayout="column" fxFlexFill [formGroup]="createWLForm" class="create-form">
 		<mat-form-field class="field">
-			<input matInput type="text" placeholder="Хост*" formControlName="_id" [(ngModel)]="data._id">
+			<input matInput type="text" placeholder="Хост*" formControlName="_id" >
 			<mat-error *ngIf="createWLForm.get('_id').hasError('required')">
 				<strong>Введите хост</strong>
 			</mat-error>
 		</mat-form-field>
 		<mat-form-field class="field">
-			<input matInput type="text" placeholder="IP*" formControlName="ip" [(ngModel)]="data.ip">
+			<input matInput type="text" placeholder="IP*" formControlName="ip" >
 			<mat-error *ngIf="createWLForm.get('ip').hasError('pattern')">
 				Ошибка в IP
 			</mat-error>

@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IEditUserDialogData } from '../../models/dialog';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'user-edit-dialog',
@@ -16,7 +17,7 @@ export class EditUserDialogComponent implements OnInit {
 		private formBuilder: FormBuilder
 	) {}
 	public ngOnInit() {
-		let data = this.data;
+		const data = this.data;
 		this.editForm = this.formBuilder.group({
 			email: [
 				{ value: data.email, disabled: true },
@@ -28,6 +29,12 @@ export class EditUserDialogComponent implements OnInit {
 			lastName: [{ value: data.lastName }, Validators.required],
 			phone: [{ value: data.phone }, Validators.required]
 		});
+
+    this.editForm.valueChanges
+      .pipe(filter(() => this.editForm.valid))
+      .subscribe((value) => {
+        this.data = {...this.data, ...value};
+      });
 	}
 
 	public onCloseClick() {

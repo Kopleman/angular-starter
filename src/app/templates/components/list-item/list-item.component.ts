@@ -387,7 +387,7 @@ export class TemplateListItemComponent implements OnInit {
 
 	public workWithI18n() {
 
-		const dialogRef = this.dialog.open<I18nDialogComponent, Ii18NDialogData>(
+		this.dialog.open<I18nDialogComponent, Ii18NDialogData>(
 			I18nDialogComponent, {
 				width: '580px',
 				closeOnNavigation: true,
@@ -397,11 +397,5 @@ export class TemplateListItemComponent implements OnInit {
 				}
 			}
 		);
-
-		dialogRef
-			.afterClosed()
-			.subscribe(result => {
-				console.log(result)
-			});
 	}
 }

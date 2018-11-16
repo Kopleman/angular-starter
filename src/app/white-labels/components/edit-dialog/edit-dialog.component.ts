@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { INewWhiteLabelDialogData } from '../../models/dialog';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'wl-edit-dialog',
@@ -25,6 +26,12 @@ export class EditWhiteLabelDialogComponent implements OnInit {
 			],
 			_id: [{ value: this.data._id, disabled: true }, Validators.required]
 		});
+
+    this.editWLForm.valueChanges
+      .pipe(filter(() => this.editWLForm.valid))
+      .subscribe((value) => {
+        this.data = {...this.data, ...value};
+      });
 	}
 
 	public onCloseClick() {

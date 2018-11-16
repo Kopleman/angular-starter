@@ -1,5 +1,6 @@
 import { MatPaginatorIntl } from '@angular/material';
-
+import { Injectable } from '@angular/core';
+@Injectable()
 export class MatPaginatorIntlRu extends MatPaginatorIntl {
   public itemsPerPageLabel = 'Единиц на страницу';
   public nextPageLabel     = 'Следующая страница';
