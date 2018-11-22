@@ -29,7 +29,7 @@ export class StatusDialogComponent implements OnInit{
     this.editForm = this.formBuilder.group(controls);
     this.editForm.valueChanges
       .pipe(filter(() => this.editForm.valid))
-      .subscribe((value) => {
+      .subscribe((value: PropsDialogComponent) => {
         this.data = {...this.data, ...value};
       });
   }

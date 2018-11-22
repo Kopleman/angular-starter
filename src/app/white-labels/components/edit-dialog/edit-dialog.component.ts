@@ -29,7 +29,7 @@ export class EditWhiteLabelDialogComponent implements OnInit {
 
     this.editWLForm.valueChanges
       .pipe(filter(() => this.editWLForm.valid))
-      .subscribe((value) => {
+      .subscribe((value: INewWhiteLabelDialogData) => {
         this.data = {...this.data, ...value};
       });
 	}

@@ -10,7 +10,7 @@
 <div mat-dialog-content>
   <form fxFlex fxLayout="column" fxFlexFill [formGroup]="editForm" class="create-form">
     <mat-form-field class="field">
-      <input matInput placeholder="Email*" formControlName="email"  disabled>
+      <input matInput placeholder="Email*" [formControlName]="'email'">
       <mat-error *ngIf="editForm.get('email').hasError('pattern')">
         Ошибка в email
       </mat-error>
@@ -19,13 +19,13 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="field">
-      <input matInput type="text" placeholder="Пароль*" formControlName="password" >
+      <input matInput placeholder="Пароль*" [formControlName]="'password'" >
       <mat-error *ngIf="editForm.get('password').hasError('required')">
         <strong>Введите пароль</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-select placeholder="Роль*" formControlName="role"  >
+    <mat-form-field class="field">
+      <mat-select placeholder="Роль*" [formControlName]="'role'"  >
         <mat-option *ngFor="let role of data.rolesList$ | async" [value]="role.value">{{role.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="editForm.get('role').hasError('required')">
@@ -33,19 +33,19 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field class="field">
-      <input matInput type="text" placeholder="Имя*" formControlName="firstName" >
+      <input matInput type="text" placeholder="Имя*" [formControlName]="'firstName'" >
       <mat-error *ngIf="editForm.get('firstName').hasError('required')">
         <strong>Введите имя</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="field">
-      <input matInput type="text" placeholder="Фамилия*" formControlName="lastName" >
+      <input matInput type="text" placeholder="Фамилия*" [formControlName]="'lastName'" >
       <mat-error *ngIf="editForm.get('lastName').hasError('required')">
         <strong>Введите фамилию</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field class="field">
-      <input matInput type="text" placeholder="Телефон*" formControlName="phone" >
+      <input matInput type="text" placeholder="Телефон*" [formControlName]="'phone'" >
       <mat-error *ngIf="editForm.get('phone').hasError('required')">
         <strong>Введите номер телефона</strong>
       </mat-error>

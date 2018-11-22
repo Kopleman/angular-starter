@@ -147,7 +147,7 @@ export class UsersListComponent implements OnInit {
 				errorResp => {
 					console.log(errorResp);
 					this.snackBar.open(
-						`Ошибки при редактировании: ${errorResp.error.message}`,
+						`Ошибки при редактировании: ${errorResp.message}`,
 						'Закрыть'
 					);
 				}

@@ -17,22 +17,23 @@ export class EditUserDialogComponent implements OnInit {
 		private formBuilder: FormBuilder
 	) {}
 	public ngOnInit() {
-		const data = this.data;
-		this.editForm = this.formBuilder.group({
-			email: [
-				{ value: data.email, disabled: true },
-				[Validators.required, Validators.email]
-			],
-			password: [{ value: data.password }, null],
-			role: [{ value: data.role }, Validators.required],
-			firstName: [{ value: data.firstName }, Validators.required],
-			lastName: [{ value: data.lastName }, Validators.required],
-			phone: [{ value: data.phone }, Validators.required]
-		});
+	  const controls = {
+      email: [
+        { value: this.data.email, disabled: true },
+        [Validators.required, Validators.email]
+      ],
+      password: [this.data.password, null],
+      role: [this.data.role, Validators.required],
+      firstName: [this.data.firstName, Validators.required],
+      lastName: [this.data.lastName, Validators.required],
+      phone: [this.data.phone, Validators.required]
+    };
+
+		this.editForm = this.formBuilder.group(controls);
 
     this.editForm.valueChanges
       .pipe(filter(() => this.editForm.valid))
-      .subscribe((value) => {
+      .subscribe((value: IEditUserDialogData) => {
         this.data = {...this.data, ...value};
       });
 	}
