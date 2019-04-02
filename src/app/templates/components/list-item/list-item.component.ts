@@ -19,7 +19,12 @@ import {
 	ITemplateHost,
 	ITemplateQueryParams
 } from '../../models/template';
-import { IChangePropsDialogData, ICloneDialogData, Ii18NDialogData } from '../../models/dialog';
+import {
+  IChangePreviewDialogData,
+  IChangePropsDialogData,
+  ICloneDialogData,
+  Ii18NDialogData
+} from '../../models/dialog';
 import { PropsDialogComponent } from '../properties-dialog/props-dialog.component';
 import { APP_CONFIG, AppConfig } from '../../../config.module';
 import { SubjectsData } from '../../services/subjects-data';
@@ -27,6 +32,7 @@ import { Store } from '@ngrx/store';
 import { ApplyFilters, Refresh } from '../../store/actions';
 import { I18nDialogComponent } from '../i18n-dialog/i18n-dialog.component';
 import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
+import { ChangePreviewsDialogComponent } from '../change-previews-dialog/change-previews-dialog.component';
 
 /**
  * Копонента карточки шаблона
@@ -366,6 +372,21 @@ export class TemplateListItemComponent implements OnInit {
 				}
 			);
 	}
+
+	public uploadPreviews() {
+
+    this.dialog.open<
+      ChangePreviewsDialogComponent,
+      IChangePreviewDialogData
+      >(ChangePreviewsDialogComponent,{
+      width: '580px',
+      closeOnNavigation: true,
+      panelClass: 'upload-previews-dialog-component',
+      data: {
+        template: this.template
+      }
+      }).afterClosed();
+  }
 
 	public commit() {
 		this.snackBar.open(`Коммитим шаблон ${this.template._id}`, 'Закрыть');

@@ -29,3 +29,7 @@ export interface IChangePropsDialogData {
 export interface Ii18NDialogData {
 	template: ITemplate;
 }
+
+export interface IChangePreviewDialogData{
+  template: ITemplate;
+}

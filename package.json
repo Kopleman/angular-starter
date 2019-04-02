@@ -107,6 +107,7 @@
     "ie-shim": "^0.1.0",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
+    "ngx-file-drop": "^6.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.2.2",

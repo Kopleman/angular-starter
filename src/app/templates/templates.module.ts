@@ -25,13 +25,17 @@ import { reducer, INITIAL_FILTERS_STATE } from './store/reducer';
 import { ModuleTypes } from '../shared/models/ngrx-action';
 import { I18nDialogComponent } from './components/i18n-dialog/i18n-dialog.component';
 import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
+import { ChangePreviewsDialogComponent }
+  from './components/change-previews-dialog/change-previews-dialog.component';
+import { FileDropModule } from 'ngx-file-drop';
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
 	CreateDialogComponent,
 	PropsDialogComponent,
 	I18nDialogComponent,
-  StatusDialogComponent
+  StatusDialogComponent,
+  ChangePreviewsDialogComponent
 ];
 
 export const TEMPLATE_COMPONENTS = [
@@ -51,6 +55,7 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
+    FileDropModule,
 		StoreModule.forFeature(ModuleTypes.TEMPLATES, reducer, {
 			initialState: INITIAL_FILTERS_STATE
 		}),

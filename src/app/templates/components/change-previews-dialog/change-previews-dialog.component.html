@@ -1,0 +1,34 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Установить кастомные превью для {{ data.template._id }}</span>
+    <span class="spacer"></span>
+    <button mat-icon-button>
+      <mat-icon (click)="onCloseClick()">close</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div mat-dialog-content>
+  <div class="divider"></div>
+  <file-drop (onFileDrop)="dropped($event)" accept="image/jpeg">
+    <span>Перетащить сюда файлы скриншотов,<br> файл должен заканчиваться на "_ЛОКАЛЬ",<br> формат .jpg</span>
+  </file-drop>
+
+
+  <mat-table [dataSource]="files" *ngIf="files.length" #filesTable>
+    <ng-container matColumnDef="relativePath">
+      <mat-header-cell *matHeaderCellDef> Имя </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.file.relativePath}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fileLocale">
+      <mat-header-cell *matHeaderCellDef> Локаль </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.fileLocale}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="uploaded">
+      <mat-header-cell *matHeaderCellDef> Загружено </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.uploaded ? 'Да' : 'Нет'}}</mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+</div>

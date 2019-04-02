@@ -145,6 +145,12 @@ export class TemplatesData {
     return this.api.put(`admin/rest/templates/${templateId}/setStatus`, {status});
   }
 
+  public uploadCustomPreview(templateId, file, relativePath) {
+    const formData = new FormData();
+    formData.append('preview', file, relativePath);
+	  return this.api.put(`admin/rest/templates/${templateId}/uploadCustomPreview`, formData);
+  }
+
 	private _getActiveLocalesHash() {
 		return this.api.get<{[index: string]: string}, null>(`admin/rest/i18n/activeLocalesHash`);
 	}

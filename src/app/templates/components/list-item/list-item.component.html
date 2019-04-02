@@ -45,6 +45,10 @@
               <mat-icon>settings</mat-icon>
               <span>Change props</span>
             </button>
+            <button mat-menu-item  *ngIf="(isPermitted())" (click)="uploadPreviews()">
+              <mat-icon>collections</mat-icon>
+              <span>Upload previews</span>
+            </button>
 						<button mat-menu-item *ngIf="(isPermitted())" (click)="workWithI18n()">
 							<mat-icon>language</mat-icon>
 							<span>i18n</span>

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "ng2 Wxtension",
+  "description": "Sync with Couchbase in a Google Chrome extension",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "assets/icon/apple-icon.png",
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "web_accessible_resources": [
+    "assets/css/*",
+    "assets/js/*",
+    "assets/fonts/*"
+  ]
+}
