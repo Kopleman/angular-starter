@@ -65,6 +65,14 @@ export class ChangePreviewsDialogComponent implements OnInit{
             .subscribe((res) => {
               this.filesTable.renderRows();
               listData.uploaded = true;
+            },
+            errorResp => {
+              this.snackBar.open(
+                `Не удалось загрузить файл ${droppedFile.relativePath}: ${
+                  errorResp.message
+                  }`,
+                'Закрыть'
+              );
             });
         });
       }
