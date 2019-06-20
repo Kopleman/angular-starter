@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 import { IEditUser, IUser, IUserQueryParams } from '../../models/user';
 import { UsersData } from '../../services/users-data';
 import { flatMap, map } from 'rxjs/operators';

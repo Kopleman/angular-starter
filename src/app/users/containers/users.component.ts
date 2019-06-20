@@ -11,7 +11,9 @@ import {
 import { UsersData } from '../services/users-data';
 import { Collection } from '../../shared/abstracts/collection';
 import { ICustomAction, ModuleTypes } from '../../shared/models/ngrx-action';
-import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsersApplyFilters, UsersPaginate } from '../store/actions';
 import { ICreateUserDialogData } from '../models/dialog';
 import { CreateUserDialogComponent } from '../components/create-dialog/create-dialog.component';

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material';
+import { PageEvent } from '@angular/material/paginator';
 import { SubjectsData } from '../services/subjects-data';
 import { ActionsSubject, select, Store, UPDATE } from '@ngrx/store';
 import {

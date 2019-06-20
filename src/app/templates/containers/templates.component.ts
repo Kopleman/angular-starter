@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TemplatesData } from '../services/templates-data';
-import { MatDialog, MatSnackBar, PageEvent } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SubjectsData } from '../services/subjects-data';
 import { Observable ,  of } from 'rxjs';
 import { filter, flatMap, shareReplay } from 'rxjs/operators';

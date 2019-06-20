@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ISubject } from '../../models/subject';
-import { MatDialog, MatSnackBar, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
 import { SubjectEditDialogComponent } from '../dialog-edit/edit-dialog.component';
 import { ISubjectEditDialogData } from '../../models/dialog';
 import { of } from 'rxjs';
