@@ -329,7 +329,7 @@ export class TemplateListItemComponent implements OnInit {
 			data: {
 				template: this.template,
 				subjects$: this.subjects$,
-				selectedSubject: this.template.subjectIds[0],
+				selectedSubjects: this.template.subjectIds,
 				selectedWhiteLabel: this.template.whitelabelsIds.length
 					? this.template.whitelabelsIds[0]
 					: '',
@@ -343,7 +343,7 @@ export class TemplateListItemComponent implements OnInit {
 				if (!result) {
 					return of(null);
 				}
-				result.template.subjectIds = [result.selectedSubject];
+				result.template.subjectIds = result.selectedSubjects;
 				result.template.whitelabelsIds = [result.selectedWhiteLabel];
 				_.forEach(result.newTags, (tags, lang) => {
 					result.template.i18nTags[lang] = tags.split(',').map(v => v.trim());

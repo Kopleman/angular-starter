@@ -20,7 +20,7 @@ export interface ICreateDialogData {
 export interface IChangePropsDialogData {
 	template: ITemplate;
 	subjects$: Observable<ISubject[]>;
-	selectedSubject: string;
+	selectedSubjects: string[];
 	selectedWhiteLabel: string;
 	newTags: { [key: string]: string };
 }

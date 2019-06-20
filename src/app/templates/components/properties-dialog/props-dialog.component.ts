@@ -26,8 +26,9 @@ export class PropsDialogComponent implements OnInit {
 	public ngOnInit() {
 		this.langs = this.getTemplateLangs();
 		this.currentTags = {};
+		console.log(this.data.selectedSubjects);
 		const controls = {
-			selectedSubject: [this.data.selectedSubject, Validators.required],
+			selectedSubjects: [this.data.selectedSubjects, Validators.required],
 			selectedWhiteLabel: [this.data.selectedWhiteLabel, null]
 		};
 		this.langs.forEach(key => {
@@ -56,7 +57,7 @@ export class PropsDialogComponent implements OnInit {
 			this.data.template.i18nTitles[key]  = formData[`title-${key}`];
 			this.data.newTags[key] = formData[`tag-${key}`];
 		});
-		this.data.selectedSubject = formData.selectedSubject;
+		this.data.selectedSubjects = formData.selectedSubjects;
 		this.data.selectedWhiteLabel = formData.selectedWhiteLabel;
 
 		this.dialogRef.close(this.data);
