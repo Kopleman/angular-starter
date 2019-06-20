@@ -8,7 +8,7 @@ import { SchemeData } from '../services/scheme-data';
 	templateUrl: './scheme.component.html'
 })
 export class SchemePageComponent implements OnInit{
-	@ViewChild('accordion') public accordion: MatAccordion;
+	@ViewChild('accordion', {static: false}) public accordion: MatAccordion;
 	public tiers: any;
 
 	constructor(private schemaData: SchemeData) {}
