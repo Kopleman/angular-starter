@@ -2,8 +2,8 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { UploadEvent, UploadFile, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
-import { IChangePreviewDialogData, ICloneDialogData } from '../../models/dialog';
+import { NgxFileDropEntry, FileSystemFileEntry } from 'ngx-file-drop';
+import { IChangePreviewDialogData } from '../../models/dialog';
 import { TemplatesData } from '../../services/templates-data';
 
 @Component({
@@ -12,16 +12,17 @@ import { TemplatesData } from '../../services/templates-data';
   styleUrls: ['./change-previews-dialog.component.scss']
 })
 export class ChangePreviewsDialogComponent implements OnInit{
-  @ViewChild('filesTable') public filesTable: MatTable<{
+  @ViewChild('filesTable', {static: false}) public filesTable: MatTable<{
     uploaded: boolean;
-    file: UploadFile
+    file: NgxFileDropEntry
   }>;
   public files: Array<{
       uploaded: boolean;
-      file: UploadFile
+      file: NgxFileDropEntry
     }> = [];
   public displayedColumns = [];
   private availableLocales = [ 'ru' ];
+
   constructor(
     public dialogRef: MatDialogRef<ChangePreviewsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: IChangePreviewDialogData,
@@ -38,8 +39,8 @@ export class ChangePreviewsDialogComponent implements OnInit{
     this.availableLocales = this.availableLocales.concat(this.data.template.locales);
   }
 
-  public dropped(event: UploadEvent) {
-    for (const droppedFile of event.files) {
+  public dropped(files: NgxFileDropEntry[]) {
+    for (const droppedFile of files) {
       if (droppedFile.fileEntry.isFile) {
         const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((file: File) => {

@@ -9,9 +9,11 @@
 </mat-toolbar>
 <div mat-dialog-content>
   <div class="divider"></div>
-  <file-drop (onFileDrop)="dropped($event)" accept="image/jpeg">
-    <span>Перетащить сюда файлы скриншотов,<br> файл должен заканчиваться на "_ЛОКАЛЬ",<br> формат .jpg</span>
-  </file-drop>
+  <ngx-file-drop (onFileDrop)="dropped($event)" accept="image/jpeg">
+    <ng-template ngx-file-drop-content-tmp>
+      <span>Перетащить сюда файлы скриншотов,<br> файл должен заканчиваться на "_ЛОКАЛЬ",<br> формат .jpg</span>
+    </ng-template>
+  </ngx-file-drop>
 
 
   <mat-table [dataSource]="files" *ngIf="files.length" #filesTable>

@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { StoreModule } from '@ngrx/store';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { TemplatesData } from './services/templates-data';
 import { SubjectsData } from './services/subjects-data';
@@ -13,7 +14,6 @@ import { TemplatesListComponent } from './components/list/list.component';
 import { TemplateListItemComponent } from './components/list-item/list-item.component';
 import { ColorThemesComponent } from './components/color-themes/color-themes.component';
 import { TopBarComponent } from './components/top-bar/top-bar.component';
-
 import { AuthGuard } from '../auth/guards/auth';
 import { CloneDialogComponent } from './components/clone-dialog/clone-dialog.component';
 import { UsersData } from './services/users-data';
@@ -27,7 +27,7 @@ import { I18nDialogComponent } from './components/i18n-dialog/i18n-dialog.compon
 import { StatusDialogComponent } from './components/status-dialog/status-dialog.component';
 import { ChangePreviewsDialogComponent }
   from './components/change-previews-dialog/change-previews-dialog.component';
-import { FileDropModule } from 'ngx-file-drop';
+
 
 const DIALOG_COMPONENTS = [
 	CloneDialogComponent,
@@ -55,7 +55,7 @@ export const TEMPLATE_COMPONENTS = [
 		FormsModule,
 		ReactiveFormsModule,
 		MaterialModule,
-    FileDropModule,
+    NgxFileDropModule,
 		StoreModule.forFeature(ModuleTypes.TEMPLATES, reducer, {
 			initialState: INITIAL_FILTERS_STATE
 		}),
