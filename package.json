@@ -189,7 +189,7 @@
     "url": "https://github.com/gdi2290/angular-starter/issues"
   },
   "engines": {
-    "node": ">= 8.0.0",
+    "node": ">= 10.0.0",
     "npm": ">= 5"
   }
 }
