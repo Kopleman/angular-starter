@@ -28,7 +28,7 @@ export class CreateDialogComponent implements OnInit {
 		this.templateCreateForm = this.formBuilder.group({
 			templateId: [null, [Validators.required]],
 			title: [null, [Validators.required]],
-			selectedSubject: [null, Validators.required],
+			selectedSubjects: [null, Validators.required],
 			about: [null, null],
 			author: [this.data.author, Validators.required]
 		});

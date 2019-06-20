@@ -14,7 +14,7 @@ export interface ICreateDialogData {
 	about: string;
 	author: string;
 	subjects$: Observable<ISubject[]>;
-	selectedSubject: string;
+	selectedSubjects: string;
 }
 
 export interface IChangePropsDialogData {

@@ -26,7 +26,6 @@ export class PropsDialogComponent implements OnInit {
 	public ngOnInit() {
 		this.langs = this.getTemplateLangs();
 		this.currentTags = {};
-		console.log(this.data.selectedSubjects);
 		const controls = {
 			selectedSubjects: [this.data.selectedSubjects, Validators.required],
 			selectedWhiteLabel: [this.data.selectedWhiteLabel, null]

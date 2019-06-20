@@ -76,7 +76,7 @@ export class TemplatesPageComponent
 					about: '',
 					author: '',
 					subjects$: this.subjects$,
-					selectedSubject: ''
+					selectedSubjects: ''
 				}
 			}
 		);
@@ -92,7 +92,7 @@ export class TemplatesPageComponent
         const body = {
 					templateId: result.templateId,
 					title: result.title,
-					subjectIds: [result.selectedSubject],
+					subjectIds: result.selectedSubjects,
 					about: result.about,
 					author: result.author
 				};
@@ -107,7 +107,7 @@ export class TemplatesPageComponent
 						});
 						this.store.dispatch(
 							new ApplyFilters({
-								selectedCategory: dialogResult.selectedSubject,
+								selectedCategory: dialogResult.selectedSubjects[0],
 								searchStr: dialogResult.templateId
 							})
 						);

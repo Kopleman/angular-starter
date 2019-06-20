@@ -30,10 +30,10 @@
 			</mat-error>
 		</mat-form-field>
     <mat-form-field>
-      <mat-select placeholder="Категория*" formControlName="selectedSubject"  >
+      <mat-select placeholder="Категория*" formControlName="selectedSubjects"  multiple>
         <mat-option *ngFor="let subject of data.subjects$ | async" [value]="subject._id">{{subject.title}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="templateCreateForm.get('selectedSubject').hasError('required')">
+      <mat-error *ngIf="templateCreateForm.get('selectedSubjects').hasError('required')">
         <strong>Выбирите категорию</strong>
       </mat-error>
     </mat-form-field>
