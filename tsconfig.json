@@ -14,7 +14,8 @@
     "strictNullChecks": false,
     "lib": [
       "dom",
-      "es6"
+      "es6",
+      "es7"
     ],
     "baseUrl": "./src",
     "paths": {

@@ -23,6 +23,15 @@ export class NavBarComponent implements OnInit {
 				};
 			case 'guest':
 				return {};
+      case 'translator':
+      case 'translatorManager':
+      case 'templateManager':
+      case 'templateMaster':
+        return {
+          templates: 'Шаблоны',
+          scheme: 'Схема шаблонов',
+          i18n: 'i18n-схема',
+        };
 			default:
 				return {
 					templates: 'Шаблоны',
@@ -36,6 +45,11 @@ export class NavBarComponent implements OnInit {
 				return ['subjects', 'templates', 'scheme', 'i18n', 'users', 'whiteLabels'];
 			case 'guest':
 				return [];
+      case 'translator':
+      case 'translatorManager':
+      case 'templateManager':
+      case 'templateMaster':
+        return ['templates', 'scheme', 'i18n'];
 			default:
 				return ['templates'];
 		}

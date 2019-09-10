@@ -16,7 +16,14 @@ export class I18nSchemeGuard implements CanActivate {
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<boolean> | Promise<boolean> | boolean {
-		if(this.userData.getRole() === 'admin') {
+	  const allowedRoles = [
+	    'admin',
+      'translator',
+      'translatorManager',
+      'templateManager',
+      'templateMaster'
+    ];
+		if(allowedRoles.includes(this.userData.getRole())) {
 			return true;
 		}
 		this.router.navigate(['/templates']);
