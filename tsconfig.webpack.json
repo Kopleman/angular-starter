@@ -12,7 +12,9 @@
     "strictNullChecks": false,
     "lib": [
       "es2015",
-      "dom"
+      "dom",
+      "es6",
+      "es7"
     ],
     "baseUrl": "./src",
     "paths": {
