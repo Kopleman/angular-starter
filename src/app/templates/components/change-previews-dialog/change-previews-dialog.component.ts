@@ -68,6 +68,9 @@ export class ChangePreviewsDialogComponent implements OnInit{
             .subscribe((res) => {
               this.filesTable.renderRows();
               listData.uploaded = true;
+              if(!this.data.template.overridePreviews.includes(fileLocale)){
+                this.data.template.overridePreviews.push(fileLocale);
+              }
             },
             errorResp => {
               this.snackBar.open(
