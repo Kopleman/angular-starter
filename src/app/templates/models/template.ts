@@ -51,6 +51,7 @@ export interface ITemplate {
 	cloneNames: string[];
 	gulpStatus: 'stopped' | 'online';
 	whitelabelsIds: string[];
+  overridePreviews: string[];
 }
 
 export interface ITemplateResponse {

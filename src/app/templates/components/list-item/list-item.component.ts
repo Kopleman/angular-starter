@@ -30,7 +30,8 @@ import { Store } from '@ngrx/store';
 import { ApplyFilters, Refresh } from '../../store/actions';
 import { I18nDialogComponent } from '../i18n-dialog/i18n-dialog.component';
 import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
-import { ChangePreviewsDialogComponent } from '../change-previews-dialog/change-previews-dialog.component';
+import { ChangePreviewsDialogComponent }
+  from '../change-previews-dialog/change-previews-dialog.component';
 
 /**
  * Копонента карточки шаблона

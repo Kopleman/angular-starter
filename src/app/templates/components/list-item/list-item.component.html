@@ -109,6 +109,12 @@
             <a *ngFor="let cloneName of template.cloneNames" (click)="filterByName(template._id + '|' + cloneName)">{{ cloneName }}</a>
           </div>
         </div>
+        <div class="info-col" fxFlex *ngIf="template.overridePreviews.length">
+          <div class="header">Кастомные превью</div>
+          <div class="clones" fxLayout="row wrap">
+            <a *ngFor="let lang of template.overridePreviews" >{{ lang }}</a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="type" [ngClass]="getTemplateType()" fxFlex="12px"></div>
